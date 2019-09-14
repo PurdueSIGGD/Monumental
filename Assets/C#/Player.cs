@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
         int newres = Math.Max(0, resource + x);
         int dif = newres - resource;
         resource = newres;
+        Debug.Log(resource);
         return dif;
     }
 

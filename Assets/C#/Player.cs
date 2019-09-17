@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Mirror;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     public float speed;
@@ -18,6 +19,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer) return;
+
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
         body.velocity = new Vector2(dx, dy) * speed;

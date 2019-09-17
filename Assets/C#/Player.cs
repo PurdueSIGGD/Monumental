@@ -6,11 +6,11 @@ using Mirror;
 
 public class Player : NetworkBehaviour
 {
-    int attack;
+    int attackValue;
     int health;
     float lastAttack = 0f;
     float attackSpeed = 0f;
-    float range;        
+    float range;
     private Rigidbody2D body;
     public float speed;
     private int resource;
@@ -19,8 +19,8 @@ public class Player : NetworkBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-		health = 100;
-        attack = 1;
+        health = 100;
+        attackValue = 1;
         attackSpeed = 1;
         range = 0;
     }
@@ -42,20 +42,21 @@ public class Player : NetworkBehaviour
 
     public float calculateDistance(Player there)
     {
-        return Vector3.Distance(transform.position, there.position);
+        return Vector3.Distance(transform.position, there.transform.position);
     }
 
     public void attack(Player target)
     {
-        if (Time.time >= lastAttack + 1/attackSpeed && calculateDistance(target) <= range) { 
-            target.takeDamage(attack);
+        if (Time.time >= lastAttack + 1 / attackSpeed && calculateDistance(target) <= range)
+        {
+            target.takeDamage(attackValue);
             lastAttack = Time.time;
         }
     }
 
     public void takeDamage(int damage)
     {
-        health -= damage;  
+        health -= damage;
     }
     // increment resource by x, but don't go negative
     // return the difference

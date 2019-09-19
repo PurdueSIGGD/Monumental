@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ResourceGather : MonoBehaviour
+public class ResourceGather : NetworkBehaviour
 {
     private Collider2D myCol;
     // Start is called before the first frame update
@@ -10,9 +11,8 @@ public class ResourceGather : MonoBehaviour
     {
         myCol = gameObject.GetComponent<CircleCollider2D>();
     }
-    
 
-    private void onTriggerStay(Collider col)
+    private void OnTriggerStay(Collider col)
     {
         Debug.Log("Stay");
         GameObject playerObj = col.gameObject;

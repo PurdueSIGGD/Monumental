@@ -39,11 +39,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7099439428746044051}
     m_Modifications:
-    - target: {fileID: 7753657207751255064, guid: c5ba46ddad762214788c57f93aac12fc,
-        type: 3}
-      propertyPath: m_Name
-      value: MapFloor
-      objectReference: {fileID: 0}
     - target: {fileID: 5877702994489633814, guid: c5ba46ddad762214788c57f93aac12fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -99,6 +94,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7753657207751255064, guid: c5ba46ddad762214788c57f93aac12fc,
+        type: 3}
+      propertyPath: m_Name
+      value: MapFloor
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5ba46ddad762214788c57f93aac12fc, type: 3}
 --- !u!4 &8329853085749400080 stripped
@@ -114,11 +114,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7099439428746044051}
     m_Modifications:
-    - target: {fileID: 8741312693043180830, guid: 81912a490a111cf45b1bfbb9a31b83d2,
-        type: 3}
-      propertyPath: m_Name
-      value: MapEdges
-      objectReference: {fileID: 0}
     - target: {fileID: 8604897182970649721, guid: 81912a490a111cf45b1bfbb9a31b83d2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -132,7 +127,7 @@ PrefabInstance:
     - target: {fileID: 8604897182970649721, guid: 81912a490a111cf45b1bfbb9a31b83d2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -20.473503
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8604897182970649721, guid: 81912a490a111cf45b1bfbb9a31b83d2,
         type: 3}
@@ -173,6 +168,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741312693043180830, guid: 81912a490a111cf45b1bfbb9a31b83d2,
+        type: 3}
+      propertyPath: m_Name
+      value: MapEdges
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 81912a490a111cf45b1bfbb9a31b83d2, type: 3}

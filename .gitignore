@@ -82,3 +82,4 @@ sysinfo.txt
 *.unitypackage
 *.info
 *.dll
+Assets/C#/ResourceGather.cs.meta

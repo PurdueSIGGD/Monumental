@@ -5,18 +5,15 @@ using Mirror;
 
 public class ResourceGather : NetworkBehaviour
 {
-    private Collider2D myCol;
+
     // Start is called before the first frame update
     void Start()
     {
-        myCol = gameObject.GetComponent<CircleCollider2D>();
     }
 
-    private void OnTriggerStay(Collider col)
+    void OnTriggerEnter2D(Collider2D col)
     {
-        Debug.Log("Stay");
-        GameObject playerObj = col.gameObject;
-        Player p = playerObj.GetComponent<Player>();
+        Player p = col.GetComponent<Player>();
         p.IncrementResource(1);
     }
 }

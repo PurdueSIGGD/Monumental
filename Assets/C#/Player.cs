@@ -8,7 +8,8 @@ public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     public float speed;
-    private int resource;
+    [SyncVar]
+    public int resource;
 
     // Start is called before the first frame update
     void Start()
@@ -33,13 +34,8 @@ public class Player : NetworkBehaviour
 
     // increment resource by x, but don't go negative
     // return the difference
-    public int IncrementResource(int x)
+    public void IncrementResource(int x)
     {
-        int newres = Math.Max(0, resource + x);
-        int dif = newres - resource;
-        resource = newres;
-        Debug.Log(resource);
-        return dif;
+        resource += x;
     }
-
 }

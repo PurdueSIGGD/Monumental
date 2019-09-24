@@ -7,12 +7,14 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     int attackValue;
-    int health;
+    [SerializeField]int health;
+    [SerializeField] int maxHealth = 100;
     float lastAttack = 0f;
     float attackSpeed = 0f;
     float range;
     private Rigidbody2D body;
     public float speed;
+    Vector2 spawnPos;
     [SyncVar]
     public int resource;
 
@@ -20,7 +22,8 @@ public class Player : NetworkBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        health = 100;
+        spawnPos = body.position;
+        health = maxHealth;
         attackValue = 1;
         attackSpeed = 1;
         range = 0;
@@ -50,19 +53,37 @@ public class Player : NetworkBehaviour
     {
         if (Time.time >= lastAttack + 1 / attackSpeed && calculateDistance(target) <= range)
         {
-            target.takeDamage(attackValue);
+            target.takeDamage(attackValue, this);
             lastAttack = Time.time;
         }
     }
 
-    public void takeDamage(int damage)
+    public void takeDamage(int damage, Player attacker)
     {
         health -= damage;
+        if (health <= 0)
+        {
+            resourceTransfer(attacker);
+            respawn();
+        }
     }
     // increment resource by x, but don't go negative
     // return the difference
     public void IncrementResource(int x)
     {
         resource += x;
+    }
+
+    //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
+    public void respawn ()
+    {
+        health = maxHealth;
+        body.position = spawnPos;
+    }
+
+    public void resourceTransfer (Player attacker)
+    {
+        attacker.IncrementResource(this.resource);
+        this.resource = 0;
     }
 }

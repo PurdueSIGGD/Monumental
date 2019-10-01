@@ -10,6 +10,8 @@ public class Player : NetworkBehaviour
     public float speed;
     [SyncVar]
     public int resource;
+    [SyncVar]
+    public int teamIndex = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -37,5 +39,10 @@ public class Player : NetworkBehaviour
     public void IncrementResource(int x)
     {
         resource += x;
+    }
+
+    public void SetTeam(int team)
+    {
+        teamIndex = team;
     }
 }

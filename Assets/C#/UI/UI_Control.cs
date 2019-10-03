@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class UI_Control : MonoBehaviour
 {
+
+    public Text healthBar = null;
+
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
@@ -29,6 +32,11 @@ public class UI_Control : MonoBehaviour
             setResource(i, 2 + i * 2, true);
 
         }
+    }
+
+    public void setHealth(int val, int max)
+    {
+        healthBar.text = val + "/" + max;
     }
 
     public void setResource(int index, int value, bool team)

@@ -25,8 +25,8 @@ public class UI_Control : MonoBehaviour
             resource_team_texts.Add(team_text);
             team_text.color = new Color(0,1,0);
 
-            setResource(i, 1 + i * 2, false);
-            setResource(i, 2 + i * 2, true);
+            setResource(i, 0, false);
+            setResource(i, 0, true);
 
         }
     }

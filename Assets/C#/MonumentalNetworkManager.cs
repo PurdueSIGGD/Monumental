@@ -36,10 +36,12 @@ public class MonumentalNetworkManager : NetworkManager
     {
         NetworkIdentity p = conn.playerController;
         int team = p.gameObject.GetComponent<Player>().teamIndex;
-        if(team >= 0)
-        teamSizes[team]--;
+        if (team >= 0)
+        {
+            teamSizes[team]--;
+        }
         NetworkServer.DestroyPlayerForConnection(conn);
-        if (LogFilter.Debug) Debug.Log("OnServerDisconnect: Client disconnected.");
+        Debug.Log("OnServerDisconnect: Client disconnected.");
     }
 
     public override void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity player)
@@ -53,5 +55,6 @@ public class MonumentalNetworkManager : NetworkManager
             }
             NetworkServer.Destroy(player.gameObject);
         }
+        Debug.Log("OnServerRemovePlayer: Client disconnected.");
     }
 }

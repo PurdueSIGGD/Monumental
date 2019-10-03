@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ResourceBag : MonoBehaviour
+public class ResourceBag : NetworkBehaviour
 {
     //List of all resources being held
-    private List<Resource> bag;
+    [SyncVar]
+    private List<Resource> bag = new List<Resource>();
 
     //Adds amount of resource of type
-    public void addResource(int type, int amount)
+    public void addResource(ResourceName type, int amount)
     {
         foreach(Resource res in bag)
         {
@@ -52,8 +54,54 @@ public class ResourceBag : MonoBehaviour
         }
     }
 
+    //Gets the amount of resources from bag of type
+    public int getAmount(ResourceName type)
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.type == type)
+            {
+                return res.amount;
+            }
+        }
+        return 0;
+    }
+
+    //Gets the amount of resource r
+    public int getAmount(Resource r)
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.type == r.type)
+            {
+                return res.amount;
+            }
+        }
+        return 0;
+    }
+
+    //Gets all of resource type
+    public int getResource(ResourceName type)
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.type == type)
+            {
+                return res.amount;
+            }
+        }
+        return 0;
+    }
+
+    //Gets the total bag of resources
+    public List<Resource> getBag()
+    {
+        return bag;
+    }
+
+
     //Removes amount of resources from bag of type
-    public Resource removeAmount(int type, int amount)
+    public Resource removeAmount(ResourceName type, int amount)
     {
         foreach(Resource res in bag)
         {
@@ -83,7 +131,7 @@ public class ResourceBag : MonoBehaviour
     }
 
     //Remove all of resource type
-    public Resource removeResource(int type)
+    public Resource removeResource(ResourceName type)
     {
         foreach (Resource res in bag)
         {
@@ -103,5 +151,31 @@ public class ResourceBag : MonoBehaviour
         List<Resource> b = bag;
         bag.Clear();
         return b;
+    }
+
+    //Checks the amount of resources from bag of type
+    public bool checkAmount(ResourceName type, int amount)
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.type == type)
+            {
+                return (res.amount >= amount);
+            }
+        }
+        return false;
+    }
+
+    //Checks for an amount of resource r
+    public bool checkAmount(Resource r)
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.type == r.type)
+            {
+                return (res.amount >= r.amount);
+            }
+        }
+        return false;
     }
 }

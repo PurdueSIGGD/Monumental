@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum ResourceNames
+public enum ResourceName
 {
     WOOD = 1,
     STONE = 2,
@@ -12,7 +12,7 @@ enum ResourceNames
     DIAMOND = 6
 }
 
-public class Resource : MonoBehaviour
+public class Resource
 {
     //Defintions of resource types as readable words
     public readonly int WOOD = 1;
@@ -22,7 +22,7 @@ public class Resource : MonoBehaviour
     public readonly int GOLD = 5;
     public readonly int DIAMOND = 6;
 
-    public int type;
+    public ResourceName type;
     public int amount;
 
     public Resource()
@@ -31,13 +31,13 @@ public class Resource : MonoBehaviour
         amount = 0;
     }
 
-    public Resource(int t, int a)
+    public Resource(ResourceName t, int a)
     {
         type = t;
         amount = a;
     }
 
-    public int getType()
+    public ResourceName getType()
     {
         return type;
     }

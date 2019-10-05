@@ -3,179 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class ResourceBag : NetworkBehaviour
+public class ResourceBag
 {
     //List of all resources being held
     [SyncVar]
-    private List<Resource> bag = new List<Resource>();
+    private Resource[] resources = new Resource[(int)RESOURCE.MAX_RESOURCES];
 
     //Adds amount of resource of type
-    public void addResource(ResourceName type, int amount)
+    public void addResource(RESOURCE type, int amount)
     {
-        foreach(Resource res in bag)
-        {
-            if(res.type == type)
-            {
-                res.amount += amount;
-                return;
-            }
-        }
-        bag.Add(new Resource(type, amount));
+        resources[(uint)type].addAmount(amount);
     }
 
-    //Adds a resource, combining any identical resources
     public void addResource(Resource r)
     {
-        foreach (Resource res in bag)
+        addResource(r.getType(), (int)r.getAmount());
+    }
+
+    public bool removeResource(Resource r)
+    {
+        uint index = (uint)r.getType();
+        if (resources[index].getAmount() < r.getAmount())
         {
-            if (res.type == r.type)
-            {
-                res.amount += r.amount;
-                return;
-            }
+            return false;
         }
-        bag.Add(r);
+        resources[index].addAmount(-(int)r.getAmount());
+        return true;
     }
 
     //Adds a bag of resources
-    public void addBag(List<Resource> b)
+    public void addBag(ResourceBag bag)
     {
-        foreach(Resource r in b)
+        for (uint i = 0; i < resources.Length; i++)
         {
-            foreach (Resource res in bag)
-            {
-                if (res.type == r.type)
-                {
-                    res.amount += r.amount;
-                    break;
-                }
-            }
-            bag.Add(r);
+            resources[i].addAmount(bag.getAmount((RESOURCE)i));
         }
+    }
+
+    public bool removeBag(ResourceBag bag)
+    {
+        /* Make sure we have enough to subtract first */
+        if (!contains(bag))
+        {
+            return false;
+        }
+        for (uint i = 0; i < resources.Length; i++)
+        {
+            resources[i].addAmount(-bag.getAmount((RESOURCE)i));
+        }
+        return true;
+    }
+
+    /* If this bag contains resources present in another */
+    public bool contains(ResourceBag bag)
+    {
+        for (uint i = 0; i < resources.Length; i++)
+        {
+            if (resources[i].getAmount() < bag.getAmount((RESOURCE)i))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /* If this bag contains amount of a certain resource */
+    public bool contains(Resource r)
+    {
+        return resources[(uint)r.getType()].getAmount() >= r.getAmount();
     }
 
     //Gets the amount of resources from bag of type
-    public int getAmount(ResourceName type)
+    public int getAmount(RESOURCE type)
     {
-        foreach (Resource res in bag)
-        {
-            if (res.type == type)
-            {
-                return res.amount;
-            }
-        }
-        return 0;
-    }
-
-    //Gets the amount of resource r
-    public int getAmount(Resource r)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.type == r.type)
-            {
-                return res.amount;
-            }
-        }
-        return 0;
-    }
-
-    //Gets all of resource type
-    public int getResource(ResourceName type)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.type == type)
-            {
-                return res.amount;
-            }
-        }
-        return 0;
-    }
-
-    //Gets the total bag of resources
-    public List<Resource> getBag()
-    {
-        return bag;
-    }
-
-
-    //Removes amount of resources from bag of type
-    public Resource removeAmount(ResourceName type, int amount)
-    {
-        foreach(Resource res in bag)
-        {
-            if(res.type == type)
-            {
-                res.amount -= amount;
-                res.amount = Mathf.Max(res.amount, 0);
-                return new Resource(type, Mathf.Abs(amount - res.amount));
-            }
-        }
-        return new Resource(type, 0);
-    }
-
-    //Removes an amount of resource r
-    public Resource removeAmount(Resource r)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.type == r.type)
-            {
-                res.amount -= r.amount;
-                res.amount = Mathf.Max(res.amount, 0);
-                return new Resource(r.type, Mathf.Abs(r.amount - res.amount));
-            }
-        }
-        return new Resource(r.type, 0);
-    }
-
-    //Remove all of resource type
-    public Resource removeResource(ResourceName type)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.type == type)
-            {
-                Resource ret = res;
-                res.amount = 0;
-                return ret;
-            }
-        }
-        return new Resource(type, 0);
+        return (int)resources[(uint)type].getAmount();
     }
 
     //Removes all resources from bag.
-    public List<Resource> dumpResources()
+    public void clear()
     {
-        List<Resource> b = bag;
-        bag.Clear();
-        return b;
-    }
-
-    //Checks the amount of resources from bag of type
-    public bool checkAmount(ResourceName type, int amount)
-    {
-        foreach (Resource res in bag)
+        for (uint i = 0; i < resources.Length; i++)
         {
-            if (res.type == type)
-            {
-                return (res.amount >= amount);
-            }
+            resources[i].setAmount(0);
         }
-        return false;
-    }
-
-    //Checks for an amount of resource r
-    public bool checkAmount(Resource r)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.type == r.type)
-            {
-                return (res.amount >= r.amount);
-            }
-        }
-        return false;
     }
 }

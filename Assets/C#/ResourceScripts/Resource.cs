@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public enum ResourceName
 {
@@ -12,24 +13,10 @@ public enum ResourceName
     DIAMOND = 6
 }
 
-public class Resource
+public struct Resource
 {
-    //Defintions of resource types as readable words
-    public readonly int WOOD = 1;
-    public readonly int STONE = 2;
-    public readonly int COPPER = 3;
-    public readonly int IRON = 4;
-    public readonly int GOLD = 5;
-    public readonly int DIAMOND = 6;
-
     public ResourceName type;
     public int amount;
-
-    public Resource()
-    {
-        type = 0;
-        amount = 0;
-    }
 
     public Resource(ResourceName t, int a)
     {
@@ -52,4 +39,20 @@ public class Resource
         amount = a;
         Mathf.Max(amount, 0);   //Resource amount should never be negative
     }
+
+    public void addAmount(int a)
+    {
+        amount += a;
+        Mathf.Max(amount, 0);   //Resource amount should never be negative
+    }
+
+    public int removeAmount(int a)
+    {
+        int start = amount;
+        amount -= a;
+        Mathf.Max(amount, 0);   //Resource amount should never be negative
+        return Mathf.Abs(amount - start);
+    }
 }
+
+public class SyncListResource : SyncList<Resource> { }

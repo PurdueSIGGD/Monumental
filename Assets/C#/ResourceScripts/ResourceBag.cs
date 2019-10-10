@@ -7,7 +7,7 @@ public class ResourceBag : NetworkBehaviour
 {
     //List of all resources being held
     [SyncVar]
-    private List<Resource> bag = new List<Resource>();
+    private SyncListResource bag = new SyncListResource();
 
     //Adds amount of resource of type
     public void addResource(ResourceName type, int amount)
@@ -16,7 +16,7 @@ public class ResourceBag : NetworkBehaviour
         {
             if(res.type == type)
             {
-                res.amount += amount;
+                res.addAmount(amount);
                 return;
             }
         }
@@ -30,7 +30,7 @@ public class ResourceBag : NetworkBehaviour
         {
             if (res.type == r.type)
             {
-                res.amount += r.amount;
+                res.addAmount(r.amount);
                 return;
             }
         }
@@ -46,7 +46,7 @@ public class ResourceBag : NetworkBehaviour
             {
                 if (res.type == r.type)
                 {
-                    res.amount += r.amount;
+                    res.addAmount(r.amount);
                     break;
                 }
             }
@@ -94,7 +94,7 @@ public class ResourceBag : NetworkBehaviour
     }
 
     //Gets the total bag of resources
-    public List<Resource> getBag()
+    public SyncListResource getBag()
     {
         return bag;
     }
@@ -107,8 +107,7 @@ public class ResourceBag : NetworkBehaviour
         {
             if(res.type == type)
             {
-                res.amount -= amount;
-                res.amount = Mathf.Max(res.amount, 0);
+                res.addAmount(- amount);
                 return new Resource(type, Mathf.Abs(amount - res.amount));
             }
         }
@@ -122,9 +121,7 @@ public class ResourceBag : NetworkBehaviour
         {
             if (res.type == r.type)
             {
-                res.amount -= r.amount;
-                res.amount = Mathf.Max(res.amount, 0);
-                return new Resource(r.type, Mathf.Abs(r.amount - res.amount));
+                return new Resource(r.type, res.removeAmount(r.amount));
             }
         }
         return new Resource(r.type, 0);
@@ -138,7 +135,7 @@ public class ResourceBag : NetworkBehaviour
             if (res.type == type)
             {
                 Resource ret = res;
-                res.amount = 0;
+                res.setAmount(0);
                 return ret;
             }
         }
@@ -146,9 +143,9 @@ public class ResourceBag : NetworkBehaviour
     }
 
     //Removes all resources from bag.
-    public List<Resource> dumpResources()
+    public SyncListResource dumpResources()
     {
-        List<Resource> b = bag;
+        SyncListResource b = bag;
         bag.Clear();
         return b;
     }

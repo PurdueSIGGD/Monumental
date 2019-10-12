@@ -4,10 +4,13 @@ using UnityEngine;
 using System;
 using Mirror;
 
+[RequireComponent(typeof(PlayerStats))]
 public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     public float speed;
+    [HideInInspector]
+    public PlayerStats stats;
     [SyncVar]
     public int resource;
     [SyncVar]
@@ -16,6 +19,7 @@ public class Player : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
     }
 

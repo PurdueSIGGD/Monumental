@@ -117,7 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 235015636795005860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cad055b06e6098842ab4e1474197dca5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bd98332c6096b145b2165d990619b4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -136,5 +136,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 2863374168
+  m_AssetId: a725d139f35df2b45bb465a9d5bac637
+  m_SceneId: 0

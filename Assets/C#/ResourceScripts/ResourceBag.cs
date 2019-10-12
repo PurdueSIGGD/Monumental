@@ -37,7 +37,7 @@ public class ResourceBag : NetworkBehaviour
     }
 
     //Adds a bag of resources
-    public void addBag(List<Resource> b)
+    public void addBag(SyncListResource b)
     {
         foreach(Resource r in b)
         {

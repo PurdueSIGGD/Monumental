@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class UI_Control : MonoBehaviour
+public class UI_Control : NetworkBehaviour
 {
 
     public Text healthBar = null;
@@ -12,8 +13,13 @@ public class UI_Control : MonoBehaviour
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
 
+    public PlayerStats player_stats = null;
+
     void Start()
     {
+
+        
+
         for (int i = 0; i < resource_texts.Count; i++)
         {
             GameObject obj = resource_texts[i].gameObject;

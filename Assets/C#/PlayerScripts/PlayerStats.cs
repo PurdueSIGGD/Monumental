@@ -8,6 +8,8 @@ public class PlayerStats : NetworkBehaviour
     [SyncVar]
     public int health = 100;
     [SyncVar]
+    public int maxHealth = 100;
+    [SyncVar]
     public float movementSpeed = 10;
     [SyncVar]
     public float interactionSpeed = 1.0f;

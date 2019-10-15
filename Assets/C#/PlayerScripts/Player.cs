@@ -11,7 +11,6 @@ public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     private UI_Control uiControl = null;
-    private Rigidbody2D body;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
@@ -41,13 +40,13 @@ public class Player : NetworkBehaviour
     
     public void takeDamage(int damage)
     {
-        setHealth(health - damage);
+        setHealth(stats.health - damage);
     }
 
     public void setHealth(int val)
     {
-        health = val;
-        uiControl.setHealth(health, maxHealth);
+        stats.health = val;
+        uiControl.setHealth(stats.health, stats.maxHealth);
     }
 
     public void SetTeam(int team)

@@ -4,17 +4,22 @@ using UnityEngine;
 using System;
 using Mirror;
 
+[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
-    public float speed;
+    [HideInInspector]
+    public PlayerStats stats;
+    [HideInInspector]
+    public ResourceBag resources;
     [SyncVar]
-    public int resource;
-    public int teamIndex;
+    public int teamIndex = -1;
 
     // Start is called before the first frame update
     void Start()
     {
+        stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
     }
 
@@ -25,18 +30,11 @@ public class Player : NetworkBehaviour
 
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
-        body.velocity = new Vector2(dx, dy) * speed;
+        body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
     }
 
-    public int GetResource()
+    public void SetTeam(int team)
     {
-        return resource;
-    }
-
-    // increment resource by x, but don't go negative
-    // return the difference
-    public void IncrementResource(int x)
-    {
-        resource += x;
+        teamIndex = team;
     }
 }

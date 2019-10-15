@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4611926229354854053}
   - component: {fileID: 2885098589330477054}
   - component: {fileID: 1837514476625017630}
+  - component: {fileID: 9019765940913766593}
   m_Layer: 0
   m_Name: Iron Resource
   m_TagString: Untagged
@@ -94,3 +95,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   size: 10
+--- !u!58 &9019765940913766593
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3776125661861138035}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.13

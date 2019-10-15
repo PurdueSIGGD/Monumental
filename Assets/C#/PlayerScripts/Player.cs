@@ -9,7 +9,6 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
-    public float speed;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
@@ -31,7 +30,7 @@ public class Player : NetworkBehaviour
 
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
-        body.velocity = new Vector2(dx, dy) * speed;
+        body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
     }
 
     public void SetTeam(int team)

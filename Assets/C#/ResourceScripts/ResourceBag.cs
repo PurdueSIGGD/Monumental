@@ -141,7 +141,18 @@ public class ResourceBag : NetworkBehaviour
         return new Resource(type, 0);
     }
 
-    //Removes all resources from bag.
+    //Removes b's worth of resources from bag
+    public ResourceBag removeBag(SyncListResource b)
+    {
+        ResourceBag ret = new ResourceBag();
+        foreach (Resource res in b)
+        {
+            ret.addResource(removeAmount(res));
+        }
+        return ret;
+    }
+
+    //Removes all resources from bag
     public SyncListResource dumpResources()
     {
         SyncListResource b = bag;
@@ -173,5 +184,16 @@ public class ResourceBag : NetworkBehaviour
             }
         }
         return false;
+    }
+
+    //Checks if the bag has at least the resources of b
+    public bool checkBag(SyncListResource b)
+    {
+        bool ret = true;
+        foreach(Resource res in b)
+        {
+            ret = ret && checkAmount(res);
+        }
+        return ret;
     }
 }

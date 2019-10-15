@@ -5,21 +5,25 @@ using System;
 using Mirror;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(ResourceBag))]
+public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
-    public float speed;
-    [SyncVar]
-    public int resource;
-    public int health = 100;
-    public int maxHealth = 100;
     private UI_Control uiControl = null;
+    private Rigidbody2D body;
+    [HideInInspector]
+    public PlayerStats stats;
+    [HideInInspector]
+    public ResourceBag resources;
+
     [SyncVar]
     public int teamIndex = -1;
 
     // Start is called before the first frame update
     void Start()
     {
+        stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         setHealth(99);
@@ -32,20 +36,7 @@ public class Player : MonoBehaviour
 
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
-        body.velocity = new Vector2(dx, dy) * speed;
-
-    }
-
-    public int GetResource()
-    {
-        return resource;
-    }
-
-    // increment resource by x, but don't go negative
-    // return the difference
-    public void IncrementResource(int x)
-    {
-        resource += x;
+        body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
     }
     
     public void takeDamage(int damage)

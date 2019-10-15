@@ -142,20 +142,21 @@ public class ResourceBag : NetworkBehaviour
     }
 
     //Removes b's worth of resources from bag
-    public ResourceBag removeBag(SyncListResource b)
+    public SyncListResource removeBag(SyncListResource b)
     {
         ResourceBag ret = new ResourceBag();
         foreach (Resource res in b)
         {
             ret.addResource(removeAmount(res));
         }
-        return ret;
+        return ret.bag;
     }
 
     //Removes all resources from bag
     public SyncListResource dumpResources()
     {
-        SyncListResource b = bag;
+        SyncListResource b = new SyncListResource();
+        b = bag;
         bag.Clear();
         return b;
     }

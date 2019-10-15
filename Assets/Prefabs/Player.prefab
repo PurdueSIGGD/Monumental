@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5481562534258913171}
   - component: {fileID: 6492461346802555403}
   - component: {fileID: -1740272835791325771}
+  - component: {fileID: -8830377679605561785}
   - component: {fileID: 1815905136257645467}
   - component: {fileID: 3529293131949852002}
   - component: {fileID: 2330303626597118836}
@@ -122,7 +123,7 @@ MonoBehaviour:
   syncInterval: 0.1
   speed: 10
   stats: {fileID: 0}
-  resource: 0
+  resources: {fileID: 0}
   teamIndex: -1
 --- !u!114 &-1740272835791325771
 MonoBehaviour:
@@ -144,6 +145,20 @@ MonoBehaviour:
   gatherAmount: 1
   meleeDamage: 10
   rangedDamage: 5
+--- !u!114 &-8830377679605561785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7758189377838336626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f03523bbb8bbc46b8c5e6edfd972b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!61 &1815905136257645467
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -185,7 +200,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 4043055942
+  m_SceneId: 872559974
 --- !u!114 &2330303626597118836
 MonoBehaviour:
   m_ObjectHideFlags: 0

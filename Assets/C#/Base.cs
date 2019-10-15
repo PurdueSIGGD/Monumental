@@ -26,10 +26,15 @@ public class Base : MonoBehaviour
             Player p = col.gameObject.GetComponent<Player>();
             if(p.teamIndex == teamIndex)
             {
-                // deposit all resources
+                //Heal player to full
+                Debug.Log("welcome");
             } else
             {
-                // don't let the player into the area
+                Rigidbody2D pRigid = p.GetComponentInParent<Rigidbody2D>();
+                //pRigid.position += (myCol.GetComponentInParent<Rigidbody2D>().position - pRigid.position);
+                pRigid.position = pRigid.position - 2f * Time.deltaTime * pRigid.velocity;
+                pRigid.velocity = Vector2.zero;
+                Debug.Log("not welcome");
             }
         }
     }

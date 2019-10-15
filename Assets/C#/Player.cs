@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public int health = 100;
     public int maxHealth = 100;
     private UI_Control uiControl = null;
+    [SyncVar]
+    public int teamIndex = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +57,10 @@ public class Player : MonoBehaviour
     {
         health = val;
         uiControl.setHealth(health, maxHealth);
-        
+    }
+
+    public void SetTeam(int team)
+    {
+        teamIndex = team;
     }
 }

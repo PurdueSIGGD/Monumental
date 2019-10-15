@@ -8,14 +8,18 @@ public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     public float speed;
-    [SyncVar]
+
+	public float hitboxWidth; //the width of the hitbox so the player reaches things farther to the side
+	public float hitboxLength; //the length of the hitbox so the player reaches things farther forward
+
+	[SyncVar]
     public int resource;
 
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-    }
+	}
 
     // Update is called once per frame
     void Update()

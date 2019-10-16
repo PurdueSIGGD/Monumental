@@ -25,13 +25,21 @@ public class Player : NetworkBehaviour
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
-        setHealth(99);
+
+        if (isLocalPlayer)
+        {
+            UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
+            uiControl.player = this;
+            UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
+            uiCamera.followTarget = this.gameObject;
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (!isLocalPlayer) return;
+        if (!isLocalPlayer) return;
 
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
@@ -46,7 +54,6 @@ public class Player : NetworkBehaviour
     public void setHealth(int val)
     {
         stats.health = val;
-        uiControl.setHealth(stats.health, stats.maxHealth);
     }
 
     public void SetTeam(int team)

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class UI_Camera : MonoBehaviour
+public class UI_Camera : NetworkBehaviour
 {
 
     public GameObject followTarget = null;

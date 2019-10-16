@@ -13,12 +13,10 @@ public class UI_Control : NetworkBehaviour
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
 
-    public PlayerStats player_stats = null;
+    public Player player = null;
 
     void Start()
     {
-
-        
 
         for (int i = 0; i < resource_texts.Count; i++)
         {
@@ -34,27 +32,35 @@ public class UI_Control : NetworkBehaviour
             resource_team_texts.Add(team_text);
             team_text.color = new Color(0,1,0);
 
-            setResource(i, 0, false);
-            setResource(i, 0, true);
-
         }
     }
 
-    public void setHealth(int val, int max)
+    public void LateUpdate()
     {
-        healthBar.text = val + "/" + max;
-    }
-
-    public void setResource(int index, int value, bool team)
-    {
-        if (index < 0 || index >= resource_texts.Count)
+        if (player)
         {
-            return;
+            updateHealth();
+            updateResources();
+        }
+    }
+
+    public void updateHealth()
+    {
+        healthBar.text = player.stats.health + "/" + player.stats.maxHealth;
+    }
+
+    public void updateResources()
+    {
+
+        for (int i = 0; i < resource_texts.Count; i++)
+        {
+            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
         }
 
-        Text counter = (team ? resource_team_texts[index] : resource_texts[index]);
-
-        counter.text = "" + value;
+        for (int i = 0; i < resource_team_texts.Count; i++)
+        {
+            resource_team_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
+        }
 
     }
 

@@ -10,11 +10,13 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
-    private UI_Control uiControl = null;
+    private UI_Control uiControl;
+    private Vector3 og_health_scale;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public SpriteRenderer healthBar;
 
     [SyncVar]
     public int teamIndex = -1;
@@ -24,7 +26,9 @@ public class Player : NetworkBehaviour
     {
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
+        resources = gameObject.AddComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
+        og_health_scale = healthBar.transform.localScale;
 
         if (isLocalPlayer)
         {
@@ -33,6 +37,7 @@ public class Player : NetworkBehaviour
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
         }
+        takeDamage(25);
 
     }
 
@@ -45,7 +50,14 @@ public class Player : NetworkBehaviour
         float dy = Input.GetAxis("Vertical");
         body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
     }
-    
+
+    void LateUpdate()
+    {
+        Vector3 scale = og_health_scale;
+        scale.x = Mathf.Clamp(og_health_scale.x * stats.health / stats.maxHealth, 0, og_health_scale.x);
+        healthBar.transform.localScale = scale;
+    }
+
     public void takeDamage(int damage)
     {
         setHealth(stats.health - damage);

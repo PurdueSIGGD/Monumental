@@ -8,6 +8,7 @@ public class UI_Control : NetworkBehaviour
 {
 
     public Text healthBar = null;
+    public Button upgradeButton = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -17,7 +18,6 @@ public class UI_Control : NetworkBehaviour
 
     void Start()
     {
-
         for (int i = 0; i < resource_texts.Count; i++)
         {
             GameObject obj = resource_texts[i].gameObject;
@@ -33,6 +33,12 @@ public class UI_Control : NetworkBehaviour
             team_text.color = new Color(0,1,0);
 
         }
+
+        if (upgradeButton)
+        {
+            upgradeButton.onClick.AddListener(onUpgradeButton);
+        }
+
     }
 
     public void LateUpdate()
@@ -62,6 +68,12 @@ public class UI_Control : NetworkBehaviour
             resource_team_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
         }
 
+    }
+
+    void onUpgradeButton()
+    {
+        print("Pressed");
+        upgradeButton.GetComponentInChildren<Text>().text = "Pressed";
     }
 
 }

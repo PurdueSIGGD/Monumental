@@ -237,6 +237,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4427609237569708672, guid: ec5a502523fd2774b963c699b6f149ac,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7465179771960796285, guid: ec5a502523fd2774b963c699b6f149ac,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5a502523fd2774b963c699b6f149ac, type: 3}
 --- !u!1 &519420028 stripped
@@ -276,7 +286,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 1652e0527dffc3b419dcde1942447ddf
-  m_SceneId: 2005714357
+  m_SceneId: 2377020001
 --- !u!1001 &810364982
 PrefabInstance:
   m_ObjectHideFlags: 0

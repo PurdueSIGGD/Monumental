@@ -8,12 +8,9 @@ using Mirror;
 [RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
-    int attackValue;
     [SerializeField]int health;
-    [SerializeField] int maxHealth = 100;
     float lastAttack = 0f;
     float attackSpeed = 0f;
-    float range;
     private Rigidbody2D body;
     Vector2 spawnPos;
     [HideInInspector]
@@ -22,6 +19,9 @@ public class Player : NetworkBehaviour
     public ResourceBag resources;
     [SyncVar]
     public int teamIndex = -1;
+    float meleeRange = 1f; //temp value
+    float rangedRange = 8f; //temp value
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +29,8 @@ public class Player : NetworkBehaviour
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         spawnPos = body.position;
-        health = maxHealth;
-        attackValue = 1;
-        attackSpeed = 1;
-        range = 0;
+        health = stats.health;
+        attackSpeed = stats.interactionSpeed;
     }
 
     // Update is called once per frame
@@ -43,28 +41,38 @@ public class Player : NetworkBehaviour
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
         body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-        body.velocity = new Vector2(dx, dy) * speed;
     }
 
-    public int GetResource()
-    {
-        return resource;
-    }
-
+    //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
     {
         return Vector3.Distance(transform.position, there.transform.position);
     }
 
-    public void attack(Player target)
+    //Checks if the player can attack, and if it does, it causes the other player to take damage of this players attack value
+    public void attack(Player target, bool ranged)
     {
-        if (Time.time >= lastAttack + 1 / attackSpeed && calculateDistance(target) <= range)
+        int attackDamage;
+        float attackRange;
+        if (ranged)
         {
-            target.takeDamage(attackValue, this);
+            attackDamage = stats.rangedDamage;
+            attackRange = rangedRange;
+        }
+        else
+        {
+            attackDamage = stats.meleeDamage;
+            attackRange = meleeRange;
+        }
+        if (Time.time >= lastAttack + 1 / attackSpeed && calculateDistance(target) <= attackRange)
+        {
+
+            target.takeDamage(attackDamage, this);
             lastAttack = Time.time;
         }
     }
 
+    //player takes damage of amount damage from player attacker
     public void takeDamage(int damage, Player attacker)
     {
         health -= damage;
@@ -74,26 +82,29 @@ public class Player : NetworkBehaviour
             respawn();
         }
     }
-    // increment resource by x, but don't go negative
-    // return the difference
-    public void IncrementResource(int x)
-    {
-        resource += x;
-    }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
-    public void respawn ()
+    public void respawn()
     {
-        health = maxHealth;
+        health = stats.health;
         body.position = spawnPos;
     }
 
-    public void resourceTransfer (Player attacker)
-    {
-        attacker.IncrementResource(this.resource);
-        this.resource = 0;
+    //Sets team the team to whatever the input is
     public void SetTeam(int team)
     {
         teamIndex = team;
+    }
+
+    //transfers resources from this players bag to the other players bag
+    public void resourceTransfer(Player attacker)
+    {
+        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
+        ResourceBag myBag = this.GetComponent<ResourceBag>();
+        foreach (Resource r in myBag.getBag())
+        {
+            otherBag.addResource(r.getType(), myBag.getAmount(r));
+            myBag.removeResource(r.getType());
+        }
     }
 }

@@ -18,7 +18,6 @@ public class HitDetection : MonoBehaviour
 			if (collision.gameObject.GetComponent<Player>() != null &&
 				collision.gameObject.GetComponent<Player>().teamIndex != transform.root.GetComponent<Player>().teamIndex)	//if the collision is with someone from a different team
 			{
-				Debug.Log("DEALING DAMAGE");
 				Player other = collision.gameObject.GetComponent<Player>();
 				Player me = transform.root.GetComponent<Player>();
 
@@ -27,7 +26,6 @@ public class HitDetection : MonoBehaviour
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)											//if the collision is with a resource
 			{
-				Debug.Log("GATHERING RESOURCE");
 				ResourceBag bag = transform.root.GetComponent<ResourceBag>();
 				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
 				bag.addResource(resource.type, resource.gather().getAmount());

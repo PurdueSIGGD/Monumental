@@ -6,16 +6,25 @@ using Mirror;
 public class ResourceBag : NetworkBehaviour
 {
     //List of all resources being held
-    private SyncListResource bag = new SyncListResource();
+    public SyncListResource bag = new SyncListResource();
 
-    //Adds amount of resource of type
-    public void addResource(ResourceName type, int amount)
+	//Prints out all resources and their amounts in the bag, used for debugging
+	public void testBag()
+	{
+		foreach (Resource res in bag)
+		{
+			Debug.Log(res.getType() + ": " + res.getAmount());
+		}
+	}
+
+	//Adds amount of resource of type
+	public void addResource(ResourceName type, int amount)
     {
-        foreach(Resource res in bag)
+		foreach (Resource res in bag)
         {
-            if(res.type == type)
+			if (res.getType() == type)
             {
-                res.addAmount(amount);
+				res.addAmount(amount);
                 return;
             }
         }
@@ -27,9 +36,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == r.type)
+            if (res.getType() == r.getType())
             {
-                res.addAmount(r.amount);
+                res.addAmount(r.getAmount());
                 return;
             }
         }
@@ -43,9 +52,9 @@ public class ResourceBag : NetworkBehaviour
         {
             foreach (Resource res in bag)
             {
-                if (res.type == r.type)
+                if (res.getType() == r.getType())
                 {
-                    res.addAmount(r.amount);
+                    res.addAmount(r.getAmount());
                     break;
                 }
             }
@@ -58,9 +67,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == type)
+            if (res.getType() == type)
             {
-                return res.amount;
+                return res.getAmount();
             }
         }
         return 0;
@@ -71,9 +80,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == r.type)
+            if (res.getType() == r.getType())
             {
-                return res.amount;
+                return res.getAmount();
             }
         }
         return 0;
@@ -84,9 +93,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == type)
+            if (res.getType() == type)
             {
-                return res.amount;
+                return res.getAmount();
             }
         }
         return 0;
@@ -104,10 +113,10 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach(Resource res in bag)
         {
-            if(res.type == type)
+            if(res.getType() == type)
             {
                 res.addAmount(- amount);
-                return new Resource(type, Mathf.Abs(amount - res.amount));
+                return new Resource(type, Mathf.Abs(amount - res.getAmount()));
             }
         }
         return new Resource(type, 0);
@@ -118,12 +127,12 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == r.type)
+            if (res.getType() == r.getType())
             {
-                return new Resource(r.type, res.removeAmount(r.amount));
+                return new Resource(r.getType(), res.removeAmount(r.getAmount()));
             }
         }
-        return new Resource(r.type, 0);
+        return new Resource(r.getType(), 0);
     }
 
     //Remove all of resource type
@@ -131,7 +140,7 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == type)
+            if (res.getType() == type)
             {
                 Resource ret = res;
                 res.setAmount(0);
@@ -154,9 +163,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == type)
+            if (res.getType() == type)
             {
-                return (res.amount >= amount);
+                return (res.getAmount() >= amount);
             }
         }
         return false;
@@ -167,9 +176,9 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach (Resource res in bag)
         {
-            if (res.type == r.type)
+            if (res.getType() == r.getType())
             {
-                return (res.amount >= r.amount);
+                return (res.getAmount() >= r.getAmount());
             }
         }
         return false;

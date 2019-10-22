@@ -15,7 +15,14 @@ public class HitDetection : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown(0))
 		{
-			Debug.Log(collision.gameObject.name);
-		}	
+			//if the collision is with a resource
+			if (collision.gameObject.GetComponent<ResourceNode>() != null)
+			{
+				ResourceBag bag = transform.root.GetComponent<ResourceBag>();
+				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
+
+				bag.addResource(resource.type, resource.gather().getAmount());
+			}
+		}
 	}
 }

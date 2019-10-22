@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 using Mirror;
 
+[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
     int attackValue;
@@ -13,16 +15,18 @@ public class Player : NetworkBehaviour
     float attackSpeed = 0f;
     float range;
     private Rigidbody2D body;
-    public float speed;
     Vector2 spawnPos;
-    [SyncVar]
-    public int resource;
+    [HideInInspector]
+    public PlayerStats stats;
+    [HideInInspector]
+    public ResourceBag resources;
     [SyncVar]
     public int teamIndex = -1;
 
     // Start is called before the first frame update
     void Start()
     {
+        stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         spawnPos = body.position;
         health = maxHealth;
@@ -38,6 +42,7 @@ public class Player : NetworkBehaviour
 
         float dx = Input.GetAxis("Horizontal");
         float dy = Input.GetAxis("Vertical");
+        body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
         body.velocity = new Vector2(dx, dy) * speed;
     }
 

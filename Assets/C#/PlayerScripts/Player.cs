@@ -11,12 +11,11 @@ public class Player : NetworkBehaviour
 {
     private Rigidbody2D body;
     private UI_Control uiControl;
-    private Vector3 og_health_scale;
+    private Slider healthbar;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
-    public SpriteRenderer healthBar;
 
     [SyncVar]
     public int teamIndex = -1;
@@ -28,7 +27,7 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         resources = gameObject.AddComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
-        og_health_scale = healthBar.transform.localScale;
+        healthbar = GetComponentInChildren<Slider>();
 
         if (isLocalPlayer)
         {
@@ -53,9 +52,7 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        Vector3 scale = og_health_scale;
-        scale.x = Mathf.Clamp(og_health_scale.x * stats.health / stats.maxHealth, 0, og_health_scale.x);
-        healthBar.transform.localScale = scale;
+        healthbar.value = stats.health / (float)stats.maxHealth;
     }
 
     public void takeDamage(int damage)

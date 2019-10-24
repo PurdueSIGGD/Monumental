@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 //What each type of upgrade affects in player stats
 public enum UpgradeType
@@ -36,6 +37,12 @@ public class Upgrade
     static int Melee = 20;
     static int Ranged = 10;
     static float costScale = 1.2f;
+
+    public Upgrade()
+    {
+        type = UpgradeType.Health;
+        tier = 0;
+    }
 
     public Upgrade(UpgradeType t, int r)
     {
@@ -77,3 +84,5 @@ public class Upgrade
         }
     }
 }
+
+public class SyncListUpgrade : SyncList<Upgrade> { }

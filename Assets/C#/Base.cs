@@ -11,6 +11,11 @@ public class Base : MonoBehaviour
     void Start()
     {
         myCol = this.GetComponent<Collider2D>();
+        TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
+        for (int i = 0; i < tels.Length; i++)
+        {
+            tels[i].teamIndex = teamIndex;
+        }
     }
 
     // Update is called once per frame

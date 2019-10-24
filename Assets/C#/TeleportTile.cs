@@ -28,13 +28,13 @@ public class TeleportTile : NetworkBehaviour
                     Vector2 dOffset = pDir * Mathf.Abs((dCol.bounds.center - dCol.bounds.ClosestPoint(dCol.bounds.center + (Vector3)pDir)).magnitude);
                     //pRigid.position = (Vector2)destination.transform.position + pRigid.velocity.normalized * (other.bounds.extents + destination.GetComponent<Collider2D>().bounds.extents).magnitude;
                     pRigid.position = (Vector2)destination.transform.position + 1.1f * (pOffset + dOffset);
-                    Debug.Log("go on");
+                    //Debug.Log("go on");
                 }
             }
             else
             {
 
-                Debug.Log("no passage");
+                //Debug.Log("no passage");
             }
         }
     }

@@ -182,11 +182,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeleportTile
       objectReference: {fileID: 0}
-    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
-        type: 3}
-      propertyPath: destination
-      value: 
-      objectReference: {fileID: 3866623020983565409}
     - target: {fileID: 5157618414176439205, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -252,6 +247,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
+        type: 3}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 3866623020983565409}
     - target: {fileID: 6994844986764800239, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_AssetId
@@ -289,11 +289,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeleportTile (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
-        type: 3}
-      propertyPath: destination
-      value: 
-      objectReference: {fileID: 832004442242669961}
     - target: {fileID: 5157618414176439205, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -359,6 +354,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
+        type: 3}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 832004442242669961}
     - target: {fileID: 6994844986764800239, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_AssetId

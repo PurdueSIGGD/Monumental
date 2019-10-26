@@ -31,8 +31,10 @@ public class Base : MonoBehaviour
             Player p = col.gameObject.GetComponent<Player>();
             if(p.teamIndex == teamIndex)
             {
-                //Heal player to full
-                //Debug.Log("welcome");
+                //Heal player to full (consider adding a max health field so that the heal amount isn't hard coded)
+                PlayerStats pStat = col.gameObject.GetComponent<PlayerStats>();
+                pStat.health = 100;
+                
             } else
             {/*
                 Rigidbody2D pRigid = p.GetComponentInParent<Rigidbody2D>();

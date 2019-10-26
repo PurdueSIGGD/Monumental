@@ -36,7 +36,6 @@ public class Player : NetworkBehaviour
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
         }
-        takeDamage(25);
 
     }
 

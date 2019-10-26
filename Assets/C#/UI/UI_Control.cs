@@ -72,8 +72,7 @@ public class UI_Control : NetworkBehaviour
 
     void onUpgradeButton()
     {
-        print("Pressed");
-        upgradeButton.GetComponentInChildren<Text>().text = "Pressed";
+        GameObject obj = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
     }
 
 }

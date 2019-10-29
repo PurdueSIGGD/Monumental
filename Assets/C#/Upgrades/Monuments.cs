@@ -5,11 +5,20 @@ using Mirror;
 
 public class Monument : Upgrade
 {
-    public bool purchased = false;
-    public int owner = -1;
+    public bool purchased;
+    public int owner;
+
+    public Monument()
+    {
+        purchased = false;
+        owner = -1;
+    }
 
     public Monument(ResourceName mainType)
     {
+        purchased = false;
+        owner = -1;
+
         type = UpgradeType.Monument;
         tier = ((int)mainType / 2) + ((int)mainType % 2);
 

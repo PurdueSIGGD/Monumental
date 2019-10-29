@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Mirror;
 
-public class UI_Purchase_Button : MonoBehaviour
+public class UI_Purchase_Button : NetworkBehaviour
 {
 
     public GameObject resourceLocation = null;
+    public Button button = null;
+    public Text text = null;
     private List<GameObject> resources = new List<GameObject>();
 
     public void setPrice(ResourceBag price)
@@ -21,11 +25,14 @@ public class UI_Purchase_Button : MonoBehaviour
         }
         resources.Clear();
 
-        foreach (Resource r in price.getBag())
+        SyncListResource rsc = price.getBag();
+        for (int i = 0; i < rsc.Count; i++)
         {
-            GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject))) as GameObject;
-            obj.transform.parent = this.transform;
-            obj.transform.position = resourceLocation.transform.position;
+            /* Important to instantiate with parent transform parameter */
+            GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
+            obj.transform.position += new Vector3(60 * i, 0, 0);
+            obj.GetComponentInChildren<Text>().text = "" + rsc[i].getAmount();
+            obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
             resources.Add(obj);
         }
     }

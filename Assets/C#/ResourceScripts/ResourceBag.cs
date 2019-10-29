@@ -6,7 +6,7 @@ using Mirror;
 public class ResourceBag : NetworkBehaviour
 {
     //List of all resources being held
-    private SyncListResource bag = new SyncListResource();
+    private SyncListResource bag;
 
     //Adds amount of resource of type
     public void addResource(ResourceName type, int amount)

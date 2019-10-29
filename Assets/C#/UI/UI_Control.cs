@@ -9,10 +9,12 @@ public class UI_Control : NetworkBehaviour
 
     public Text healthBar = null;
     public Button upgradeButton = null;
+    public GameObject topStretch = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
+    private GameObject upgradeMenu = null;
 
     public Player player = null;
 
@@ -48,6 +50,12 @@ public class UI_Control : NetworkBehaviour
             updateHealth();
             updateResources();
         }
+        /* Toggle upgrade menu */
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            onUpgradeButton();
+        }
+
     }
 
     public void updateHealth()
@@ -72,7 +80,15 @@ public class UI_Control : NetworkBehaviour
 
     void onUpgradeButton()
     {
-        GameObject obj = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
+        if (upgradeMenu)
+        {
+            Destroy(upgradeMenu);
+            upgradeMenu = null;
+        }
+        else
+        {
+            upgradeMenu = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
+        }
     }
 
 }

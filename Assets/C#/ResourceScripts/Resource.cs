@@ -18,6 +18,34 @@ public struct Resource
     public ResourceName type;
     public int amount;
 
+    public static Sprite getSprite(ResourceName r)
+    {
+        string path = "Sprites/Resources/" + getName(r);
+        return Resources.Load(path, typeof(Sprite)) as Sprite;
+    }
+
+    public static string getName(ResourceName r)
+    {
+        switch (r)
+        {
+            case ResourceName.WOOD:
+                return "Wood";
+            case ResourceName.STONE:
+                return "Stone";
+            case ResourceName.COPPER:
+                return "Copper";
+            case ResourceName.IRON:
+                return "Iron";
+            case ResourceName.GOLD:
+                return "Gold";
+            case ResourceName.DIAMOND:
+                return "Diamond";
+        }
+
+        return "";
+
+    }
+
     public Resource(ResourceName t, int a)
     {
         type = t;

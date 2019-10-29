@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Base : MonoBehaviour
+public class Base : NetworkBehaviour
 {
     private Collider2D myCol;
     public int teamIndex;

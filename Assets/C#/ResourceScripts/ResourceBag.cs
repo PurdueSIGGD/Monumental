@@ -50,15 +50,7 @@ public class ResourceBag : NetworkBehaviour
     {
         foreach(Resource r in b)
         {
-            foreach (Resource res in bag)
-            {
-                if (res.getType() == r.getType())
-                {
-                    res.addAmount(r.getAmount());
-                    break;
-                }
-            }
-            bag.Add(r);
+            addResource(r);
         }
     }
 

@@ -14,21 +14,9 @@ public class PlayerStats : NetworkBehaviour
     [SyncVar]
     public float gatherAmount = 1.0f;
     [SyncVar]
-    public int meleeDamage = 10;
+    public int meleeDamage = 40;
     [SyncVar]
     public int rangedDamage = 5;
-	[SyncVar]
-	public int projectileSpeed = 1000;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	  [SyncVar]
+	  public int projectileSpeed = 1000;
 }

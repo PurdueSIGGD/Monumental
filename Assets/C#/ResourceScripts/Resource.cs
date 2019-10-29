@@ -15,8 +15,8 @@ public enum ResourceName
 
 public class Resource
 {
-    public ResourceName type;
-    public int amount;
+    private ResourceName type;
+    private int amount;
 
 	public Resource()
 	{

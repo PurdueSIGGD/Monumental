@@ -6,11 +6,15 @@ public class Base : MonoBehaviour
 {
     private Collider2D myCol;
     public int teamIndex;
+    
+    [HideInInspector]
+    public ResourceBag resPool;
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
     void Start()
     {
         myCol = this.GetComponent<Collider2D>();
+        resPool = GetComponent<ResourceBag>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         for (int i = 0; i < tels.Length; i++)
         {
@@ -34,6 +38,9 @@ public class Base : MonoBehaviour
                 //Heal player to full (consider adding a max health field so that the heal amount isn't hard coded)
                 PlayerStats pStat = col.gameObject.GetComponent<PlayerStats>();
                 pStat.health = 100;
+
+                //dump player resources into pool
+                resPool.addBag(col.gameObject.GetComponent<ResourceBag>().dumpResources());
                 
             } else
             {/*

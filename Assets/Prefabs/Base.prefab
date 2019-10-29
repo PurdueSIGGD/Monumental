@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4321504728465662275}
   - component: {fileID: 5839922897463924583}
   - component: {fileID: 867914854}
+  - component: {fileID: 6251367650383813413}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -156,8 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 8a25d0a0c86a2694ba3a619bcbada547
-  m_SceneId: 0
+  m_AssetId: 
+  m_SceneId: 1038358271
 --- !u!114 &867914854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +172,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamIndex: 0
+--- !u!114 &6251367650383813413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8574624286796370991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f03523bbb8bbc46b8c5e6edfd972b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1001 &6109349212634715740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -392,11 +407,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8574624286796370989}
     m_Modifications:
-    - target: {fileID: 5657628976717388474, guid: d2fc09879a9915649bf09140ad170b09,
-        type: 3}
-      propertyPath: m_Name
-      value: SpawnPoint
-      objectReference: {fileID: 0}
     - target: {fileID: 5657628976717388452, guid: d2fc09879a9915649bf09140ad170b09,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -461,6 +471,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5657628976717388474, guid: d2fc09879a9915649bf09140ad170b09,
+        type: 3}
+      propertyPath: m_Name
+      value: SpawnPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2fc09879a9915649bf09140ad170b09, type: 3}

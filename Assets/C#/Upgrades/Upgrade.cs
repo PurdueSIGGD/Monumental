@@ -49,15 +49,17 @@ public class Upgrade
         type = t;
         tier = r;
 
-        Resource small = new Resource();
-        small.type = (ResourceName)(2*r - (int)type); //Utilizes lookup function - Ask Michael Beshear if confused
-        small.amount = (int)UpgradeCost.small;
+        Resource small = new Resource(
+            (ResourceName)(2*r - (int)type), //Utilizes lookup function - Ask Michael Beshear if confused
+            (int)UpgradeCost.small
+        );
 
         cost.Add(small);
 
-        Resource large = new Resource();
-        large.type = (ResourceName)(2*r + (int)type - 1);
-        large.amount = (int)UpgradeCost.large;
+        Resource large = new Resource(
+            (ResourceName)(2*r + (int)type - 1),
+            (int)UpgradeCost.large
+        );
 
         cost.Add(large);
     }
@@ -80,7 +82,7 @@ public class Upgrade
 
         foreach(Resource res in cost)
         {
-            res.setAmount((int)(res.amount * costScale));
+            res.setAmount((int)(res.getAmount() * costScale));
         }
     }
 }

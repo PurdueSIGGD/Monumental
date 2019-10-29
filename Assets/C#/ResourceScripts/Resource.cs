@@ -13,10 +13,10 @@ public enum ResourceName
     DIAMOND = 6
 }
 
-public struct Resource
+public class Resource
 {
-    public ResourceName type;
-    public int amount;
+    private ResourceName type;
+    private int amount;
 
     public static Sprite getSprite(ResourceName r)
     {
@@ -45,6 +45,12 @@ public struct Resource
         return "";
 
     }
+    
+    public Resource()
+  	{
+  		type = 0;
+  		amount = 0;
+  	}
 
     public Resource(ResourceName t, int a)
     {
@@ -65,20 +71,20 @@ public struct Resource
     public void setAmount(int a)
     {
         amount = a;
-        Mathf.Max(amount, 0);   //Resource amount should never be negative
+		amount = Mathf.Max(amount, 0);   //Resource amount should never be negative
     }
 
     public void addAmount(int a)
     {
         amount += a;
-        Mathf.Max(amount, 0);   //Resource amount should never be negative
+        amount = Mathf.Max(amount, 0);   //Resource amount should never be negative
     }
 
     public int removeAmount(int a)
     {
         int start = amount;
         amount -= a;
-        Mathf.Max(amount, 0);   //Resource amount should never be negative
+		amount = Mathf.Max(amount, 0);   //Resource amount should never be negative
         return Mathf.Abs(amount - start);
     }
 }

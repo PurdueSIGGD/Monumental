@@ -68,4 +68,14 @@ public class Player : NetworkBehaviour
     {
         teamIndex = team;
     }
+
+	//decreases health and destroys gameobject if health reaches 0
+	public void takeDamage(int damage)
+	{
+		stats.health -= damage;
+		if (stats.health <= 0)
+		{
+			Destroy(gameObject);
+		}
+	}
 }

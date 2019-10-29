@@ -15,6 +15,7 @@ public class Player : NetworkBehaviour
     public ResourceBag resources;
     [SyncVar]
     public int teamIndex = -1;
+	public GameObject projectile;
 
     // Start is called before the first frame update
     void Start()

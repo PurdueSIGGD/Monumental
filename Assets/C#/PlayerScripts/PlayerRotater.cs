@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HitboxMover : MonoBehaviour
+public class PlayerRotater : MonoBehaviour
 {
      void Update()
     {

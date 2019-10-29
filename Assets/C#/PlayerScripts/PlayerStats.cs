@@ -17,6 +17,8 @@ public class PlayerStats : NetworkBehaviour
     public int meleeDamage = 10;
     [SyncVar]
     public int rangedDamage = 5;
+	[SyncVar]
+	public int projectileSpeed = 1000;
 
     // Start is called before the first frame update
     void Start()

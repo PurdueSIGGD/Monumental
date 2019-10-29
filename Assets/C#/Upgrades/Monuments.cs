@@ -11,13 +11,13 @@ public class Monument : Upgrade
     public Monument()
     {
         purchased = false;
-        owner = 1;
+        owner = -1;
     }
 
     public Monument(ResourceName mainType)
     {
         purchased = false;
-        owner = 1;
+        owner = -1;
 
         type = UpgradeType.Monument;
         tier = ((int)mainType / 2) + ((int)mainType % 2);

@@ -142,7 +142,7 @@ public class ResourceBag : NetworkBehaviour
         {
             if (res.getType() == type)
             {
-                Resource ret = res;
+                Resource ret = new Resource(res);
                 res.setAmount(0);
                 return ret;
             }
@@ -165,8 +165,10 @@ public class ResourceBag : NetworkBehaviour
     public SyncListResource dumpResources()
     {
         SyncListResource b = new SyncListResource();
-        b = bag;
-        bag.Clear();
+        foreach (Resource res in bag)
+        {
+            b.Add(removeResource(res.getType()));
+        }
         return b;
     }
 

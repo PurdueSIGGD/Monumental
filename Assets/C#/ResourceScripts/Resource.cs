@@ -30,6 +30,12 @@ public class Resource
         amount = a;
     }
 
+    public Resource(Resource r)
+    {
+        type = r.getType();
+        amount = r.getAmount();
+    }
+
     public ResourceName getType()
     {
         return type;

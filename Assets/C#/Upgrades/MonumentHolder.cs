@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class MonumentHolder : MonoBehaviour
+public class MonumentHolder : NetworkBehaviour
 {
     public SyncListMonument monuments = new SyncListMonument();
 

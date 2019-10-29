@@ -9,7 +9,6 @@ public class UI_Control : NetworkBehaviour
 
     public Text healthBar = null;
     public Button upgradeButton = null;
-    public GameObject topStretch = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -60,7 +59,7 @@ public class UI_Control : NetworkBehaviour
 
     public void updateHealth()
     {
-        healthBar.text = player.stats.health + "/" + player.stats.maxHealth;
+        healthBar.text = player.health + "/" + player.stats.health;
     }
 
     public void updateResources()

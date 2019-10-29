@@ -21,7 +21,7 @@ public class UI_Camera : NetworkBehaviour
             Vector3 pos = new Vector3();
             pos.x = followTarget.transform.position.x + pos.x;
             pos.y = followTarget.transform.position.y + pos.y;
-            pos.z = -1;
+            pos.z = -10;
 
             this.transform.position = pos;
         }

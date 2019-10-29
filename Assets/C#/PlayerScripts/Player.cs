@@ -19,6 +19,7 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
+    public int health = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class Player : NetworkBehaviour
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
+            health = stats.health;
         }
 
     }
@@ -51,17 +53,16 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = stats.health / (float)stats.maxHealth;
-    }
-
-    public void takeDamage(int damage)
-    {
-        setHealth(stats.health - damage);
+        healthbar.value = stats.health / (float)stats.health;
     }
 
     public void setHealth(int val)
     {
-        stats.health = val;
+        health = val;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SetTeam(int team)
@@ -72,10 +73,6 @@ public class Player : NetworkBehaviour
 	//decreases health and destroys gameobject if health reaches 0
 	public void takeDamage(int damage)
 	{
-		stats.health -= damage;
-		if (stats.health <= 0)
-		{
-			Destroy(gameObject);
-		}
+        setHealth(health - damage);
 	}
 }

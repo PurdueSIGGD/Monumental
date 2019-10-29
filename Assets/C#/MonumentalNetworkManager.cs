@@ -6,27 +6,35 @@ using Mirror;
 public class MonumentalNetworkManager : NetworkManager
 {
     public int[] teamSizes;
+    public GameObject[] teamSpawns;
 
     public override void Start()
     {
         teamSizes = new int[2] { 0, 0 };
+        
         if (isHeadless && startOnHeadless)
         {
             StartServer();
         }
     }
 
+    public Transform GetStartPosition(int team)
+    {
+        return teamSpawns[team].transform;
+    }
+
     public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)
     {
-        Transform startPos = GetStartPosition();
-        GameObject player = startPos != null
-            ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
-            : Instantiate(playerPrefab);
+        
         int team = 0;
         if(teamSizes[0] > teamSizes[1])
         {
             team = 1;
         }
+        Transform startPos = GetStartPosition(team);
+        GameObject player = startPos != null
+            ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
+            : Instantiate(playerPrefab);
         player.GetComponent<Player>().SetTeam(team);
         teamSizes[team]++;
         NetworkServer.AddPlayerForConnection(conn, player);

@@ -13,13 +13,15 @@ public class Monument : Upgrade
         type = UpgradeType.Monument;
         tier = ((int)mainType / 2) + ((int)mainType % 2);
 
-        Resource small = new Resource();
-        small.type = (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1); // Lookup function to covert large to small - Ask Michael Beshear if confused
-        small.amount = (int)UpgradeCost.small * 10;
+        Resource small = new Resource(
+            (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to covert large to small - Ask Michael Beshear if confused
+            (int)UpgradeCost.small * 10
+        );
 
-        Resource large = new Resource();
-        large.type = mainType;
-        large.amount = (int)UpgradeCost.large * 10;
+        Resource large = new Resource(
+            mainType,
+            (int)UpgradeCost.large * 10
+        );
     }
 
     public void updateStatus(int team)

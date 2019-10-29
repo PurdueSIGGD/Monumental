@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Mirror;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
-    [SerializeField]int health;
+    public int health;
     float lastAttack = 0f;
     float attackSpeed = 0f;
     private Rigidbody2D body;
-    Vector2 spawnPos;
+    private UI_Control uiControl;
+    private Slider healthbar;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+
     [SyncVar]
     public int teamIndex = -1;
-    float meleeRange = 1f; //temp value
-    float rangedRange = 8f; //temp value
-
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,18 @@ public class Player : NetworkBehaviour
         spawnPos = body.position;
         health = stats.health;
         attackSpeed = stats.interactionSpeed;
+        resources = gameObject.AddComponent<ResourceBag>();
+        uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
+        healthbar = GetComponentInChildren<Slider>();
+
+        if (isLocalPlayer)
+        {
+            UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
+            uiControl.player = this;
+            UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
+            uiCamera.followTarget = this.gameObject;
+            health = stats.health;
+        }
     }
 
     // Update is called once per frame
@@ -90,7 +102,21 @@ public class Player : NetworkBehaviour
         body.position = spawnPos;
     }
 
-    //Sets team the team to whatever the input is
+    void LateUpdate()
+    {
+        healthbar.value = stats.health / (float)stats.health;
+    }
+
+    public void setHealth(int val)
+    {
+        health = val;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+        //Sets team the team to whatever the input is
     public void SetTeam(int team)
     {
         teamIndex = team;

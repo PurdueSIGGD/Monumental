@@ -15,8 +15,8 @@ public enum ResourceName
 
 public class Resource
 {
-    private ResourceName type;
-    private int amount;
+    public ResourceName type;
+    public int amount;
 
 	public Resource()
 	{
@@ -33,6 +33,11 @@ public class Resource
     public ResourceName getType()
     {
         return type;
+    }
+
+    public void setType(ResourceName t)
+    {
+        type = t;
     }
 
     public int getAmount()

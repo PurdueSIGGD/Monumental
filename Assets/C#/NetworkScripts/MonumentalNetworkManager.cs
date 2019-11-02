@@ -6,6 +6,7 @@ using Mirror;
 public class MonumentalNetworkManager : NetworkManager
 {
     public int[] teamSizes;
+    public List<GameObject>[] teamPlayers = new List<GameObject>[2];
     public GameObject[] teamSpawns;
 
     public override void Start()
@@ -36,6 +37,7 @@ public class MonumentalNetworkManager : NetworkManager
             ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
             : Instantiate(playerPrefab);
         player.GetComponent<Player>().SetTeam(team);
+        teamPlayers[team].Add(player);
         teamSizes[team]++;
         NetworkServer.AddPlayerForConnection(conn, player);
     }

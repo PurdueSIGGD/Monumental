@@ -65,17 +65,17 @@ PrefabInstance:
     - target: {fileID: 6473571989444638193, guid: e81a4e3a3f5b80b40aefbb876c7bb863,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -397.75842
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6473571989444638193, guid: e81a4e3a3f5b80b40aefbb876c7bb863,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -215.93616
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6473571989444638193, guid: e81a4e3a3f5b80b40aefbb876c7bb863,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 69
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6473571989444638193, guid: e81a4e3a3f5b80b40aefbb876c7bb863,
         type: 3}
@@ -164,11 +164,26 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 8285692717045143981, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+    - target: {fileID: 8285692715495608214, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
         type: 3}
-      propertyPath: m_Name
-      value: Menu
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1525191907533777721}
+    - target: {fileID: 8285692715495608214, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HostGame
       objectReference: {fileID: 0}
+    - target: {fileID: 8285692715504025669, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1525191907533777721}
+    - target: {fileID: 8285692716903041662, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1525191907533777721}
     - target: {fileID: 8285692717045143977, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -274,26 +289,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8285692715495608214, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+    - target: {fileID: 8285692717045143981, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1525191907533777721}
-    - target: {fileID: 8285692715495608214, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: HostGame
+      propertyPath: m_Name
+      value: Menu
       objectReference: {fileID: 0}
-    - target: {fileID: 8285692715504025669, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1525191907533777721}
-    - target: {fileID: 8285692716903041662, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1525191907533777721}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ec4eb261d4f6e849a27b74488d6a0a7, type: 3}
 --- !u!1 &7482203383067188931 stripped

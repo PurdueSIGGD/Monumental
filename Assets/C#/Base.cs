@@ -7,6 +7,7 @@ public class Base : NetworkBehaviour
 {
     private Collider2D myCol;
     public int teamIndex;
+    public PlayerStats baseStats;
     
     [HideInInspector]
     public ResourceBag resPool;
@@ -27,6 +28,25 @@ public class Base : NetworkBehaviour
     void Update()
     {
         
+    }
+
+    public bool purchaseUpgrade(Upgrade up)
+    {
+        if (resPool.checkBag(up.cost))
+        {
+            resPool.removeBag(up.cost);
+            up.UpdateStatsAndCost(baseStats);
+            updateAllPlayerStats();
+
+
+            return true;
+        }
+        return false;
+    }
+
+    public void updateAllPlayerStats()
+    {
+
     }
 
     void OnTriggerEnter2D(Collider2D col)

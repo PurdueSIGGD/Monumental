@@ -55,7 +55,7 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = stats.health / (float)stats.health;
+        healthbar.value = health / (float)stats.health;
     }
 
     public void setHealth(int val)

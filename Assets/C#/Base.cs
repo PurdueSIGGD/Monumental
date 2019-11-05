@@ -17,6 +17,7 @@ public class Base : NetworkBehaviour
     {
         myCol = this.GetComponent<Collider2D>();
         resPool = GetComponent<ResourceBag>();
+        baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         for (int i = 0; i < tels.Length; i++)
         {
@@ -46,7 +47,9 @@ public class Base : NetworkBehaviour
 
     public void updateAllPlayerStats()
     {
+        PlayerStats pStat = new PlayerStats();
 
+        pStat.copyStats(baseStats);
     }
 
     void OnTriggerEnter2D(Collider2D col)

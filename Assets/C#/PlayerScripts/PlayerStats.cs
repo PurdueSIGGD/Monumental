@@ -17,4 +17,15 @@ public class PlayerStats : NetworkBehaviour
     public int meleeDamage = 40;
     [SyncVar]
     public int rangedDamage = 20;
+
+    public void copyStats(PlayerStats cp)
+    {
+        health = cp.health;
+        movementSpeed = cp.movementSpeed;
+        interactionSpeed = cp.interactionSpeed;
+        gatherAmount = cp.gatherAmount;
+        meleeDamage = cp.meleeDamage;
+        rangedDamage = cp.rangedDamage;
+    }
+
 }

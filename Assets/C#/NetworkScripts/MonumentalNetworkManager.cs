@@ -6,7 +6,7 @@ using Mirror;
 public class MonumentalNetworkManager : NetworkManager
 {
     public int[] teamSizes;
-    public List<GameObject>[] teamPlayers = new List<GameObject>[2];
+    public List<GameObject> playerList = new List<GameObject>();
     public GameObject[] teamSpawns;
 
     public override void Start()
@@ -37,7 +37,7 @@ public class MonumentalNetworkManager : NetworkManager
             ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
             : Instantiate(playerPrefab);
         player.GetComponent<Player>().SetTeam(team);
-        teamPlayers[team].Add(player);
+        playerList.Add(player);
         teamSizes[team]++;
         NetworkServer.AddPlayerForConnection(conn, player);
     }
@@ -49,6 +49,7 @@ public class MonumentalNetworkManager : NetworkManager
         if (team >= 0)
         {
             teamSizes[team]--;
+            playerList.Remove(p.gameObject);
         }
         NetworkServer.DestroyPlayerForConnection(conn);
         Debug.Log("OnServerDisconnect: Client disconnected.");
@@ -62,6 +63,7 @@ public class MonumentalNetworkManager : NetworkManager
             if(team >= 0)
             {
                 teamSizes[team]--;
+                playerList.Remove(player.gameObject);
             }
             NetworkServer.Destroy(player.gameObject);
         }

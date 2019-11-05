@@ -63,7 +63,8 @@ public class Player : NetworkBehaviour
         health = val;
         if (health <= 0)
         {
-            Destroy(gameObject);
+			Debug.Log(gameObject.name + " is dead");
+			health = 100;
         }
     }
 

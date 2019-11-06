@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PlayerRotater : MonoBehaviour
+public class PlayerRotater : NetworkBehaviour
 {
      void Update()
     {
+		//if (GetComponentInParent<Player>().isLocalPlayer) return;
 		//rotate the hitbox to point in the direction of the mouse
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = 0f;

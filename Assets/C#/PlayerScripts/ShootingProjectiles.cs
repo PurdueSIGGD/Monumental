@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class ShootingProjectiles : MonoBehaviour
+public class ShootingProjectiles : NetworkBehaviour
 {
 	private bool canShoot = true; //is true if player's hitbox isn't hitting a resource or enemy player
 	private Rigidbody2D projectilePrefab;
@@ -28,6 +29,7 @@ public class ShootingProjectiles : MonoBehaviour
 
 	void Update()
     {
+		if (!isLocalPlayer) return;
 		if (Input.GetMouseButtonDown(0) && canShoot)
 		{
 			Transform hitbox = transform.Find("Hitbox Pivot Point");

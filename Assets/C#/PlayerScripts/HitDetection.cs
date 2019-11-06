@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class HitDetection : MonoBehaviour
+public class HitDetection : NetworkBehaviour
 {
 	public Collision2D other;
+	public bool clicked;
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if (Input.GetMouseButtonDown(0))
+		if (GetComponentInParent<Player>().isLocalPlayer) return;
+		if (clicked)
 		{
 
 			if (collision.gameObject.GetComponent<Player>() != null &&
@@ -33,8 +36,13 @@ public class HitDetection : MonoBehaviour
 				//do nothing
 			}
 
-			
+			clicked = false;
 		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		clicked = false;
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)

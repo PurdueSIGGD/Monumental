@@ -179,6 +179,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e6d5a8ac09b1847bfeb51894bf5695, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clicked: 0
 --- !u!61 &661174896025452460
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -547,7 +550,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 0
+  m_SceneId: 1516172085
 --- !u!114 &2330303626597118836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,6 +578,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c3ded995bc86bc43a51a40998fa016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   yValue: 0
   xValue: 0
 --- !u!1 &9056520630326576608

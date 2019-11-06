@@ -10,6 +10,7 @@ public class ShootingProjectiles : NetworkBehaviour
 	private PlayerStats stats;
 	public float yValue; // Used to make it look like it's shot from the gun itself (offset)
 	public float xValue; // Same as above
+	public bool clicked;
 
 	public void cannotShoot()
 	{

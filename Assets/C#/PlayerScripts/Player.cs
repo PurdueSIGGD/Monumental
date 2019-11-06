@@ -24,11 +24,13 @@ public class Player : NetworkBehaviour
     public int health = 100;
     public GameObject projectile;
 	private HitDetection hitDetect;
+	private ShootingProjectiles shootingProjectile;
 
     // Start is called before the first frame update
     void Start()
     {
 		hitDetect = GetComponentInChildren<HitDetection>();
+		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         resources = gameObject.AddComponent<ResourceBag>();
@@ -57,6 +59,7 @@ public class Player : NetworkBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 			hitDetect.clicked = true;
+			shootingProjectile.clicked = true;
 		}
 	}
 

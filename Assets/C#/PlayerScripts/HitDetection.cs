@@ -9,10 +9,9 @@ public class HitDetection : NetworkBehaviour
 	public bool clicked;
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if (GetComponentInParent<Player>().isLocalPlayer) return;
+		if (!GetComponentInParent<Player>().isLocalPlayer) return;
 		if (clicked)
 		{
-
 			if (collision.gameObject.GetComponent<Player>() != null &&
 				collision.gameObject.GetComponent<Player>().teamIndex != transform.root.GetComponent<Player>().teamIndex)	//if the collision is with someone from a different team
 			{

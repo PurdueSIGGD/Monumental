@@ -5,20 +5,11 @@ using Mirror;
 
 public class MonumentalGameManager : NetworkBehaviour
 {
-    public Transform [] startPointParents;
-    private Transform[][] startPoints = new Transform[2][];
+    public Transform[] startPoints0;
+    public Transform[] startPoints1;
     private List<Player> playersHere = new List<Player>();
     private int[] startPointIndex = {0,0};
     public bool gameHasStarted = false;
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-        for(int i=0; i<startPointParents.Length; i++)
-        {
-            startPoints[i] = startPointParents[i].GetComponentsInChildren<Transform>();
-        }
-    }
 
     private void OnTriggerStay2D(Collider2D col)
     {
@@ -35,8 +26,15 @@ public class MonumentalGameManager : NetworkBehaviour
 
     private void SendPlayer(Player p)
     {
-        p.GetComponent<Transform>().position = startPoints[p.teamIndex][startPointIndex[p.teamIndex]].position;
-        startPointIndex[p.teamIndex] = (startPointIndex[p.teamIndex] + 1) % startPoints[p.teamIndex].Length;
+        int i = p.teamIndex;
+        if (i == 0) {
+            p.GetComponent<Transform>().position = startPoints0[startPointIndex[i]].position;
+            startPointIndex[i] = (startPointIndex[i] + 1) % startPoints0.Length;
+        }else if (i == 1)
+        {
+            p.GetComponent<Transform>().position = startPoints1[startPointIndex[i]].position;
+            startPointIndex[i] = (startPointIndex[i] + 1) % startPoints1.Length;
+        }
     }
 
     public void StartGame()

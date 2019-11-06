@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6473571989444638193}
   - component: {fileID: 1794272211969131079}
-  - component: {fileID: 6473571989444638195}
+  - component: {fileID: 3332515564920581979}
   - component: {fileID: 6473571989444638204}
   m_Layer: 0
   m_Name: NetworkManager
@@ -60,7 +60,8 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs: []
---- !u!114 &6473571989444638195
+  teamSizes: 
+--- !u!114 &3332515564920581979
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

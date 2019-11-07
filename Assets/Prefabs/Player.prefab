@@ -164,7 +164,7 @@ Transform:
   m_LocalPosition: {x: 0.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3924535313534561850}
+  m_Father: {fileID: 8621216328442814339}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5059698846261836738
@@ -298,52 +298,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1 &6547091841376160773
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3924535313534561850}
-  - component: {fileID: 7046793301858317359}
-  m_Layer: 0
-  m_Name: Hitbox Pivot Point
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3924535313534561850
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6547091841376160773}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 807625634681796170}
-  m_Father: {fileID: 8621216328442814339}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7046793301858317359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6547091841376160773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06f6fc1d39ece364ab337e131f20e379, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1 &7758189377838336626
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,6 +316,7 @@ GameObject:
   - component: {fileID: 3529293131949852002}
   - component: {fileID: 2330303626597118836}
   - component: {fileID: 6002642252339552810}
+  - component: {fileID: 2584433286932925903}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -380,7 +335,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children:
-  - {fileID: 3924535313534561850}
+  - {fileID: 807625634681796170}
   - {fileID: 5024712063971748734}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -549,8 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: 
-  m_SceneId: 1516172085
+  m_AssetId: 1074ad2fecb49ed4990ad2d84a0d53f1
+  m_SceneId: 0
 --- !u!114 &2330303626597118836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +537,21 @@ MonoBehaviour:
   syncInterval: 0.1
   yValue: 0
   xValue: 0
+  clicked: 0
+--- !u!114 &2584433286932925903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7758189377838336626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f6fc1d39ece364ab337e131f20e379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &9056520630326576608
 GameObject:
   m_ObjectHideFlags: 0

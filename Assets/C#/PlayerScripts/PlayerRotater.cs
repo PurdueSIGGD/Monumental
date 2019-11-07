@@ -7,7 +7,7 @@ public class PlayerRotater : NetworkBehaviour
 {
      void Update()
     {
-		//if (GetComponentInParent<Player>().isLocalPlayer) return;
+		if (!isLocalPlayer) return;
 		//rotate the hitbox to point in the direction of the mouse
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = 0f;

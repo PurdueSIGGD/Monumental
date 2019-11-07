@@ -33,14 +33,25 @@ public class ShootingProjectiles : NetworkBehaviour
 		if (!isLocalPlayer) return;
 		if (Input.GetMouseButtonDown(0) && canShoot)
 		{
-			Transform hitbox = transform.Find("Hitbox Pivot Point");
-			Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
-			Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
-			newProjectile.AddForce(hitbox.right * stats.projectileSpeed);
-			newProjectileProperties.parentGameobject = gameObject;
-			newProjectileProperties.damage = stats.rangedDamage;
-			newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;
-			//coolDown = Time.time + attackSpeed;
+            CmdSpawnProjectile();
 		}
+    }
+
+    [Command]
+    void CmdSpawnProjectile()
+    {
+        RpcSpawnProjectile();
+    }
+
+    [ClientRpc]
+    void RpcSpawnProjectile()
+    {
+        Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
+        Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
+        newProjectile.AddForce(transform.right * stats.projectileSpeed);
+        newProjectileProperties.parentGameobject = gameObject;
+        newProjectileProperties.damage = stats.rangedDamage;
+        newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;
+        //coolDown = Time.time + attackSpeed;
     }
 }

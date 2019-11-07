@@ -25,13 +25,19 @@ public class Projectile : NetworkBehaviour
 			{
 				collision.gameObject.GetComponent<Player>().takeDamage(damage);
 			}
-			Destroy(gameObject);
+            DestroyThis();
 		}
 	}
+
+    [Client]
+    void DestroyThis()
+    {
+        Destroy(this.gameObject);
+    }
 
 	IEnumerator TimerDestroy()
 	{
 		yield return new WaitForSeconds(timer);
-		Destroy(gameObject);
+        DestroyThis();
 	}
 }

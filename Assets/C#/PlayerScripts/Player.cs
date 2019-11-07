@@ -53,7 +53,7 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = stats.health / (float)stats.health;
+        healthbar.value = health / (float)stats.health;
         healthbar.transform.parent.position = transform.position;
     }
 

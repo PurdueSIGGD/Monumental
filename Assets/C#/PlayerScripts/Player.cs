@@ -28,7 +28,7 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         resources = gameObject.AddComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
-        healthbar = GetComponentInChildren<Slider>();
+        healthbar = (Instantiate(Resources.Load("UI/HealthBar")) as GameObject).GetComponentInChildren<Slider>();
 
         if (isLocalPlayer)
         {
@@ -54,6 +54,7 @@ public class Player : NetworkBehaviour
     void LateUpdate()
     {
         healthbar.value = stats.health / (float)stats.health;
+        healthbar.transform.parent.position = transform.position;
     }
 
     public void setHealth(int val)

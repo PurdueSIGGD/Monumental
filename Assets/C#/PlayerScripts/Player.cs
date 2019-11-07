@@ -57,6 +57,14 @@ public class Player : NetworkBehaviour
         healthbar.transform.parent.position = transform.position;
     }
 
+    private void OnDestroy()
+    {
+        if (healthbar)
+        {
+            Destroy(healthbar.transform.parent.gameObject);
+        }
+    }
+
     public void setHealth(int val)
     {
         health = val;

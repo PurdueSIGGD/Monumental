@@ -8,9 +8,11 @@ public class Base : NetworkBehaviour
     private Collider2D myCol;
     public int teamIndex;
     public PlayerStats baseStats;
+    public MonumentalNetworkManager mnm;
     
     [HideInInspector]
     public ResourceBag resPool;
+    public SyncListUpgrade upgrades;
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
     void Start()
@@ -23,12 +25,14 @@ public class Base : NetworkBehaviour
         {
             tels[i].teamIndex = teamIndex;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        for (int i = 1; i < 3; i++)
+        {
+            upgrades.Add(new Upgrade(UpgradeType.Health, i));
+        }
+        for (int i = 1; i < 3; i++)
+        {
+            upgrades.Add(new Upgrade(UpgradeType.Gather, i));
+        }
     }
 
     public bool purchaseUpgrade(Upgrade up)
@@ -47,9 +51,13 @@ public class Base : NetworkBehaviour
 
     public void updateAllPlayerStats()
     {
-        PlayerStats pStat = new PlayerStats();
-
-        pStat.copyStats(baseStats);
+        foreach (GameObject player in mnm.playerList)
+        {
+            if(player.GetComponent<Player>().teamIndex == teamIndex)
+            {
+                player.GetComponent<PlayerStats>().updateStats(baseStats);
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -59,9 +67,8 @@ public class Base : NetworkBehaviour
             Player p = col.gameObject.GetComponent<Player>();
             if(p.teamIndex == teamIndex)
             {
-                //Heal player to full (consider adding a max health field so that the heal amount isn't hard coded)
-                PlayerStats pStat = col.gameObject.GetComponent<PlayerStats>();
-                pStat.health = 100;
+                //Heal player to full
+                col.gameObject.GetComponent<Player>().health = col.gameObject.GetComponent<PlayerStats>().health;
 
                 //dump player resources into pool
                 resPool.addBag(col.gameObject.GetComponent<ResourceBag>().dumpResources());

@@ -18,14 +18,13 @@ public class PlayerStats : NetworkBehaviour
     [SyncVar]
     public int rangedDamage = 20;
 
-    public void copyStats(PlayerStats cp)
+    public void updateStats(PlayerStats ps)
     {
-        health = cp.health;
-        movementSpeed = cp.movementSpeed;
-        interactionSpeed = cp.interactionSpeed;
-        gatherAmount = cp.gatherAmount;
-        meleeDamage = cp.meleeDamage;
-        rangedDamage = cp.rangedDamage;
+        health = ps.health;
+        movementSpeed = ps.movementSpeed;
+        interactionSpeed = ps.interactionSpeed;
+        gatherAmount = ps.gatherAmount;
+        meleeDamage = ps.meleeDamage;
+        rangedDamage = ps.rangedDamage;
     }
-
 }

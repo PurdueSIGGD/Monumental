@@ -139,6 +139,8 @@ MonoBehaviour:
   resourceLocation: {fileID: 0}
   button: {fileID: 0}
   text: {fileID: 0}
+  title: {fileID: 0}
+  myBase: {fileID: 0}
 --- !u!1 &1378844990887528309
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,3 +394,5 @@ MonoBehaviour:
   resourceLocation: {fileID: 1378844990887528309}
   button: {fileID: 9069352147804592483}
   text: {fileID: 305722078122784157}
+  title: {fileID: 7228330818969410363}
+  myBase: {fileID: 0}

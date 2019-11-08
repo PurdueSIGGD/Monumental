@@ -30,7 +30,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
     public void reset(int team)
     {
         Base myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
-        button = GetComponentInChildren<UI_Purchase_Button>();
+        /*button = GetComponentInChildren<UI_Purchase_Button>();
         if (button)
         {
             ResourceBag bag = new ResourceBag();
@@ -40,6 +40,16 @@ public class UI_UpgradeMenu : NetworkBehaviour
             Upgrade up = myBase.upgrades[0];
             button.setPrice(up);
 
+        }*/
+
+        UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
+        Debug.Log("Base: " + myBase.upgrades.Count);
+        Debug.Log("Menu: " + buttonList.Length);
+        for (int i = 0; i < buttonList.Length/2; i++)
+        {
+            buttonList[2*i].myBase = myBase; //I have no clue why I had to do this
+            Upgrade up = myBase.upgrades[i];
+            buttonList[2*i].setPrice(up);
         }
     }
 

@@ -10,6 +10,7 @@ public class UI_Purchase_Button : NetworkBehaviour
     public GameObject resourceLocation = null;
     public Button button = null;
     public Text text = null;
+    public Text title = null;
     private List<GameObject> resources = new List<GameObject>();
     public Upgrade up;
     public Base myBase;
@@ -72,7 +73,8 @@ public class UI_Purchase_Button : NetworkBehaviour
             obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
             resources.Add(obj);
         }
-
+        title.text = up.type + " Tier " + up.tier;
+        text.text = "Purchase";
         if (button)
         {
             button.onClick.AddListener(makePurchase);

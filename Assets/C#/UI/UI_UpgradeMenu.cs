@@ -29,14 +29,15 @@ public class UI_UpgradeMenu : NetworkBehaviour
 
     public void reset(int team)
     {
+        Base myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
         button = GetComponentInChildren<UI_Purchase_Button>();
         if (button)
         {
             ResourceBag bag = new ResourceBag();
             bag.addResource(ResourceName.STONE, 420);
             bag.addResource(ResourceName.GOLD, 69);
-            button.myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
-            Upgrade up = new Upgrade(UpgradeType.Gather, 1);
+            button.myBase = myBase;
+            Upgrade up = myBase.upgrades[0];
             button.setPrice(up);
 
         }

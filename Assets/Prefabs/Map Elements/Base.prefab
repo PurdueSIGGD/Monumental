@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5839922897463924583}
   - component: {fileID: 867914854}
   - component: {fileID: 6251367650383813413}
+  - component: {fileID: 6232767005266343645}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -157,8 +158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 0
-  m_AssetId: 
-  m_SceneId: 1038358271
+  m_AssetId: 8a25d0a0c86a2694ba3a619bcbada547
+  m_SceneId: 0
 --- !u!114 &867914854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +172,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08414d28e89cb048960adc9570f7076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   teamIndex: 0
+  baseStats: {fileID: 0}
+  mnm: {fileID: 0}
+  resPool: {fileID: 0}
 --- !u!114 &6251367650383813413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +192,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &6232767005266343645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8574624286796370991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489716d6473bf8a40a134baa7b82825a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: 100
+  movementSpeed: 10
+  interactionSpeed: 1
+  gatherAmount: 1
+  meleeDamage: 40
+  rangedDamage: 20
 --- !u!1001 &6109349212634715740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -193,11 +219,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8574624286796370989}
     m_Modifications:
-    - target: {fileID: 4863947876683393520, guid: 3cfee02fde428ea47a44eb13a88e5525,
+    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
-      propertyPath: m_Name
-      value: TeleportTile
-      objectReference: {fileID: 0}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 3866623020983565409}
     - target: {fileID: 5157618414176439205, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -263,11 +289,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
+    - target: {fileID: 4863947876683393520, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
-      propertyPath: destination
-      value: 
-      objectReference: {fileID: 3866623020983565409}
+      propertyPath: m_Name
+      value: TeleportTile
+      objectReference: {fileID: 0}
     - target: {fileID: 6994844986764800239, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_AssetId
@@ -300,11 +326,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8574624286796370989}
     m_Modifications:
-    - target: {fileID: 4863947876683393520, guid: 3cfee02fde428ea47a44eb13a88e5525,
+    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
-      propertyPath: m_Name
-      value: TeleportTile (1)
-      objectReference: {fileID: 0}
+      propertyPath: destination
+      value: 
+      objectReference: {fileID: 832004442242669961}
     - target: {fileID: 5157618414176439205, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -370,11 +396,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6864360067144895445, guid: 3cfee02fde428ea47a44eb13a88e5525,
+    - target: {fileID: 4863947876683393520, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
-      propertyPath: destination
-      value: 
-      objectReference: {fileID: 832004442242669961}
+      propertyPath: m_Name
+      value: TeleportTile (1)
+      objectReference: {fileID: 0}
     - target: {fileID: 6994844986764800239, guid: 3cfee02fde428ea47a44eb13a88e5525,
         type: 3}
       propertyPath: m_AssetId

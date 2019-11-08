@@ -21,6 +21,7 @@ public class Base : NetworkBehaviour
         resPool = GetComponent<ResourceBag>();
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
+        mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
         for (int i = 0; i < tels.Length; i++)
         {
             tels[i].teamIndex = teamIndex;

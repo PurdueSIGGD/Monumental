@@ -6,6 +6,7 @@ using Mirror;
 public class MonumentalNetworkManager : NetworkManager
 {
     public int[] teamSizes;
+    public List<GameObject> baseList = new List<GameObject>();
     public List<GameObject> playerList = new List<GameObject>();
     public GameObject[] teamSpawns;
 

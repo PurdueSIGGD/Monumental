@@ -87,6 +87,7 @@ public class UI_Control : NetworkBehaviour
         else
         {
             upgradeMenu = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
+            upgradeMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
         }
     }
 

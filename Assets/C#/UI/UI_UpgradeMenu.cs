@@ -24,7 +24,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
             button.setPrice(bag);
             
         }*/
-        reset(0);
+        //reset(0);
     }
 
     public void reset(int team)
@@ -43,8 +43,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
         }*/
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
-        Debug.Log("Base: " + myBase.upgrades.Count);
-        Debug.Log("Menu: " + buttonList.Length);
+        Debug.Log("Base: " + myBase.teamIndex);
         for (int i = 0; i < buttonList.Length/2; i++)
         {
             buttonList[2*i].myBase = myBase; //I have no clue why I had to do this

@@ -59,8 +59,11 @@ MonoBehaviour:
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 1
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 8838364213396366694, guid: a82fbfe7d495a9d48adba713c01bf5fa, type: 3}
   teamSizes: 
+  playerList: []
+  teamSpawns: []
 --- !u!114 &3332515564920581979
 MonoBehaviour:
   m_ObjectHideFlags: 0

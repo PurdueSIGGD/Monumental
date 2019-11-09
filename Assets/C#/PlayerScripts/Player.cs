@@ -19,11 +19,18 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
+
+	[SyncVar]
     public int health = 100;
+    public GameObject projectile;
+	private HitDetection hitDetect;
+	private ShootingProjectiles shootingProjectile;
 
     // Start is called before the first frame update
     void Start()
     {
+		hitDetect = GetComponentInChildren<HitDetection>();
+		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         resources = gameObject.AddComponent<ResourceBag>();
@@ -41,17 +48,22 @@ public class Player : NetworkBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isLocalPlayer) return;
+	// Update is called once per frame
+	void Update()
+	{
+		if (!isLocalPlayer) return;
 
-        float dx = Input.GetAxis("Horizontal");
-        float dy = Input.GetAxis("Vertical");
-        body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-    }
+		float dx = Input.GetAxis("Horizontal");
+		float dy = Input.GetAxis("Vertical");
+		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
+		if (Input.GetMouseButtonDown(0))
+		{
+			hitDetect.clicked = true;
+			shootingProjectile.clicked = true;
+		}
+	}
 
-    void LateUpdate()
+		void LateUpdate()
     {
         healthbar.value = health / (float)stats.health;
     }
@@ -61,7 +73,8 @@ public class Player : NetworkBehaviour
         health = val;
         if (health <= 0)
         {
-            Destroy(gameObject);
+			Debug.Log(gameObject.name + " is dead");
+			health = 100;
         }
     }
 

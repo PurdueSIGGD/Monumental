@@ -25,6 +25,7 @@ public class Player : NetworkBehaviour
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
+    private float timeOfLastClick;
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +37,11 @@ public class Player : NetworkBehaviour
         resources = gameObject.AddComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
+        timeOfLastClick = Time.time;
 
         if (isLocalPlayer)
         {
+            hitDetect.isTheLocalPlayer = true;
             UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
@@ -56,8 +59,9 @@ public class Player : NetworkBehaviour
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
 		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButton(0) && timeOfLastClick + stats.interactionSpeed < Time.time)
 		{
+            timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}

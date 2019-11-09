@@ -31,9 +31,10 @@ public class ShootingProjectiles : NetworkBehaviour
 	void Update()
     {
 		if (!isLocalPlayer) return;
-		if (Input.GetMouseButtonDown(0) && canShoot)
+		if (clicked && canShoot)
 		{
             CmdSpawnProjectile();
+            clicked = false;
 		}
     }
 

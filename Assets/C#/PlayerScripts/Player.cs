@@ -9,6 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
+    [SyncVar]
     public int health;
     private Rigidbody2D body;
     private UI_Control uiControl;
@@ -21,8 +22,6 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
-	[SyncVar]
-    public int health = 100;
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
@@ -35,7 +34,7 @@ public class Player : NetworkBehaviour
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         health = stats.health;
-        resources = gameObject.AddComponent<ResourceBag>();
+        resources = gameObject.GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
         spawn = transform.position;

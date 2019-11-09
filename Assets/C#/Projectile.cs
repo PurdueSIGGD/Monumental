@@ -23,7 +23,7 @@ public class Projectile : NetworkBehaviour
 			if (collision.gameObject.GetComponent<Player>() != null &&
 				collision.gameObject.GetComponent<Player>().teamIndex != teamIndex)   //if the collision is with someone from a different team deal damage
 			{
-				collision.gameObject.GetComponent<Player>().takeDamage(damage);
+				collision.gameObject.GetComponent<Player>().takeDamage(damage, parentGameobject.GetComponent<Player>());
 			}
             DestroyThis();
 		}

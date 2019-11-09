@@ -12,6 +12,7 @@ public class Player : NetworkBehaviour
     private Rigidbody2D body;
     private UI_Control uiControl;
     private Slider healthbar;
+    public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
@@ -87,9 +88,20 @@ public class Player : NetworkBehaviour
         teamIndex = team;
     }
 
+    public void SetNetManager(MonumentalNetworkManager m)
+    {
+        mnm = m;
+    }
+
 	//decreases health and destroys gameobject if health reaches 0
 	public void takeDamage(int damage)
 	{
         setHealth(health - damage);
 	}
+
+    [Server]
+    public void takeDamageServer(int damage)
+    {
+        takeDamage(damage);
+    }
 }

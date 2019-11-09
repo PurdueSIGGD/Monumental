@@ -25,8 +25,9 @@ public class HitDetection : NetworkBehaviour
 			if ((other = collision.gameObject.GetComponent<Player>()) != null &&
 				other.teamIndex != me.teamIndex)	//if the collision is with someone from a different team
 			{
-				//deal damage
-				CmdDamageThem(other);
+                //deal damage
+                int target = me.mnm.playerList.IndexOf(other.gameObject);
+				CmdDamageThem(target);
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)											//if the collision is with a resource
 			{
@@ -39,15 +40,15 @@ public class HitDetection : NetworkBehaviour
 	}
 
     [Command]
-    void CmdDamageThem(Player them)
+    void CmdDamageThem(int target)
     {
-        RpcDamageThem(them);
+        me.mnm.playerList[target].GetComponent<Player>().takeDamageServer(me.stats.meleeDamage);
     }
 
-    [ClientRpc]
-    void RpcDamageThem(Player them)
+    [TargetRpc]
+    void TargetRpcDamageThem(int target)
     {
-        them.takeDamage(me.stats.meleeDamage);
+       
     }
 
 	private void OnTriggerEnter2D(Collider2D collision)

@@ -37,6 +37,7 @@ public class MonumentalNetworkManager : NetworkManager
             ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
             : Instantiate(playerPrefab);
         player.GetComponent<Player>().SetTeam(team);
+        player.GetComponent<Player>().SetNetManager(this);
         playerList.Add(player);
         teamSizes[team]++;
         NetworkServer.AddPlayerForConnection(conn, player);

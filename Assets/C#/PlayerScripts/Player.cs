@@ -10,8 +10,6 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     public int health;
-    float lastAttack = 0f;
-    float attackSpeed = 0f;
     private Rigidbody2D body;
     private UI_Control uiControl;
     private Slider healthbar;
@@ -19,6 +17,7 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    private Vector2 spawn;
 
     [SyncVar]
     public int teamIndex = -1;
@@ -28,12 +27,11 @@ public class Player : NetworkBehaviour
     {
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        spawnPos = body.position;
         health = stats.health;
-        attackSpeed = stats.interactionSpeed;
         resources = gameObject.AddComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
+        spawn = transform.position;
 
         if (isLocalPlayer)
         {
@@ -61,29 +59,6 @@ public class Player : NetworkBehaviour
         return Vector3.Distance(transform.position, there.transform.position);
     }
 
-    //Checks if the player can attack, and if it does, it causes the other player to take damage of this players attack value
-    public void attack(Player target, bool ranged)
-    {
-        int attackDamage;
-        float attackRange;
-        if (ranged)
-        {
-            attackDamage = stats.rangedDamage;
-            attackRange = rangedRange;
-        }
-        else
-        {
-            attackDamage = stats.meleeDamage;
-            attackRange = meleeRange;
-        }
-        if (Time.time >= lastAttack + 1 / attackSpeed && calculateDistance(target) <= attackRange)
-        {
-
-            target.takeDamage(attackDamage, this);
-            lastAttack = Time.time;
-        }
-    }
-
     //player takes damage of amount damage from player attacker
     public void takeDamage(int damage, Player attacker)
     {
@@ -99,7 +74,7 @@ public class Player : NetworkBehaviour
     public void respawn()
     {
         health = stats.health;
-        body.position = spawnPos;
+        transform.position = spawn;
     }
 
     void LateUpdate()
@@ -127,10 +102,6 @@ public class Player : NetworkBehaviour
     {
         ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
         ResourceBag myBag = this.GetComponent<ResourceBag>();
-        foreach (Resource r in myBag.getBag())
-        {
-            otherBag.addResource(r.getType(), myBag.getAmount(r));
-            myBag.removeResource(r.getType());
-        }
+        otherBag.addBag(myBag.dumpResources());
     }
 }

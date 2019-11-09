@@ -22,7 +22,7 @@ public class HitDetection : MonoBehaviour
 				Player me = transform.root.GetComponent<Player>();
 
 				//deal damage
-				other.takeDamage(me.stats.meleeDamage);
+				other.takeDamage(me.stats.meleeDamage, this.GetComponentInParent<Player>());
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)											//if the collision is with a resource
 			{

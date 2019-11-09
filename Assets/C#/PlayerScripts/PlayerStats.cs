@@ -16,5 +16,7 @@ public class PlayerStats : NetworkBehaviour
     [SyncVar]
     public int meleeDamage = 40;
     [SyncVar]
-    public int rangedDamage = 20;
+    public int rangedDamage = 5;
+	  [SyncVar]
+	  public int projectileSpeed = 1000;
 }

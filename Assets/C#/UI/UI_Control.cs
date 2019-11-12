@@ -48,6 +48,11 @@ public class UI_Control : NetworkBehaviour
         {
             updateHealth();
             updateResources();
+            if (!player.isInBase && upgradeMenu)
+            {
+                Destroy(upgradeMenu);
+                upgradeMenu = null;
+            }
         }
         /* Toggle upgrade menu */
         if (Input.GetKeyDown(KeyCode.E))
@@ -79,16 +84,19 @@ public class UI_Control : NetworkBehaviour
 
     void onUpgradeButton()
     {
-        if (upgradeMenu)
+        if (player.isInBase)
         {
-            Destroy(upgradeMenu);
-            upgradeMenu = null;
-        }
-        else
-        {
-            upgradeMenu = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
-            Debug.Log(player.teamIndex);
-            upgradeMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+            if (upgradeMenu)
+            {
+                Destroy(upgradeMenu);
+                upgradeMenu = null;
+            }
+            else
+            {
+                upgradeMenu = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
+                Debug.Log(player.teamIndex);
+                upgradeMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+            }
         }
     }
 

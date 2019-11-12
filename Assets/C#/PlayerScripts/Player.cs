@@ -16,6 +16,7 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public bool isInBase = false;
 
     [SyncVar]
     public int teamIndex = -1;

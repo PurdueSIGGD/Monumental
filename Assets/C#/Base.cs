@@ -68,6 +68,7 @@ public class Base : NetworkBehaviour
             Player p = col.gameObject.GetComponent<Player>();
             if(p.teamIndex == teamIndex)
             {
+                p.isInBase = true;
                 //Heal player to full
                 col.gameObject.GetComponent<Player>().health = col.gameObject.GetComponent<PlayerStats>().health;
 
@@ -85,4 +86,14 @@ public class Base : NetworkBehaviour
             }
         }
     }
+
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        Player player = col.gameObject.GetComponent<Player>();
+        if (player)
+        {
+            player.isInBase = false;
+        }
+    }
+
 }

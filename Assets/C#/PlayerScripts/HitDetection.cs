@@ -26,10 +26,9 @@ public class HitDetection : NetworkBehaviour
 				other.teamIndex != me.teamIndex)	//if the collision is with someone from a different team
 			{
                 //deal damage
-                int target = me.mnm.playerList.IndexOf(other.gameObject);
-				CmdDamageThem(target);
+				shooting.CmdDamageThem(other.positionInPlayerList);
 
-			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)											//if the collision is with a resource
+			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)   //if the collision is with a resource
 			{
 				//gather resource and add it to this player's resource bag
 				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
@@ -38,18 +37,6 @@ public class HitDetection : NetworkBehaviour
 			clicked = false;
 		}
 	}
-
-    [Command]
-    void CmdDamageThem(int target)
-    {
-        me.mnm.playerList[target].GetComponent<Player>().takeDamageServer(me.stats.meleeDamage);
-    }
-
-    [TargetRpc]
-    void TargetRpcDamageThem(int target)
-    {
-       
-    }
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{

@@ -20,8 +20,10 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
+    [SyncVar]
+    public int positionInPlayerList = -1;
 
-	[SyncVar]
+    [SyncVar]
     public int health = 100;
     public GameObject projectile;
 	private HitDetection hitDetect;
@@ -93,15 +95,14 @@ public class Player : NetworkBehaviour
         mnm = m;
     }
 
+    public void SetPositionInPlayerList(int p)
+    {
+        positionInPlayerList = p;
+    }
+
 	//decreases health and destroys gameobject if health reaches 0
 	public void takeDamage(int damage)
 	{
         setHealth(health - damage);
 	}
-
-    [Server]
-    public void takeDamageServer(int damage)
-    {
-        takeDamage(damage);
-    }
 }

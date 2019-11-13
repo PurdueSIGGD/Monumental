@@ -39,6 +39,7 @@ public class MonumentalNetworkManager : NetworkManager
         player.GetComponent<Player>().SetTeam(team);
         player.GetComponent<Player>().SetNetManager(this);
         playerList.Add(player);
+        player.GetComponent<Player>().SetPositionInPlayerList(playerList.IndexOf(player));
         teamSizes[team]++;
         NetworkServer.AddPlayerForConnection(conn, player);
     }

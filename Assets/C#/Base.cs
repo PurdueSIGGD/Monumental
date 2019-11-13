@@ -26,13 +26,13 @@ public class Base : NetworkBehaviour
         {
             tels[i].teamIndex = teamIndex;
         }
-        for (int i = 1; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            upgrades.Add(new Upgrade(UpgradeType.Health, i));
+            upgrades.Add(new Upgrade(UpgradeType.Health, i+1));
         }
-        for (int i = 1; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            upgrades.Add(new Upgrade(UpgradeType.Gather, i));
+            upgrades.Add(new Upgrade(UpgradeType.Gather, i+1));
         }
     }
 
@@ -56,7 +56,9 @@ public class Base : NetworkBehaviour
         {
             if(player.GetComponent<Player>().teamIndex == teamIndex)
             {
-                player.GetComponent<PlayerStats>().updateStats(baseStats);
+                PlayerStats pStat = player.GetComponent<PlayerStats>();
+                pStat.updateStats(baseStats);
+                player.GetComponent<Player>().health = pStat.health;
             }
         }
     }

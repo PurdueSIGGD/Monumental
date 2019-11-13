@@ -16,6 +16,7 @@ public class UI_Control : NetworkBehaviour
     private GameObject upgradeMenu = null;
 
     public Player player = null;
+    public Base myBase;
 
     void Start()
     {
@@ -32,6 +33,8 @@ public class UI_Control : NetworkBehaviour
             Text team_text = clone.GetComponent<Text>();
             resource_team_texts.Add(team_text);
             team_text.color = new Color(0,1,0);
+
+            
 
         }
 
@@ -72,12 +75,14 @@ public class UI_Control : NetworkBehaviour
 
         for (int i = 0; i < resource_texts.Count; i++)
         {
-            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
+            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)(i+1));
         }
-
+        if (myBase == null) {
+            myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[player.teamIndex].GetComponent<Base>();
+        }
         for (int i = 0; i < resource_team_texts.Count; i++)
         {
-            resource_team_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
+            resource_team_texts[i].text = "" + myBase.resPool.getAmount((ResourceName)(i+1));
         }
 
     }

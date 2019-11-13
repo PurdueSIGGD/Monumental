@@ -44,11 +44,11 @@ public class UI_UpgradeMenu : NetworkBehaviour
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
         Debug.Log("Base: " + myBase.teamIndex);
-        for (int i = 0; i < buttonList.Length/2; i++)
+        for (int i = 0; i < buttonList.Length; i++)
         {
-            buttonList[2*i].myBase = myBase; //I have no clue why I had to do this
+            buttonList[i].myBase = myBase; //I have no clue why I had to do this
             Upgrade up = myBase.upgrades[i];
-            buttonList[2*i].setPrice(up);
+            buttonList[i].setPrice(up);
         }
     }
 

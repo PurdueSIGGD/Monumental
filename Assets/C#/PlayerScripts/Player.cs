@@ -27,7 +27,7 @@ public class Player : NetworkBehaviour
     {
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        resources = gameObject.AddComponent<ResourceBag>();
+        resources = gameObject.GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
 

@@ -58,16 +58,4 @@ public class ShootingProjectiles : NetworkBehaviour
         newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;
         //coolDown = Time.time + attackSpeed;
     }
-
-    [Command]
-    public void CmdDamageThem(int target)
-    {
-        RpcDamageThem(target);
-    }
-
-    [ClientRpc]
-    void RpcDamageThem(int target)
-    {
-        this.GetComponent<Player>().mnm.playerList[target].GetComponent<Player>().takeDamage(stats.meleeDamage);
-    }
 }

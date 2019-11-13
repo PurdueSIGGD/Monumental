@@ -10,6 +10,8 @@ public class HitDetection : NetworkBehaviour
     public bool isTheLocalPlayer = false;
     private ShootingProjectiles shooting;
     private Player me;
+    [SerializeField]
+    private BoxCollider2D hitbox;
 
     void Start()
     {
@@ -18,7 +20,15 @@ public class HitDetection : NetworkBehaviour
     }
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if (!isTheLocalPlayer) return;
+        if (!isTheLocalPlayer)
+        {
+            if(hitbox != null) hitbox.enabled = false;
+            return;
+        }
+        else
+        {
+            if(hitbox != null) hitbox.enabled = true;
+        }
 		if (clicked)
 		{
             Player other;
@@ -26,7 +36,7 @@ public class HitDetection : NetworkBehaviour
 				other.teamIndex != me.teamIndex)	//if the collision is with someone from a different team
 			{
                 //deal damage
-				shooting.CmdDamageThem(other.positionInPlayerList);
+				me.CmdDamageThem(other.positionInPlayerList, me.stats.meleeDamage);
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)   //if the collision is with a resource
 			{
@@ -40,14 +50,20 @@ public class HitDetection : NetworkBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		clicked = false;
-        shooting.cannotShoot();
-        shooting.clicked = false;
+        if (isTheLocalPlayer)
+        {
+            clicked = false;
+            shooting.cannotShoot();
+            shooting.clicked = false;
+        }
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		shooting.canShootNow();
-        shooting.clicked = false;
+        if (isTheLocalPlayer)
+        {
+            shooting.canShootNow();
+            shooting.clicked = false;
+        }
 	}
 }

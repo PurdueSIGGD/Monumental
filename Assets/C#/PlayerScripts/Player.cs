@@ -104,5 +104,17 @@ public class Player : NetworkBehaviour
 	public void takeDamage(int damage)
 	{
         setHealth(health - damage);
-	}
+    }
+
+    [Command]
+    public void CmdDamageThem(int target, int damage)
+    {
+        RpcDamageThem(target, damage);
+    }
+
+    [ClientRpc]
+    void RpcDamageThem(int target, int damage)
+    {
+        mnm.playerList[target].GetComponent<Player>().takeDamage(damage);
+    }
 }

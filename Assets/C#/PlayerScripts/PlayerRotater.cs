@@ -5,7 +5,7 @@ using Mirror;
 
 public class PlayerRotater : NetworkBehaviour
 {
-     void Update()
+     void FixedUpdate()
     {
 		if (!isLocalPlayer) return;
 		//rotate the hitbox to point in the direction of the mouse

@@ -182,6 +182,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clicked: 0
+  isTheLocalPlayer: 0
+  hitbox: {fileID: 661174896025452460}
 --- !u!61 &661174896025452460
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -423,9 +425,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  mnm: {fileID: 0}
   stats: {fileID: 0}
   resources: {fileID: 0}
   teamIndex: -1
+  positionInPlayerList: -1
   health: 100
   projectile: {fileID: 8838364213396366694, guid: a82fbfe7d495a9d48adba713c01bf5fa,
     type: 3}

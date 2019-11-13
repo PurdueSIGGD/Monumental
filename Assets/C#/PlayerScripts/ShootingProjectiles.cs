@@ -7,6 +7,7 @@ public class ShootingProjectiles : NetworkBehaviour
 {
 	private bool canShoot = true; //is true if player's hitbox isn't hitting a resource or enemy player
 	private Rigidbody2D projectilePrefab;
+    private Rigidbody2D playerBody;
 	private PlayerStats stats;
 	public float yValue; // Used to make it look like it's shot from the gun itself (offset)
 	public float xValue; // Same as above
@@ -26,28 +27,31 @@ public class ShootingProjectiles : NetworkBehaviour
 	{
 		projectilePrefab = gameObject.GetComponent<Player>().projectile.GetComponent<Rigidbody2D>();
 		stats = gameObject.GetComponent<PlayerStats>();
+        playerBody = gameObject.GetComponent<Rigidbody2D>();
 	}
 
-	void Update()
+	void FixedUpdate()
     {
 		if (!isLocalPlayer) return;
-		if (Input.GetMouseButtonDown(0) && canShoot)
+		if (clicked && canShoot)
 		{
-            CmdSpawnProjectile();
+            CmdSpawnProjectile(playerBody.velocity);
+            clicked = false;
 		}
     }
 
     [Command]
-    void CmdSpawnProjectile()
+    void CmdSpawnProjectile(Vector2 vel)
     {
-        RpcSpawnProjectile();
+        RpcSpawnProjectile(vel);
     }
 
     [ClientRpc]
-    void RpcSpawnProjectile()
+    void RpcSpawnProjectile(Vector2 vel)
     {
         Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
         Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
+        newProjectile.AddForce(vel, ForceMode2D.Impulse);
         newProjectile.AddForce(transform.right * stats.projectileSpeed);
         newProjectileProperties.parentGameobject = gameObject;
         newProjectileProperties.damage = stats.rangedDamage;

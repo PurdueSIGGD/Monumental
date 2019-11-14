@@ -7,45 +7,63 @@ public class HitDetection : NetworkBehaviour
 {
 	public Collision2D other;
 	public bool clicked;
+    public bool isTheLocalPlayer = false;
+    private ShootingProjectiles shooting;
+    private Player me;
+    [SerializeField]
+    private BoxCollider2D hitbox;
+
+    void Start()
+    {
+        me = this.GetComponentInParent<Player>();
+        shooting = this.GetComponentInParent<ShootingProjectiles>();
+    }
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		if (!GetComponentInParent<Player>().isLocalPlayer) return;
+        if (!isTheLocalPlayer)
+        {
+            if(hitbox != null) hitbox.enabled = false;
+            return;
+        }
+        else
+        {
+            if(hitbox != null) hitbox.enabled = true;
+        }
 		if (clicked)
 		{
-			if (collision.gameObject.GetComponent<Player>() != null &&
-				collision.gameObject.GetComponent<Player>().teamIndex != transform.root.GetComponent<Player>().teamIndex)	//if the collision is with someone from a different team
+            Player other;
+			if ((other = collision.gameObject.GetComponent<Player>()) != null &&
+				other.teamIndex != me.teamIndex)	//if the collision is with someone from a different team
 			{
-				Player other = collision.gameObject.GetComponent<Player>();
-				Player me = transform.root.GetComponent<Player>();
-				transform.root.GetComponent<ShootingProjectiles>().cannotShoot();
+                //deal damage
+				me.CmdDamageThem(other.positionInPlayerList, me.positionInPlayerList, me.stats.meleeDamage);
 
-				//deal damage
-				other.takeDamage(me.stats.meleeDamage, this.GetComponentInParent<Player>());
-
-			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)											//if the collision is with a resource
+			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)   //if the collision is with a resource
 			{
 				//gather resource and add it to this player's resource bag
-				transform.root.GetComponent<ShootingProjectiles>().cannotShoot();
-				ResourceBag bag = transform.root.GetComponent<ResourceBag>();
 				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
-				bag.addResource(resource.type, resource.gather().getAmount());
-			} else
-			{
-				//invalid hitbox
-				//do nothing
+				me.resources.addResource(resource.type, resource.gather().getAmount());
 			}
-
 			clicked = false;
 		}
 	}
 
-	private void OnTriggerEnter2D(Collider2D other)
+	private void OnTriggerEnter2D(Collider2D collision)
 	{
-		clicked = false;
+        if (isTheLocalPlayer)
+        {
+            clicked = false;
+            shooting.cannotShoot();
+            shooting.clicked = false;
+        }
 	}
 
 	private void OnTriggerExit2D(Collider2D collision)
 	{
-		transform.root.GetComponent<ShootingProjectiles>().canShootNow();
+        if (isTheLocalPlayer)
+        {
+            shooting.canShootNow();
+            shooting.clicked = false;
+        }
 	}
 }

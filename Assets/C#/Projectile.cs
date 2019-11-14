@@ -18,6 +18,7 @@ public class Projectile : NetworkBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
+        if (collision.isTrigger) { return; }
 		if (collision.transform.root.gameObject != parentGameobject) //don't destroy on the player that shot it
 		{ 
 			if (collision.gameObject.GetComponent<Player>() != null &&

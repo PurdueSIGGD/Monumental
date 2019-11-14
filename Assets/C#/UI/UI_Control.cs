@@ -67,12 +67,12 @@ public class UI_Control : NetworkBehaviour
 
         for (int i = 0; i < resource_texts.Count; i++)
         {
-            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
+            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)(i+1));
         }
 
         for (int i = 0; i < resource_team_texts.Count; i++)
         {
-            resource_team_texts[i].text = "" + player.resources.getAmount((ResourceName)i);
+            resource_team_texts[i].text = "" + player.resources.getAmount((ResourceName)(i+1));
         }
 
     }

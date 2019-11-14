@@ -14,6 +14,7 @@ public class Player : NetworkBehaviour
     private Rigidbody2D body;
     private UI_Control uiControl;
     private Slider healthbar;
+    public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
@@ -22,9 +23,15 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
+    [SyncVar]
+    public int positionInPlayerList = -1;
+
+    [SyncVar]
+    public int health = 100;
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
+    private float timeOfLastClick;
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +45,11 @@ public class Player : NetworkBehaviour
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
         spawn = transform.position;
+        timeOfLastClick = Time.time;
 
         if (isLocalPlayer)
         {
+            hitDetect.isTheLocalPlayer = true;
             UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
@@ -50,15 +59,16 @@ public class Player : NetworkBehaviour
     }
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
 		if (!isLocalPlayer) return;
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
 		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButton(0) && timeOfLastClick + stats.interactionSpeed < Time.time)
 		{
+            timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
@@ -71,12 +81,12 @@ public class Player : NetworkBehaviour
     }
 
     //player takes damage of amount damage from player attacker
-    public void takeDamage(int damage, Player attacker)
+    public void takeDamage(int damage, int attacker)
     {
         health -= damage;
         if (health <= 0)
         {
-            resourceTransfer(attacker);
+            resourceTransfer(mnm.playerList[attacker]);
             respawn();
         }
     }
@@ -109,11 +119,25 @@ public class Player : NetworkBehaviour
         teamIndex = team;
     }
 
-    //transfers resources from this players bag to the other players bag
-    public void resourceTransfer(Player attacker)
+    public void SetNetManager(MonumentalNetworkManager m)
     {
-        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
-        ResourceBag myBag = this.GetComponent<ResourceBag>();
-        otherBag.addBag(myBag.dumpResources());
+        mnm = m;
+    }
+
+    public void SetPositionInPlayerList(int p)
+    {
+        positionInPlayerList = p;
+    }
+
+    [Command]
+    public void CmdDamageThem(int target, int source, int damage)
+    {
+        RpcDamageThem(target, source, damage);
+    }
+
+    [ClientRpc]
+    void RpcDamageThem(int target, int source, int damage)
+    {
+        mnm.playerList[target].GetComponent<Player>().takeDamage(damage, source);
     }
 }

@@ -9,10 +9,13 @@ public class Base : NetworkBehaviour
     public int teamIndex;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
+    private float lastPurchase;
+    private float cooldown = 1;
     
     [HideInInspector]
     public ResourceBag resPool;
     public SyncListUpgrade upgrades;
+    public SyncListInt upgradeLevels;
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
     void Start()
@@ -29,21 +32,27 @@ public class Base : NetworkBehaviour
         for (int i = 0; i < 3; i++)
         {
             upgrades.Add(new Upgrade(UpgradeType.Health, i+1));
+            upgradeLevels.Add(1);
+
         }
         for (int i = 0; i < 3; i++)
         {
             upgrades.Add(new Upgrade(UpgradeType.Gather, i+1));
+            upgradeLevels.Add(1);
         }
     }
 
     public bool purchaseUpgrade(Upgrade up)
     {
-        if (resPool.checkBag(up.cost))
+        if (resPool.checkBag(up.cost) && (Time.time - lastPurchase) > cooldown)
         {
             resPool.removeBag(up.cost);
             up.UpdateStatsAndCost(baseStats);
             updateAllPlayerStats();
-
+            int upInd = upgrades.IndexOf(up);
+            upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
+            upgradeLevels.RemoveAt(upInd + 1);
+            lastPurchase = Time.time;
 
             return true;
         }

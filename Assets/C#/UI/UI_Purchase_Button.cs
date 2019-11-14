@@ -73,7 +73,7 @@ public class UI_Purchase_Button : NetworkBehaviour
             obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
             resources.Add(obj);
         }
-        title.text = up.type + " Tier " + up.tier;
+        title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
         text.text = "Purchase";
         if (button)
         {

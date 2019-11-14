@@ -36,7 +36,7 @@ public class HitDetection : NetworkBehaviour
 				other.teamIndex != me.teamIndex)	//if the collision is with someone from a different team
 			{
                 //deal damage
-				me.CmdDamageThem(other.positionInPlayerList, me.stats.meleeDamage);
+				me.CmdDamageThem(other.positionInPlayerList, me.positionInPlayerList, me.stats.meleeDamage);
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)   //if the collision is with a resource
 			{

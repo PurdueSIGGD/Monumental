@@ -56,6 +56,7 @@ public class ShootingProjectiles : NetworkBehaviour
         newProjectileProperties.parentGameobject = gameObject;
         newProjectileProperties.damage = stats.rangedDamage;
         newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;
+        newProjectileProperties.sourcePlayer = gameObject.GetComponent<Player>().positionInPlayerList;
         //coolDown = Time.time + attackSpeed;
     }
 }

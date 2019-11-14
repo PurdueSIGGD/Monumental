@@ -8,6 +8,7 @@ public class Projectile : NetworkBehaviour
 	public GameObject parentGameobject;
 	public int damage;
 	public int teamIndex;
+    public int sourcePlayer;
 	public float timer; //this object will be destroyed after this amount of time
 
 	private void Start()
@@ -24,7 +25,7 @@ public class Projectile : NetworkBehaviour
 			if (collision.gameObject.GetComponent<Player>() != null &&
 				collision.gameObject.GetComponent<Player>().teamIndex != teamIndex)   //if the collision is with someone from a different team deal damage
 			{
-				collision.gameObject.GetComponent<Player>().takeDamage(damage, parentGameobject.GetComponent<Player>());
+				collision.gameObject.GetComponent<Player>().takeDamage(damage, sourcePlayer);
 			}
             DestroyThis();
 		}

@@ -38,7 +38,7 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        health = stats.health;
+        health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
@@ -52,7 +52,7 @@ public class Player : NetworkBehaviour
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
-            health = stats.health;
+            health = stats.getHealth();
         }
     }
 
@@ -63,8 +63,8 @@ public class Player : NetworkBehaviour
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
-		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-		if (Input.GetMouseButton(0) && timeOfLastClick + stats.interactionSpeed < Time.time)
+		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed();
+		if (Input.GetMouseButton(0) && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
@@ -98,7 +98,7 @@ public class Player : NetworkBehaviour
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
     public void respawn()
     {
-        health = stats.health;
+        health = stats.getHealth();
         CmdRespawn();
     }
 
@@ -128,7 +128,7 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = health / (float)stats.health;
+        healthbar.value = health / (float)stats.getHealth();
     }
 
     public void setHealth(int val)

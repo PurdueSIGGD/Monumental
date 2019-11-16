@@ -59,7 +59,7 @@ public class UI_Control : NetworkBehaviour
 
     public void updateHealth()
     {
-        healthBar.text = player.health + "/" + player.stats.health;
+        healthBar.text = player.health + "/" + player.stats.getHealth();
     }
 
     public void updateResources()

@@ -37,7 +37,7 @@ public class HitDetection : NetworkBehaviour
 			{
                 //deal damage
                 Debug.Log(other.positionInPlayerList);
-				me.CmdDamageThem(other.positionInPlayerList, me.positionInPlayerList, me.stats.meleeDamage);
+				me.CmdDamageThem(other.positionInPlayerList, me.positionInPlayerList, me.stats.getMeleeDamage());
 
 			} else if (collision.gameObject.GetComponent<ResourceNode>() != null)   //if the collision is with a resource
 			{

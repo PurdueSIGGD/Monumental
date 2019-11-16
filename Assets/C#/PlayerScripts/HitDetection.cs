@@ -42,7 +42,7 @@ public class HitDetection : NetworkBehaviour
 			{
 				//gather resource and add it to this player's resource bag
 				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
-				me.resources.addResource(resource.type, resource.gather().getAmount());
+				me.resources.addResource(resource.gather(me.stats.gatherAmount));
 			}
 			clicked = false;
 		}

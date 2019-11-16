@@ -9,6 +9,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(ResourceBag))]
 public class Player : NetworkBehaviour
 {
+    [SyncVar]
+    public int health;
     private Rigidbody2D body;
     private UI_Control uiControl;
     private Slider healthbar;
@@ -17,14 +19,13 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    private Vector2 spawn;
 
     [SyncVar]
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
-
-    [SyncVar]
-    public int health = 100;
+    
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
@@ -37,9 +38,11 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        resources = gameObject.AddComponent<ResourceBag>();
+        health = stats.health;
+        resources = gameObject.GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
+        spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
 
         if (isLocalPlayer)
@@ -51,7 +54,6 @@ public class Player : NetworkBehaviour
             uiCamera.followTarget = this.gameObject;
             health = stats.health;
         }
-
     }
 
 	// Update is called once per frame
@@ -70,7 +72,49 @@ public class Player : NetworkBehaviour
 		}
 	}
 
-		void LateUpdate()
+    //calculates the difference between the current player and the other player
+    public float calculateDistance(Player there)
+    {
+        return Vector3.Distance(transform.position, there.transform.position);
+    }
+
+    //player takes damage of amount damage from player attacker
+    public void takeDamage(int damage, int attacker)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            resourceTransfer(mnm.playerList[attacker].GetComponent<Player>());
+            respawn();
+        }
+    }
+
+    public void resourceTransfer(Player attacker)
+    {
+        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
+        otherBag.addBag(resources.dumpResources());
+    }
+
+    //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
+    public void respawn()
+    {
+        health = stats.health;
+        CmdRespawn();
+    }
+
+    [Command]
+    private void CmdRespawn()
+    {
+        RpcRespawn();
+    }
+
+    [ClientRpc]
+    private void RpcRespawn()
+    {
+        transform.position = spawn;
+    }
+
+    void LateUpdate()
     {
         healthbar.value = health / (float)stats.health;
     }
@@ -85,6 +129,7 @@ public class Player : NetworkBehaviour
         }
     }
 
+    //Sets team the team to whatever the input is
     public void SetTeam(int team)
     {
         teamIndex = team;
@@ -100,21 +145,15 @@ public class Player : NetworkBehaviour
         positionInPlayerList = p;
     }
 
-	//decreases health and destroys gameobject if health reaches 0
-	public void takeDamage(int damage)
-	{
-        setHealth(health - damage);
-    }
-
     [Command]
-    public void CmdDamageThem(int target, int damage)
+    public void CmdDamageThem(int target, int source, int damage)
     {
-        RpcDamageThem(target, damage);
+        RpcDamageThem(target, source, damage);
     }
 
     [ClientRpc]
-    void RpcDamageThem(int target, int damage)
+    void RpcDamageThem(int target, int source, int damage)
     {
-        mnm.playerList[target].GetComponent<Player>().takeDamage(damage);
+        mnm.playerList[target].GetComponent<Player>().takeDamage(damage, source);
     }
 }

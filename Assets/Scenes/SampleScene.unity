@@ -305,12 +305,12 @@ PrefabInstance:
     - target: {fileID: 3150025084458172763, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_AssetId
-      value: 39d4754f30ae8194b974418de006320e
+      value: ec5a502523fd2774b963c699b6f149ac
       objectReference: {fileID: 0}
     - target: {fileID: 3150025084458172763, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_SceneId
-      value: 1286022379
+      value: 3658987464
       objectReference: {fileID: 0}
     - target: {fileID: 4268634761355399636, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
@@ -325,12 +325,12 @@ PrefabInstance:
     - target: {fileID: 5567749435276248382, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_SceneId
-      value: 372942132
+      value: 3047987629
       objectReference: {fileID: 0}
     - target: {fileID: 5567749435276248382, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_AssetId
-      value: 39d4754f30ae8194b974418de006320e
+      value: ec5a502523fd2774b963c699b6f149ac
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5a502523fd2774b963c699b6f149ac, type: 3}

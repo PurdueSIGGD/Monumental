@@ -39,7 +39,7 @@ public class Player : NetworkBehaviour
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         health = stats.health;
-        resources = gameObject.GetComponent<ResourceBag>();
+        resources = GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
@@ -84,15 +84,15 @@ public class Player : NetworkBehaviour
         health -= damage;
         if (health <= 0)
         {
-            resourceTransfer(mnm.playerList[attacker].GetComponent<Player>());
+            resourceTransfer(attacker);
             respawn();
         }
     }
 
-    public void resourceTransfer(Player attacker)
+    public void resourceTransfer(int attacker)
     {
-        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
-        otherBag.addBag(resources.dumpResources());
+        int[] takenRes = resources.dumpResourcesAsInt();
+        mnm.playerList[attacker].GetComponent<Player>().CmdTransferResources(attacker, takenRes);
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
@@ -112,6 +112,22 @@ public class Player : NetworkBehaviour
     private void RpcRespawn()
     {
         transform.position = spawn;
+    }
+
+    [Command]
+    public void CmdTransferResources(int attacker, int[] res)
+    {
+        print(res[0] + " " + res[1]);
+        RpcTransferResources(attacker, res);
+    }
+
+    [ClientRpc]
+    void RpcTransferResources(int attacker, int[] res)
+    {
+        if (attacker == positionInPlayerList)
+        {
+            resources.addBagAsInt(res);
+        }
     }
 
     void LateUpdate()

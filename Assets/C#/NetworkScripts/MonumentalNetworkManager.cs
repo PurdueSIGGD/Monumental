@@ -8,7 +8,7 @@ public class MonumentalNetworkManager : NetworkManager
     public int[] teamSizes;
     public List<GameObject> baseList = new List<GameObject>();
     public List<GameObject> playerList = new List<GameObject>();
-    public GameObject[] teamSpawns;
+    //public GameObject[] teamSpawns;
 
     public override void Start()
     {
@@ -22,7 +22,8 @@ public class MonumentalNetworkManager : NetworkManager
 
     public Transform GetStartPosition(int team)
     {
-        return teamSpawns[team].transform;
+        return baseList[team].GetComponentInChildren<NetworkStartPosition>().transform;
+        //return teamSpawns[team].transform;
     }
 
     public override void OnServerAddPlayer(NetworkConnection conn, AddPlayerMessage extraMessage)

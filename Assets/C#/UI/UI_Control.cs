@@ -6,8 +6,6 @@ using Mirror;
 
 public class UI_Control : NetworkBehaviour
 {
-
-    public Text healthBar = null;
     public Button shopButton = null;
     public Button swapButton = null;
     public GameObject upgradeMenu = null;
@@ -56,7 +54,6 @@ public class UI_Control : NetworkBehaviour
     {
         if (player)
         {
-            updateHealth();
             updateResources();
             if (!player.isInBase && currentMenu.activeInHierarchy)
             {
@@ -70,11 +67,6 @@ public class UI_Control : NetworkBehaviour
             onShopButton();
         }
 
-    }
-
-    public void updateHealth()
-    {
-        healthBar.text = player.health + "/" + player.stats.health;
     }
 
     public void updateResources()

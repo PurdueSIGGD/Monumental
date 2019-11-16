@@ -389,7 +389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1934150198811162921
 RectTransform:
   m_ObjectHideFlags: 0
@@ -959,11 +959,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Diamond
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1069,6 +1064,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Diamond
+      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227360, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_Sprite
@@ -1102,11 +1102,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Gold
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1212,6 +1207,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Gold
+      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227360, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_Sprite
@@ -1245,11 +1245,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Wood
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1355,6 +1350,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Wood
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39d4754f30ae8194b974418de006320e, type: 3}
 --- !u!114 &8831337354337766854 stripped
@@ -1382,11 +1382,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Stone
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1491,6 +1486,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Stone
       objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227360, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
@@ -1666,11 +1666,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Iron
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1776,6 +1771,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Iron
+      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227360, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_Sprite
@@ -1809,16 +1809,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150198620680687}
     m_Modifications:
-    - target: {fileID: 1382849577564041001, guid: 2264c751673b1d94b918301cd78adf86,
-        type: 3}
-      propertyPath: m_Name
-      value: MonumentMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1382849577564041001, guid: 2264c751673b1d94b918301cd78adf86,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8391859891934505181, guid: 2264c751673b1d94b918301cd78adf86,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1924,6 +1914,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1382849577564041001, guid: 2264c751673b1d94b918301cd78adf86,
+        type: 3}
+      propertyPath: m_Name
+      value: MonumentMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382849577564041001, guid: 2264c751673b1d94b918301cd78adf86,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 147565677524712503, guid: 2264c751673b1d94b918301cd78adf86,
         type: 3}
       propertyPath: m_AssetId
@@ -1950,11 +1950,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1934150199156601401}
     m_Modifications:
-    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
-        type: 3}
-      propertyPath: m_Name
-      value: Copper
-      objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227361, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2059,6 +2054,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942384396055227362, guid: 39d4754f30ae8194b974418de006320e,
+        type: 3}
+      propertyPath: m_Name
+      value: Copper
       objectReference: {fileID: 0}
     - target: {fileID: 6942384396055227360, guid: 39d4754f30ae8194b974418de006320e,
         type: 3}

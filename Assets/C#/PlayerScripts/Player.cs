@@ -19,6 +19,7 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public bool isInBase = false;
     private Vector2 spawn;
 
     [SyncVar]
@@ -41,7 +42,7 @@ public class Player : NetworkBehaviour
         health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
-        healthbar = GetComponentInChildren<Slider>();
+        healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
 
@@ -129,6 +130,7 @@ public class Player : NetworkBehaviour
     void LateUpdate()
     {
         healthbar.value = health / (float)stats.getHealth();
+        healthbar.transform.parent.position = this.transform.position;
     }
 
     public void setHealth(int val)

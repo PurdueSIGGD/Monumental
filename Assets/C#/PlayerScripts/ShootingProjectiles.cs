@@ -12,6 +12,7 @@ public class ShootingProjectiles : NetworkBehaviour
 	public float yValue; // Used to make it look like it's shot from the gun itself (offset)
 	public float xValue; // Same as above
 	public bool clicked;
+    public float projectileSpeed = 1000.0f;
 
 	public void cannotShoot()
 	{
@@ -52,7 +53,7 @@ public class ShootingProjectiles : NetworkBehaviour
         Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
         Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
         newProjectile.AddForce(vel, ForceMode2D.Impulse);
-        newProjectile.AddForce(transform.right * stats.projectileSpeed);
+        newProjectile.AddForce(transform.right * projectileSpeed);
         newProjectileProperties.parentGameobject = gameObject;
         newProjectileProperties.damage = stats.getRangedDamage();
         newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;

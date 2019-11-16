@@ -40,7 +40,7 @@ public class PlayerStats : NetworkBehaviour
     [SyncVar]
     public int baseMeleeDamage = 40;
     [SyncVar]
-    public int baseRangedDamage = 10;
+    public int baseRangedDamage = 20;
 	  [SyncVar]
 	  public int projectileSpeed = 1000;
 
@@ -96,5 +96,15 @@ public class PlayerStats : NetworkBehaviour
             return Mathf.CeilToInt(baseRangedDamage * ClassMods.grange);
         }
         return Mathf.CeilToInt(baseRangedDamage * ClassMods.frange);
+	}
+
+    public void updateStats(PlayerStats ps)
+    {
+        baseHealth = ps.baseHealth;
+		baseMovementSpeed = ps.baseMovementSpeed;
+		baseInteractionSpeed = ps.baseInteractionSpeed;
+		baseGatherAmount = ps.baseGatherAmount;
+		baseMeleeDamage = ps.baseMeleeDamage;
+		baseRangedDamage = ps.baseRangedDamage;
     }
 }

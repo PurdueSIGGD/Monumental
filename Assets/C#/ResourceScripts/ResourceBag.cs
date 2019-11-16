@@ -54,6 +54,14 @@ public class ResourceBag : NetworkBehaviour
         }
     }
 
+    public void addBagAsInt(int[] res)
+    {
+        for(int i = (int)(ResourceName.WOOD); i < (int)ResourceName.DIAMOND; i++)
+        {
+            addResource((ResourceName)i, res[i - 1]);
+        }
+    }
+
     //Gets the amount of resources from bag of type
     public int getAmount(ResourceName type)
     {
@@ -162,6 +170,16 @@ public class ResourceBag : NetworkBehaviour
             b.Add(removeResource(res.getType()));
         }
         return b;
+    }
+
+    public int[] dumpResourcesAsInt()
+    {
+        int[] ret = new int[6];
+        for(int i = (int)ResourceName.WOOD; i < (int)ResourceName.DIAMOND; i++)
+        {
+            ret[i-1] = removeResource((ResourceName)i).getAmount();
+        }
+        return ret;
     }
 
     //Checks the amount of resources from bag of type

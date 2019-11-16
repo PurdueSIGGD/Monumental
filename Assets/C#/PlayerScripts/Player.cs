@@ -39,7 +39,7 @@ public class Player : NetworkBehaviour
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         health = stats.health;
-        resources = gameObject.GetComponent<ResourceBag>();
+        resources = GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
@@ -84,15 +84,15 @@ public class Player : NetworkBehaviour
         health -= damage;
         if (health <= 0)
         {
-            resourceTransfer(mnm.playerList[attacker].GetComponent<Player>());
+            resourceTransfer(attacker);
             respawn();
         }
     }
 
-    public void resourceTransfer(Player attacker)
+    public void resourceTransfer(int attacker)
     {
-        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
-        otherBag.addBag(resources.dumpResources());
+        int[] takenRes = resources.dumpResourcesAsInt();
+        CmdTransferResources(attacker, takenRes);
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
@@ -112,6 +112,18 @@ public class Player : NetworkBehaviour
     private void RpcRespawn()
     {
         transform.position = spawn;
+    }
+
+    [Command]
+    public void CmdTransferResources(int attacker, int[] res)
+    {
+        mnm.playerList[attacker].GetComponent<Player>().RpcTransferResources(res);
+    }
+
+    [ClientRpc]
+    public void RpcTransferResources(int[] res)
+    {
+        resources.addBagAsInt(res);
     }
 
     void LateUpdate()
@@ -148,12 +160,12 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdDamageThem(int target, int source, int damage)
     {
-        RpcDamageThem(target, source, damage);
+        mnm.playerList[target].GetComponent<Player>().RpcDamageThem(source, damage);
     }
 
     [ClientRpc]
-    void RpcDamageThem(int target, int source, int damage)
+    void RpcDamageThem(int source, int damage)
     {
-        mnm.playerList[target].GetComponent<Player>().takeDamage(damage, source);
+        takeDamage(damage, source);
     }
 }

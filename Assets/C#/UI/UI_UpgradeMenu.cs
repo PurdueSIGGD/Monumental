@@ -7,9 +7,18 @@ using Mirror;
 public class UI_UpgradeMenu : NetworkBehaviour
 {
 
-    UI_Purchase_Button button = null;
     [HideInInspector]
+    private bool skip_first_enable = true;
     //public int teamIndex;
+
+    private void OnEnable()
+    {
+        if (skip_first_enable)
+        {
+            skip_first_enable = false;
+            this.gameObject.SetActive(false);
+        }
+    }
 
     void Start()
     {
@@ -46,7 +55,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
         Debug.Log("Base: " + myBase.teamIndex);
         for (int i = 0; i < buttonList.Length; i++)
         {
-            buttonList[i].myBase = myBase; //I have no clue why I had to do this
+            buttonList[i].myBase = myBase;
             Upgrade up = myBase.upgrades[i];
             buttonList[i].setPrice(up);
         }

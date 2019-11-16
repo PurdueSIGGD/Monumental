@@ -35,9 +35,9 @@ public class UI_Purchase_Button : NetworkBehaviour
         {
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
-            obj.transform.position += new Vector3(60 * i, 0, 0);
             obj.GetComponentInChildren<Text>().text = "" + rsc[i].getAmount();
             obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
+            obj.transform.position += new Vector3(60 * i, 0, 0);
             resources.Add(obj);
         }
 
@@ -68,9 +68,10 @@ public class UI_Purchase_Button : NetworkBehaviour
         {
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
-            obj.transform.position += new Vector3(60 * i, 0, 0);
             obj.GetComponentInChildren<Text>().text = "" + rsc[i].getAmount();
             obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
+            float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
+            obj.transform.position += new Vector3(offset * i, 0, 0);
             resources.Add(obj);
         }
         title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];

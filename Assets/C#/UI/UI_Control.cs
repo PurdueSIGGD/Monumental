@@ -8,18 +8,22 @@ public class UI_Control : NetworkBehaviour
 {
 
     public Text healthBar = null;
-    public Button upgradeButton = null;
+    public Button shopButton = null;
+    public Button swapButton = null;
+    public GameObject upgradeMenu = null;
+    public GameObject monumentMenu = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
-    private GameObject upgradeMenu = null;
+    private GameObject currentMenu = null;
 
     public Player player = null;
-    public Base myBase;
+    public Base myBase = null;
 
     void Start()
     {
+        currentMenu = upgradeMenu;
         for (int i = 0; i < resource_texts.Count; i++)
         {
             GameObject obj = resource_texts[i].gameObject;
@@ -34,13 +38,16 @@ public class UI_Control : NetworkBehaviour
             resource_team_texts.Add(team_text);
             team_text.color = new Color(0,1,0);
 
-            
-
         }
 
-        if (upgradeButton)
+        if (shopButton)
         {
-            upgradeButton.onClick.AddListener(onUpgradeButton);
+            shopButton.onClick.AddListener(onShopButton);
+        }
+
+        if (swapButton)
+        {
+            swapButton.onClick.AddListener(onSwapButton);
         }
 
     }
@@ -51,16 +58,16 @@ public class UI_Control : NetworkBehaviour
         {
             updateHealth();
             updateResources();
-            if (!player.isInBase && upgradeMenu)
+            if (!player.isInBase && currentMenu.activeInHierarchy)
             {
-                Destroy(upgradeMenu);
-                upgradeMenu = null;
+                currentMenu.SetActive(false);
+                swapButton.gameObject.SetActive(false);
             }
         }
-        /* Toggle upgrade menu */
+        /* Toggle shop menu */
         if (Input.GetKeyDown(KeyCode.E))
         {
-            onUpgradeButton();
+            onShopButton();
         }
 
     }
@@ -87,22 +94,42 @@ public class UI_Control : NetworkBehaviour
 
     }
 
-    void onUpgradeButton()
+    void onShopButton()
     {
         if (player.isInBase)
         {
-            if (upgradeMenu)
+            if (currentMenu.activeInHierarchy)
             {
-                Destroy(upgradeMenu);
-                upgradeMenu = null;
+                currentMenu.SetActive(false);
+                swapButton.gameObject.SetActive(false);
             }
             else
             {
-                upgradeMenu = Instantiate(Resources.Load("UI/UpgradeMenu", typeof(GameObject))) as GameObject;
-                Debug.Log(player.teamIndex);
-                upgradeMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+                currentMenu.SetActive(true);
+                swapButton.gameObject.SetActive(true);
+                if (currentMenu == upgradeMenu)
+                {
+                    currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+                }
             }
         }
+    }
+
+    void onSwapButton()
+    {
+        currentMenu.SetActive(false);
+        if (currentMenu == upgradeMenu)
+        {
+            currentMenu = monumentMenu;
+            swapButton.GetComponentInChildren<Text>().text = "Upgrades";
+        }
+        else
+        {
+            currentMenu = upgradeMenu;
+            swapButton.GetComponentInChildren<Text>().text = "Monuments";
+            currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+        }
+        currentMenu.SetActive(true);
     }
 
 }

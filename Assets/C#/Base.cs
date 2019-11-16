@@ -59,6 +59,24 @@ public class Base : NetworkBehaviour
         return false;
     }
 
+    public bool purchaseMonument(Monument mon)
+    {
+        if  (resPool.checkBag(mon.cost) && mon.owner < 0)
+        {
+            resPool.removeBag(mon.cost);
+            mon.updateStatus(teamIndex);
+
+            if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
+            {
+                //Insert code to win the game
+
+
+            }
+            return true;
+        }
+        return false;
+    }
+
     public void updateAllPlayerStats()
     {
         foreach (GameObject player in mnm.playerList)

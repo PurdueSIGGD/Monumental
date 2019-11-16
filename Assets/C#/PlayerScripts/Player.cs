@@ -92,7 +92,7 @@ public class Player : NetworkBehaviour
     public void resourceTransfer(int attacker)
     {
         int[] takenRes = resources.dumpResourcesAsInt();
-        mnm.playerList[attacker].GetComponent<Player>().CmdTransferResources(attacker, takenRes);
+        CmdTransferResources(attacker, takenRes);
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
@@ -117,17 +117,13 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdTransferResources(int attacker, int[] res)
     {
-        print(res[0] + " " + res[1]);
-        RpcTransferResources(attacker, res);
+        mnm.playerList[attacker].GetComponent<Player>().RpcTransferResources(res);
     }
 
     [ClientRpc]
-    void RpcTransferResources(int attacker, int[] res)
+    public void RpcTransferResources(int[] res)
     {
-        if (attacker == positionInPlayerList)
-        {
-            resources.addBagAsInt(res);
-        }
+        resources.addBagAsInt(res);
     }
 
     void LateUpdate()
@@ -164,12 +160,12 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdDamageThem(int target, int source, int damage)
     {
-        RpcDamageThem(target, source, damage);
+        mnm.playerList[target].GetComponent<Player>().RpcDamageThem(source, damage);
     }
 
     [ClientRpc]
-    void RpcDamageThem(int target, int source, int damage)
+    void RpcDamageThem(int source, int damage)
     {
-        mnm.playerList[target].GetComponent<Player>().takeDamage(damage, source);
+        takeDamage(damage, source);
     }
 }

@@ -68,7 +68,7 @@ public class UI_Control : NetworkBehaviour
         }
 
     }
-
+	
     public void updateResources()
     {
 

@@ -65,7 +65,7 @@ public class Player : NetworkBehaviour
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
 		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-		if (Input.GetMouseButton(0) && timeOfLastClick + stats.interactionSpeed < Time.time)
+		if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.interactionSpeed < Time.time)
 		{
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;

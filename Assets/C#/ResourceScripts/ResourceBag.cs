@@ -218,4 +218,17 @@ public class ResourceBag : NetworkBehaviour
         }
         return ret;
     }
+
+    public bool isEmpty()
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.getAmount() > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

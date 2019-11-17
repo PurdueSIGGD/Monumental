@@ -9,6 +9,8 @@ public class Base : NetworkBehaviour
     public int teamIndex;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
+    public AudioSource enterSound;
+    public AudioSource resourceSound;
     private float lastPurchase;
     private float cooldown = 1;
     
@@ -102,7 +104,15 @@ public class Base : NetworkBehaviour
                 col.gameObject.GetComponent<Player>().health = col.gameObject.GetComponent<PlayerStats>().health;
 
                 //dump player resources into pool
-                resPool.addBag(col.gameObject.GetComponent<ResourceBag>().dumpResources());
+                ResourceBag bag = col.gameObject.GetComponent<ResourceBag>();
+                if (!bag.isEmpty())
+                {
+                    resourceSound.Play();
+                    resPool.addBag(bag.dumpResources());
+                }
+
+                /* Play entry sound effect */
+                enterSound.Play();
                 
             } else
             {/*

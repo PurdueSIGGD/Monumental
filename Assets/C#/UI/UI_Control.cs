@@ -60,6 +60,7 @@ public class UI_Control : NetworkBehaviour
                 currentMenu.SetActive(false);
                 swapButton.gameObject.SetActive(false);
             }
+            shopButton.interactable = player.isInBase;
         }
         /* Toggle shop menu */
         if (Input.GetKeyDown(KeyCode.E))

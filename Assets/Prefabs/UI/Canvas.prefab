@@ -277,7 +277,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  healthBar: {fileID: 1934150198656646663}
   shopButton: {fileID: 4401100397101769356}
   swapButton: {fileID: 4194441308477716846}
   upgradeMenu: {fileID: 4218675969723306565}
@@ -1496,7 +1495,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 65707594f938b214d8661459a277c699,
+      objectReference: {fileID: 21300000, guid: 771dc60700c0083438d41ccb66fe50ce,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39d4754f30ae8194b974418de006320e, type: 3}

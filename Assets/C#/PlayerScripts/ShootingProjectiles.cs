@@ -13,6 +13,7 @@ public class ShootingProjectiles : NetworkBehaviour
 	public float xValue; // Same as above
 	public bool clicked;
     public float projectileSpeed = 1000.0f;
+    private AudioSource audioSrc;
 
 	public void cannotShoot()
 	{
@@ -29,6 +30,7 @@ public class ShootingProjectiles : NetworkBehaviour
 		projectilePrefab = gameObject.GetComponent<Player>().projectile.GetComponent<Rigidbody2D>();
 		stats = gameObject.GetComponent<PlayerStats>();
         playerBody = gameObject.GetComponent<Rigidbody2D>();
+        audioSrc = GetComponent<AudioSource>();
 	}
 
 	void FixedUpdate()
@@ -50,6 +52,10 @@ public class ShootingProjectiles : NetworkBehaviour
     [ClientRpc]
     void RpcSpawnProjectile(Vector2 vel)
     {
+        if (audioSrc)
+        {
+            audioSrc.Play();
+        }
         Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
         Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
         newProjectile.AddForce(vel, ForceMode2D.Impulse);

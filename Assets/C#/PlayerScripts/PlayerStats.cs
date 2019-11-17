@@ -27,6 +27,7 @@ enum classes
 
 public class PlayerStats : NetworkBehaviour
 {
+    [SyncVar]
     public int Class = 0;
 
     [SyncVar]
@@ -41,8 +42,6 @@ public class PlayerStats : NetworkBehaviour
     public int baseMeleeDamage = 40;
     [SyncVar]
     public int baseRangedDamage = 20;
-	  [SyncVar]
-	  public int projectileSpeed = 1000;
 
     public int getHealth()
     {

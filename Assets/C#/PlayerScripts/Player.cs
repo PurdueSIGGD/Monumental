@@ -64,7 +64,9 @@ public class Player : NetworkBehaviour
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
-		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed();
+        float divisor = 1;
+        if(dx != 0 && dy != 0) { divisor = Mathf.Sqrt(2); }
+		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
 		if (Input.GetMouseButton(0) && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
             timeOfLastClick = Time.time;

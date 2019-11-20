@@ -77,7 +77,14 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         Debug.Log("done");
         //title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
-        title.text = up.type + " Tier " + up.tier + " - " + up.level;
+        if (up.type == UpgradeType.Monument)
+        {
+            title.text = ((Monument)up).name;
+        }
+        else
+        {
+            title.text = up.type + " Tier " + up.tier + " - " + up.level;
+        }
         text.text = "Purchase";
         if (button)
         {

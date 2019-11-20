@@ -6,6 +6,7 @@ using Mirror;
 public class Monument : Upgrade
 {
     public bool purchased;
+    public string name;
     public int owner;
 
     public Monument()

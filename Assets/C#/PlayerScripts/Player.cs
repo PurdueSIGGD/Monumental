@@ -19,6 +19,7 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public bool isInBase = false;
     private Vector2 spawn;
 
     [SyncVar]
@@ -38,10 +39,10 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        health = stats.health;
-        resources = gameObject.GetComponent<ResourceBag>();
+        health = stats.getHealth();
+        resources = GetComponent<ResourceBag>();
         uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
-        healthbar = GetComponentInChildren<Slider>();
+        healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
 
@@ -52,7 +53,7 @@ public class Player : NetworkBehaviour
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
-            health = stats.health;
+            health = stats.getHealth();
         }
     }
 
@@ -63,8 +64,10 @@ public class Player : NetworkBehaviour
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
-		body.velocity = new Vector2(dx, dy) * stats.movementSpeed;
-		if (Input.GetMouseButton(0) && timeOfLastClick + stats.interactionSpeed < Time.time)
+        float divisor = 1;
+        if(dx != 0 && dy != 0) { divisor = Mathf.Sqrt(2); }
+		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
+		if (Input.GetMouseButton(0) && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
@@ -84,21 +87,21 @@ public class Player : NetworkBehaviour
         health -= damage;
         if (health <= 0)
         {
-            resourceTransfer(mnm.playerList[attacker].GetComponent<Player>());
+            resourceTransfer(attacker);
             respawn();
         }
     }
 
-    public void resourceTransfer(Player attacker)
+    public void resourceTransfer(int attacker)
     {
-        ResourceBag otherBag = attacker.GetComponent<ResourceBag>();
-        otherBag.addBag(resources.dumpResources());
+        int[] takenRes = resources.dumpResourcesAsInt();
+        CmdTransferResources(attacker, takenRes);
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
     public void respawn()
     {
-        health = stats.health;
+        health = stats.getHealth();
         CmdRespawn();
     }
 
@@ -114,9 +117,22 @@ public class Player : NetworkBehaviour
         transform.position = spawn;
     }
 
+    [Command]
+    public void CmdTransferResources(int attacker, int[] res)
+    {
+        mnm.playerList[attacker].GetComponent<Player>().RpcTransferResources(res);
+    }
+
+    [ClientRpc]
+    public void RpcTransferResources(int[] res)
+    {
+        resources.addBagAsInt(res);
+    }
+
     void LateUpdate()
     {
-        healthbar.value = health / (float)stats.health;
+        healthbar.value = health / (float)stats.getHealth();
+        healthbar.transform.parent.position = this.transform.position;
     }
 
     public void setHealth(int val)
@@ -148,12 +164,12 @@ public class Player : NetworkBehaviour
     [Command]
     public void CmdDamageThem(int target, int source, int damage)
     {
-        RpcDamageThem(target, source, damage);
+        mnm.playerList[target].GetComponent<Player>().RpcDamageThem(source, damage);
     }
 
     [ClientRpc]
-    void RpcDamageThem(int target, int source, int damage)
+    void RpcDamageThem(int source, int damage)
     {
-        mnm.playerList[target].GetComponent<Player>().takeDamage(damage, source);
+        takeDamage(damage, source);
     }
 }

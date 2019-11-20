@@ -67,18 +67,12 @@ public class Upgrade
     //Function that base calls to purchase an upgrade
     public void UpdateStatsAndCost(PlayerStats ps)
     {
-        if(type == UpgradeType.Health)
-        {
-            ps.health += Health;
-            ps.movementSpeed += Movement;
-            ps.interactionSpeed += Interaction;
-        }
-        else if(type == UpgradeType.Gather)
-        {
-            ps.gatherAmount += Gather;
-            ps.meleeDamage += Melee;
-            ps.rangedDamage += Ranged;
-        }
+        if (type == UpgradeType.Health) { ps.baseHealth += Health; }
+        if (type == UpgradeType.Movement) { ps.baseMovementSpeed += Movement; }
+        if (type == UpgradeType.Interaction) { ps.baseInteractionSpeed += Interaction; }
+        if (type == UpgradeType.Gather) { ps.baseGatherAmount += Gather; }
+        if (type == UpgradeType.Melee) { ps.baseMeleeDamage += Melee; }
+        if (type == UpgradeType.Range) { ps.baseRangedDamage += Ranged; }
 
         foreach(Resource res in cost)
         {

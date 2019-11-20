@@ -50,7 +50,8 @@ public class Base : NetworkBehaviour
         {
             resPool.removeBag(up.cost);
             up.UpdateStatsAndCost(baseStats);
-            updateAllPlayerStats();
+            UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
+                        baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
             int upInd = upgrades.IndexOf(up);
             upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
             upgradeLevels.RemoveAt(upInd + 1);
@@ -78,15 +79,15 @@ public class Base : NetworkBehaviour
         }
         return false;
     }
-
-    public void updateAllPlayerStats()
+    
+    public void UpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
     {
         foreach (GameObject player in mnm.playerList)
         {
-            if(player.GetComponent<Player>().teamIndex == teamIndex)
+            if(player.GetComponent<Player>().teamIndex == team)
             {
                 PlayerStats pStat = player.GetComponent<PlayerStats>();
-                pStat.updateStats(baseStats);
+                pStat.UpdateStats(bh, ms, isp, ga, md, rd);
                 player.GetComponent<Player>().health = pStat.getHealth();
             }
         }
@@ -101,14 +102,13 @@ public class Base : NetworkBehaviour
             {
                 p.isInBase = true;
                 //Heal player to full
-                col.gameObject.GetComponent<Player>().health = col.gameObject.GetComponent<PlayerStats>().getHealth();
+                p.health = p.stats.getHealth();
 
                 //dump player resources into pool
-                ResourceBag bag = col.gameObject.GetComponent<ResourceBag>();
-                if (!bag.isEmpty())
+                if (!p.resources.isEmpty())
                 {
                     resourceSound.Play();
-                    resPool.addBag(bag.dumpResources());
+                    p.giveResToBase(teamIndex);
                 }
 
                 /* Play entry sound effect */
@@ -133,6 +133,12 @@ public class Base : NetworkBehaviour
         {
             player.isInBase = false;
         }
+    }
+
+    [Command]
+    public void CmdReceiveResources(int[] res)
+    {
+        resPool.addBagAsInt(res);
     }
 
 }

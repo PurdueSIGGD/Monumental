@@ -58,7 +58,7 @@ public class UI_Control : NetworkBehaviour
             if (!player.isInBase && currentMenu.activeInHierarchy)
             {
                 currentMenu.SetActive(false);
-                swapButton.gameObject.SetActive(false);
+                swapButton.transform.parent.gameObject.SetActive(false);
             }
             shopButton.interactable = player.isInBase;
         }
@@ -94,12 +94,12 @@ public class UI_Control : NetworkBehaviour
             if (currentMenu.activeInHierarchy)
             {
                 currentMenu.SetActive(false);
-                swapButton.gameObject.SetActive(false);
+                swapButton.transform.parent.gameObject.SetActive(false);
             }
             else
             {
                 currentMenu.SetActive(true);
-                swapButton.gameObject.SetActive(true);
+                swapButton.transform.parent.gameObject.SetActive(true);
                 if (currentMenu == upgradeMenu)
                 {
                     currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
@@ -111,6 +111,7 @@ public class UI_Control : NetworkBehaviour
     void onSwapButton()
     {
         currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
         if (currentMenu == upgradeMenu)
         {
             currentMenu = monumentMenu;
@@ -123,6 +124,7 @@ public class UI_Control : NetworkBehaviour
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
         }
         currentMenu.SetActive(true);
+        swapButton.transform.parent.gameObject.SetActive(true);
     }
 
 }

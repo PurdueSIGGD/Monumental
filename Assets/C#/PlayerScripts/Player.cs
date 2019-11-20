@@ -12,7 +12,6 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int health;
     private Rigidbody2D body;
-    private UI_Control uiControl;
     private Slider healthbar;
     public MonumentalNetworkManager mnm;
     [HideInInspector]
@@ -41,7 +40,6 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
-        uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
@@ -49,7 +47,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             hitDetect.isTheLocalPlayer = true;
-            UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
+            UI_Control uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;

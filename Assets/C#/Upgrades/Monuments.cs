@@ -31,6 +31,8 @@ public class Monument : Upgrade
             mainType,
             (int)UpgradeCost.large * 10
         );
+        cost.Add(small);
+        cost.Add(large);
     }
 
     public void updateStatus(int team)

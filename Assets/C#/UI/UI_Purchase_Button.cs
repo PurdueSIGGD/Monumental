@@ -64,6 +64,7 @@ public class UI_Purchase_Button : NetworkBehaviour
         resources.Clear();
 
         SyncListResource rsc = up.cost;
+        Debug.Log("cost: " + rsc.Count);
         for (int i = 0; i < rsc.Count; i++)
         {
             /* Important to instantiate with parent transform parameter */
@@ -74,7 +75,9 @@ public class UI_Purchase_Button : NetworkBehaviour
             obj.transform.position += new Vector3(offset * i, 0, 0);
             resources.Add(obj);
         }
-        title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
+        Debug.Log("done");
+        //title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
+        title.text = up.type + " Tier " + up.tier + " - " + up.level;
         text.text = "Purchase";
         if (button)
         {

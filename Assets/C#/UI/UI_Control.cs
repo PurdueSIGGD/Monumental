@@ -104,6 +104,10 @@ public class UI_Control : NetworkBehaviour
                 {
                     currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
                 }
+                else
+                {
+                    currentMenu.GetComponent<UI_MonumentMenu>().reset(player.teamIndex);
+                }
             }
         }
     }
@@ -115,9 +119,11 @@ public class UI_Control : NetworkBehaviour
         {
             currentMenu = monumentMenu;
             swapButton.GetComponentInChildren<Text>().text = "Upgrades";
+            currentMenu.GetComponent<UI_MonumentMenu>().reset(player.teamIndex);
         }
         else
         {
+            Debug.Log("swapping");
             currentMenu = upgradeMenu;
             swapButton.GetComponentInChildren<Text>().text = "Monuments";
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);

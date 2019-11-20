@@ -222,12 +222,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  health: 100
-  movementSpeed: 10
-  interactionSpeed: 1
-  gatherAmount: 1
-  meleeDamage: 10
-  rangedDamage: 5
+  Class: 0
+  baseHealth: 100
+  baseMovementSpeed: 10
+  baseInteractionSpeed: 1
+  baseGatherAmount: 1
+  baseMeleeDamage: 40
+  baseRangedDamage: 20
 --- !u!114 &-8830377679605561785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +284,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 2259340555
+  m_SceneId: 1482854174
 --- !u!114 &2330303626597118836
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ public class Upgrade
 {
     public UpgradeType type;
     public int tier;
+    public int level;
     public SyncListResource cost = new SyncListResource();
 
     //Value sliders that can be chaged for balance
@@ -42,12 +43,14 @@ public class Upgrade
     {
         type = UpgradeType.Health;
         tier = 0;
+        level = 1;
     }
 
     public Upgrade(UpgradeType t, int r)
     {
         type = t;
         tier = r;
+        level = 1;
 
         Resource small = new Resource(
             (ResourceName)(2*r - (int)type), //Utilizes lookup function - Ask Michael Beshear if confused
@@ -67,6 +70,8 @@ public class Upgrade
     //Function that base calls to purchase an upgrade
     public void UpdateStatsAndCost(PlayerStats ps)
     {
+       level++;
+
         if (type == UpgradeType.Health) { ps.baseHealth += Health; }
         if (type == UpgradeType.Movement) { ps.baseMovementSpeed += Movement; }
         if (type == UpgradeType.Interaction) { ps.baseInteractionSpeed += Interaction; }

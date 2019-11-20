@@ -158,6 +158,18 @@ public class Player : NetworkBehaviour
     {
         positionInPlayerList = p;
     }
+    
+    public void giveResToBase(int target)
+    {
+        int[] res = resources.dumpResourcesAsInt();
+        CmdDepositResources(target, res);
+    }
+
+    [Command]
+    public void CmdDepositResources(int target, int[] res)
+    {
+        mnm.baseList[target].GetComponent<Base>().CmdReceiveResources(res);
+    }
 
     [Command]
     public void CmdDamageThem(int target, int source, int damage)

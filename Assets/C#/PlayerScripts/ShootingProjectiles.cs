@@ -61,7 +61,7 @@ public class ShootingProjectiles : NetworkBehaviour
         newProjectile.AddForce(vel, ForceMode2D.Impulse);
         newProjectile.AddForce(transform.right * projectileSpeed);
         newProjectileProperties.parentGameobject = gameObject;
-        newProjectileProperties.damage = stats.rangedDamage;
+        newProjectileProperties.damage = stats.getRangedDamage();
         newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;
         newProjectileProperties.sourcePlayer = gameObject.GetComponent<Player>().positionInPlayerList;
         //coolDown = Time.time + attackSpeed;

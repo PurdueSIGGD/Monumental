@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1794272211969131079}
   - component: {fileID: 3332515564920581979}
   - component: {fileID: 6473571989444638204}
+  - component: {fileID: 6330430539153348518}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -62,8 +63,8 @@ MonoBehaviour:
   spawnPrefabs:
   - {fileID: 8838364213396366694, guid: a82fbfe7d495a9d48adba713c01bf5fa, type: 3}
   teamSizes: 
+  baseList: []
   playerList: []
-  teamSpawns: []
 --- !u!114 &3332515564920581979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,3 +134,18 @@ MonoBehaviour:
   NoDelay: 1
   serverMaxMessageSize: 16384
   clientMaxMessageSize: 16384
+--- !u!114 &6330430539153348518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473571989444638205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11706eee54ddd534dbd9e5cc7e8acf0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startPoints0: []
+  startPoints1: []
+  gameHasStarted: 0

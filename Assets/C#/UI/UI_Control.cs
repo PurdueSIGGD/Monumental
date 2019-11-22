@@ -124,7 +124,7 @@ public class UI_Control : NetworkBehaviour
         }
         else
         {
-            Debug.Log("swapping");
+            //Debug.Log("swapping");
             currentMenu = upgradeMenu;
             swapButton.GetComponentInChildren<Text>().text = "Monuments";
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);

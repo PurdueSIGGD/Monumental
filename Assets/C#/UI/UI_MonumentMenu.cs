@@ -26,7 +26,7 @@ public class UI_MonumentMenu : MonoBehaviour
         }
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
-        Debug.Log("Num Buts: " + buttonList.Length);
+        //Debug.Log("Num Buts: " + buttonList.Length);
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].myBase = myBase;

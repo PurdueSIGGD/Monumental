@@ -56,7 +56,7 @@ public class ResourceBag : NetworkBehaviour
 
     public void addBagAsInt(int[] res)
     {
-        for(int i = (int)(ResourceName.WOOD); i < (int)ResourceName.DIAMOND; i++)
+        for(int i = (int)(ResourceName.WOOD); i <= (int)ResourceName.DIAMOND; i++)
         {
             addResource((ResourceName)i, res[i - 1]);
         }
@@ -175,7 +175,7 @@ public class ResourceBag : NetworkBehaviour
     public int[] dumpResourcesAsInt()
     {
         int[] ret = new int[6];
-        for(int i = (int)ResourceName.WOOD; i < (int)ResourceName.DIAMOND; i++)
+        for(int i = (int)ResourceName.WOOD; i <= (int)ResourceName.DIAMOND; i++)
         {
             ret[i-1] = removeResource((ResourceName)i).getAmount();
         }

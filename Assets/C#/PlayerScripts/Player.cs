@@ -73,6 +73,14 @@ public class Player : NetworkBehaviour
 		}
 	}
 
+    private void OnDestroy()
+    {
+        if (healthbar)
+        {
+            Destroy(healthbar.transform.parent.gameObject);
+        }
+    }
+
     //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
     {

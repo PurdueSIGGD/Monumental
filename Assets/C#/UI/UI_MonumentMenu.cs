@@ -14,7 +14,7 @@ public class UI_MonumentMenu : MonoBehaviour
         if (skip_first_enable)
         {
             skip_first_enable = false;
-            this.gameObject.SetActive(false);
+            //this.gameObject.SetActive(false);
         }
     }
 

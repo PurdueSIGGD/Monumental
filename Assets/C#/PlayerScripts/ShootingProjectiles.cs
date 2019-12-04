@@ -53,7 +53,7 @@ public class ShootingProjectiles : NetworkBehaviour
         Rigidbody2D newProjectile = Instantiate(projectilePrefab, new Vector3(transform.position.x + xValue, transform.position.y + yValue, transform.position.z), Quaternion.identity) as Rigidbody2D;
         Projectile newProjectileProperties = newProjectile.gameObject.GetComponent<Projectile>();
         newProjectile.AddForce(vel, ForceMode2D.Impulse);
-        newProjectile.AddForce(transform.right * projectileSpeed);
+        newProjectile.AddForce(transform.up * projectileSpeed);
         newProjectileProperties.parentGameobject = gameObject;
         newProjectileProperties.damage = stats.getRangedDamage();
         newProjectileProperties.teamIndex = gameObject.GetComponent<Player>().teamIndex;

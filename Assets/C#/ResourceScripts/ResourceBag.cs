@@ -8,6 +8,14 @@ public class ResourceBag : NetworkBehaviour
     //List of all resources being held
     public SyncListResource bag = new SyncListResource();
 
+    void start()
+    {
+        for(int i = (int)(ResourceName.WOOD); i < (int)(ResourceName.DIAMOND); i++)
+        {
+            bag.Add(new Resource((ResourceName)i, 0));
+        }
+    }
+
 	//Prints out all resources and their amounts in the bag, used for debugging
 	public void testBag()
 	{

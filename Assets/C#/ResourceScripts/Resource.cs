@@ -16,6 +16,7 @@ public enum ResourceName
 public class Resource
 {
     private ResourceName type;
+    [SyncVar]
     private int amount;
 
     public static Sprite getSprite(ResourceName r)

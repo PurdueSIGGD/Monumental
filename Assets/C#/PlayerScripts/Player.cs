@@ -18,6 +18,7 @@ public class Player : NetworkBehaviour
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public ResourceNode resNode;
     public bool isInBase = false;
     private Vector2 spawn;
 
@@ -171,6 +172,18 @@ public class Player : NetworkBehaviour
     {
         int[] res = resources.dumpResourcesAsInt();
         CmdDepositResources(target, res);
+    }
+
+    [Command]
+    public void CmdUpdateRes(int resType, float size)
+    {
+        RpcUpdateRes(resType, size);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateRes(int resType, float size)
+    {
+        resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
     }
 
     [Command]

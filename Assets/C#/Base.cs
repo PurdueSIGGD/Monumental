@@ -140,15 +140,17 @@ public class Base : NetworkBehaviour
     [Command]
     public void CmdReceiveResources(int[] res)
     {
-        RpcReceiveResources(new int[] { res[0],res[1],res[2],res[3],res[4],res[5] });
+        for (int i = 0; i < 6; i++)
+        {
+            RpcReceiveResources(i+1, res[i]);
+        }
     }
 
     [ClientRpc]
-    public void RpcReceiveResources(int[] res)
+    public void RpcReceiveResources(int resName, int res)
     {
-        Debug.Log(res[0]+","+res[1] + "," + res[2] + "," + res[3] + "," + res[4] + "," + res[5]);
-        resPool.addBagAsInt(res);
-        resPool.testBag();
+        Debug.Log(res);
+        resPool.addResource((ResourceName)resName, res);
     }
 
 }

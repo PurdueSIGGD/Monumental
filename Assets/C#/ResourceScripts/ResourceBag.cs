@@ -10,7 +10,7 @@ public class ResourceBag : NetworkBehaviour
 
     void start()
     {
-        for(int i = (int)(ResourceName.WOOD); i < (int)(ResourceName.DIAMOND); i++)
+        for(int i = (int)(ResourceName.WOOD); i <= (int)(ResourceName.DIAMOND); i++)
         {
             bag.Add(new Resource((ResourceName)i, 0));
         }

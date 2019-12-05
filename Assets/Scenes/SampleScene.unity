@@ -431,6 +431,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8831337355669452358, guid: ec5a502523fd2774b963c699b6f149ac,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 60a123635e945a847a4924517dc0db18,
+        type: 3}
     - target: {fileID: 1148672829026656238, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_SceneId

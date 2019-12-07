@@ -16,7 +16,7 @@ public class Base : NetworkBehaviour
     
     [HideInInspector]
     public ResourceBag resPool;
-    public SyncListUpgrade upgrades;
+    public List<Upgrade> upgrades;
     public SyncListInt upgradeLevels;
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
@@ -27,6 +27,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        upgrades = new List<Upgrade>();
         for (int i = 0; i < tels.Length; i++)
         {
             tels[i].teamIndex = teamIndex;
@@ -34,13 +35,15 @@ public class Base : NetworkBehaviour
         for (int i = 0; i < 3; i++)
         {
             upgrades.Add(new Upgrade(UpgradeType.Health, i+1));
-            upgradeLevels.Add(1);
+            if(isServer)
+                upgradeLevels.Add(1);
 
         }
         for (int i = 0; i < 3; i++)
         {
             upgrades.Add(new Upgrade(UpgradeType.Gather, i+1));
-            upgradeLevels.Add(1);
+            if(isServer)
+                upgradeLevels.Add(1);
         }
     }
 
@@ -48,15 +51,23 @@ public class Base : NetworkBehaviour
     {
         if (resPool.checkBag(up.cost) && (Time.time - lastPurchase) > cooldown)
         {
-            resPool.removeBag(up.cost);
+            int[] cost = new int[6];
+            for(int j=0; j<6; j++)
+            {
+                cost[j] = 0;
+            }
+            for(int i=0; i<2; i++)
+            {
+                print(up.cost[i].getAmount());
+                cost[(int)up.cost[i].getType() - 1] = up.cost[i].getAmount();
+            }
+            CmdRemoveResources(cost);
             up.UpdateStatsAndCost(baseStats);
             UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
                         baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
             int upInd = upgrades.IndexOf(up);
-            upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
-            upgradeLevels.RemoveAt(upInd + 1);
+            CmdUpdateUpgradeList(upInd);
             lastPurchase = Time.time;
-
             return true;
         }
         return false;
@@ -142,15 +153,41 @@ public class Base : NetworkBehaviour
     {
         for (int i = 0; i < 6; i++)
         {
-            RpcReceiveResources(i+1, res[i]);
+            RpcReceiveResources(i + 1, res[i]);
         }
     }
 
     [ClientRpc]
     public void RpcReceiveResources(int resName, int res)
     {
-        Debug.Log(res);
         resPool.addResource((ResourceName)resName, res);
     }
 
+    [Command]
+    public void CmdRemoveResources(int[] res)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            RpcRemoveResources(i + 1, res[i]);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcRemoveResources(int resName, int res)
+    {
+        resPool.removeAmount((ResourceName)resName, res);
+    }
+
+    [Command]
+    public void CmdUpdateUpgradeList(int upInd)
+    {
+        RpcUpdateUpgradeList(upInd);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateUpgradeList(int upInd)
+    {
+        upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
+        upgradeLevels.RemoveAt(upInd + 1);
+    }
 }

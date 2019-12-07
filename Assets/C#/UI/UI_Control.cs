@@ -58,8 +58,9 @@ public class UI_Control : NetworkBehaviour
             if (!player.isInBase && currentMenu.activeInHierarchy)
             {
                 currentMenu.SetActive(false);
-                swapButton.gameObject.SetActive(false);
+                swapButton.transform.parent.gameObject.SetActive(false);
             }
+            shopButton.interactable = player.isInBase;
         }
         /* Toggle shop menu */
         if (Input.GetKeyDown(KeyCode.E))
@@ -93,15 +94,19 @@ public class UI_Control : NetworkBehaviour
             if (currentMenu.activeInHierarchy)
             {
                 currentMenu.SetActive(false);
-                swapButton.gameObject.SetActive(false);
+                swapButton.transform.parent.gameObject.SetActive(false);
             }
             else
             {
                 currentMenu.SetActive(true);
-                swapButton.gameObject.SetActive(true);
+                swapButton.transform.parent.gameObject.SetActive(true);
                 if (currentMenu == upgradeMenu)
                 {
                     currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
+                }
+                else
+                {
+                    currentMenu.GetComponent<UI_MonumentMenu>().reset(player.teamIndex);
                 }
             }
         }
@@ -110,18 +115,23 @@ public class UI_Control : NetworkBehaviour
     void onSwapButton()
     {
         currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
         if (currentMenu == upgradeMenu)
         {
             currentMenu = monumentMenu;
+            currentMenu.SetActive(true);
             swapButton.GetComponentInChildren<Text>().text = "Upgrades";
+            currentMenu.GetComponent<UI_MonumentMenu>().reset(player.teamIndex);
         }
         else
         {
+            //Debug.Log("swapping");
             currentMenu = upgradeMenu;
+            currentMenu.SetActive(true);
             swapButton.GetComponentInChildren<Text>().text = "Monuments";
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
         }
-        currentMenu.SetActive(true);
+        swapButton.transform.parent.gameObject.SetActive(true);
     }
 
 }

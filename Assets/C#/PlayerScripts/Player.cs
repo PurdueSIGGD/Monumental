@@ -12,13 +12,13 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int health;
     private Rigidbody2D body;
-    private UI_Control uiControl;
     private Slider healthbar;
     public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
     public ResourceBag resources;
+    public ResourceNode resNode;
     public bool isInBase = false;
     private Vector2 spawn;
 
@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
-    
+
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
@@ -41,7 +41,6 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
-        uiControl = GameObject.Find("Canvas").GetComponent<UI_Control>();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
@@ -49,7 +48,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             hitDetect.isTheLocalPlayer = true;
-            UI_Control uiControl = GameObject.FindGameObjectWithTag("Canvas").GetComponent<UI_Control>();
+            UI_Control uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
@@ -67,13 +66,21 @@ public class Player : NetworkBehaviour
         float divisor = 1;
         if(dx != 0 && dy != 0) { divisor = Mathf.Sqrt(2); }
 		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
-		if (Input.GetMouseButton(0) && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
+		if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
 	}
+
+    private void OnDestroy()
+    {
+        if (healthbar)
+        {
+            Destroy(healthbar.transform.parent.gameObject);
+        }
+    }
 
     //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
@@ -159,6 +166,30 @@ public class Player : NetworkBehaviour
     public void SetPositionInPlayerList(int p)
     {
         positionInPlayerList = p;
+    }
+    
+    public void giveResToBase(int target)
+    {
+        int[] res = resources.dumpResourcesAsInt();
+        CmdDepositResources(target, res);
+    }
+
+    [Command]
+    public void CmdUpdateRes(int resType, float size)
+    {
+        RpcUpdateRes(resType, size);
+    }
+
+    [ClientRpc]
+    public void RpcUpdateRes(int resType, float size)
+    {
+        resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
+    }
+
+    [Command]
+    public void CmdDepositResources(int target, int[] res)
+    {
+        mnm.baseList[target].GetComponent<Base>().CmdReceiveResources(res);
     }
 
     [Command]

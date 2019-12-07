@@ -10,7 +10,7 @@ public class ResourceBag : NetworkBehaviour
 
     void start()
     {
-        for(int i = (int)(ResourceName.WOOD); i < (int)(ResourceName.DIAMOND); i++)
+        for(int i = (int)(ResourceName.WOOD); i <= (int)(ResourceName.DIAMOND); i++)
         {
             bag.Add(new Resource((ResourceName)i, 0));
         }
@@ -64,7 +64,7 @@ public class ResourceBag : NetworkBehaviour
 
     public void addBagAsInt(int[] res)
     {
-        for(int i = (int)(ResourceName.WOOD); i < (int)ResourceName.DIAMOND; i++)
+        for(int i = (int)(ResourceName.WOOD); i <= (int)ResourceName.DIAMOND; i++)
         {
             addResource((ResourceName)i, res[i - 1]);
         }
@@ -183,7 +183,7 @@ public class ResourceBag : NetworkBehaviour
     public int[] dumpResourcesAsInt()
     {
         int[] ret = new int[6];
-        for(int i = (int)ResourceName.WOOD; i < (int)ResourceName.DIAMOND; i++)
+        for(int i = (int)ResourceName.WOOD; i <= (int)ResourceName.DIAMOND; i++)
         {
             ret[i-1] = removeResource((ResourceName)i).getAmount();
         }
@@ -226,4 +226,17 @@ public class ResourceBag : NetworkBehaviour
         }
         return ret;
     }
+
+    public bool isEmpty()
+    {
+        foreach (Resource res in bag)
+        {
+            if (res.getAmount() > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

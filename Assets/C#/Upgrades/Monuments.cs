@@ -6,6 +6,7 @@ using Mirror;
 public class Monument : Upgrade
 {
     public bool purchased;
+    public string name;
     public int owner;
 
     public Monument()
@@ -24,13 +25,15 @@ public class Monument : Upgrade
 
         Resource small = new Resource(
             (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to covert large to small - Ask Michael Beshear if confused
-            (int)UpgradeCost.small * 10
+            (int)UpgradeCost.small //* 10
         );
 
         Resource large = new Resource(
             mainType,
-            (int)UpgradeCost.large * 10
+            (int)UpgradeCost.large //* 10
         );
+        cost.Add(small);
+        cost.Add(large);
     }
 
     public void updateStatus(int team)

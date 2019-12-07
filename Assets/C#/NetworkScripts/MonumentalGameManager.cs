@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class MonumentalGameManager : NetworkBehaviour
+public class MonumentalGameManager : MonoBehaviour//NetworkBehaviour
 {
     public Transform[] startPoints0;
     public Transform[] startPoints1;
@@ -45,5 +45,10 @@ public class MonumentalGameManager : NetworkBehaviour
             SendPlayer(p);
             playersHere.Remove(p);
         }
+    }
+
+    public void winGame(int teamIndex) //currently does not get called anywhere. This class has a network identity and cannot be added to the Network manager
+    {
+        Debug.Log("Grats to team " + teamIndex);
     }
 }

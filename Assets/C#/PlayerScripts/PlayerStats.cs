@@ -97,13 +97,18 @@ public class PlayerStats : NetworkBehaviour
         return Mathf.CeilToInt(baseRangedDamage * ClassMods.frange);
 	}
 
-    public void updateStats(PlayerStats ps)
+    public void changeClass()
     {
-        baseHealth = ps.baseHealth;
-		baseMovementSpeed = ps.baseMovementSpeed;
-		baseInteractionSpeed = ps.baseInteractionSpeed;
-		baseGatherAmount = ps.baseGatherAmount;
-		baseMeleeDamage = ps.baseMeleeDamage;
-		baseRangedDamage = ps.baseRangedDamage;
+        Class = 1 - Class;
+    }
+    
+    public void UpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
+    {
+        baseHealth = bh;
+		baseMovementSpeed = ms;
+		baseInteractionSpeed = isp;
+		baseGatherAmount = ga;
+		baseMeleeDamage = md;
+		baseRangedDamage = rd;
     }
 }

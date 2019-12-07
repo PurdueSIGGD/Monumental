@@ -9,6 +9,8 @@ public class Base : NetworkBehaviour
     public int teamIndex;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
+    public AudioSource enterSound;
+    public AudioSource resourceSound;
     private float lastPurchase;
     private float cooldown = 1;
     
@@ -48,7 +50,8 @@ public class Base : NetworkBehaviour
         {
             resPool.removeBag(up.cost);
             up.UpdateStatsAndCost(baseStats);
-            updateAllPlayerStats();
+            UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
+                        baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
             int upInd = upgrades.IndexOf(up);
             upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
             upgradeLevels.RemoveAt(upInd + 1);
@@ -69,7 +72,7 @@ public class Base : NetworkBehaviour
             if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
             {
                 //Insert code to win the game
-
+                GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
 
             }
             return true;
@@ -77,14 +80,16 @@ public class Base : NetworkBehaviour
         return false;
     }
 
-    public void updateAllPlayerStats()
+    
+    
+    public void UpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
     {
         foreach (GameObject player in mnm.playerList)
         {
-            if(player.GetComponent<Player>().teamIndex == teamIndex)
+            if(player.GetComponent<Player>().teamIndex == team)
             {
                 PlayerStats pStat = player.GetComponent<PlayerStats>();
-                pStat.updateStats(baseStats);
+                pStat.UpdateStats(bh, ms, isp, ga, md, rd);
                 player.GetComponent<Player>().health = pStat.getHealth();
             }
         }
@@ -99,10 +104,17 @@ public class Base : NetworkBehaviour
             {
                 p.isInBase = true;
                 //Heal player to full
-                col.gameObject.GetComponent<Player>().health = col.gameObject.GetComponent<PlayerStats>().getHealth();
+                p.health = p.stats.getHealth();
 
                 //dump player resources into pool
-                resPool.addBag(col.gameObject.GetComponent<ResourceBag>().dumpResources());
+                if (!p.resources.isEmpty())
+                {
+                    resourceSound.Play();
+                    p.giveResToBase(teamIndex);
+                }
+
+                /* Play entry sound effect */
+                enterSound.Play();
                 
             } else
             {/*
@@ -123,6 +135,22 @@ public class Base : NetworkBehaviour
         {
             player.isInBase = false;
         }
+    }
+
+    [Command]
+    public void CmdReceiveResources(int[] res)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            RpcReceiveResources(i+1, res[i]);
+        }
+    }
+
+    [ClientRpc]
+    public void RpcReceiveResources(int resName, int res)
+    {
+        Debug.Log(res);
+        resPool.addResource((ResourceName)resName, res);
     }
 
 }

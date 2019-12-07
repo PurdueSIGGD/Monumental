@@ -11,14 +11,15 @@ public class HitDetection : NetworkBehaviour
     private ShootingProjectiles shooting;
     private Player me;
     [SerializeField]
-    private BoxCollider2D hitbox;
+    private BoxCollider2D hitbox = null;
 
     void Start()
     {
         me = this.GetComponentInParent<Player>();
         shooting = this.GetComponentInParent<ShootingProjectiles>();
     }
-	private void OnTriggerStay2D(Collider2D collision)
+
+    private void OnTriggerStay2D(Collider2D collision)
 	{
         if (!isTheLocalPlayer)
         {
@@ -29,6 +30,7 @@ public class HitDetection : NetworkBehaviour
         {
             if(hitbox != null) hitbox.enabled = true;
         }
+        
 		if (clicked)
 		{
             Player other;
@@ -43,7 +45,8 @@ public class HitDetection : NetworkBehaviour
 			{
 				//gather resource and add it to this player's resource bag
 				ResourceNode resource = collision.gameObject.GetComponent<ResourceNode>();
-				me.resources.addResource(resource.gather(me.stats.getGatherAmount()));
+                me.resNode = resource;
+                me.CmdUpdateRes((int) resource.type, resource.size);
 			}
 			clicked = false;
 		}

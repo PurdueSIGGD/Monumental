@@ -31,13 +31,15 @@ public class UI_UpgradeMenu : NetworkBehaviour
         Base myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
-        Debug.Log("Base: " + myBase.teamIndex);
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].myBase = myBase;
-            Upgrade up = myBase.upgrades[i];
-            buttonList[i].setPrice(up);
+            buttonList[i].setPrice(i+1, false);
         }
     }
 
+    public bool purchaseUp(Base myBase, int up)
+    {
+        return myBase.purchaseUpgrade(up);
+    }
 }

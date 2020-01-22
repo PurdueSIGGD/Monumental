@@ -13,11 +13,31 @@ public class Base : NetworkBehaviour
     public AudioSource resourceSound;
     private float lastPurchase;
     private float cooldown = 1;
-    
+    const int smallCost = 10;
+    const int bigCost = 100;
+
+    const int HealthUpgrade = 30;
+    const float MovementUpgrade = 1;
+    const float InteractionUpgrade = 0.1f;
+    const float GatherUpgrade = 1;
+    const int MeleeUpgrade = 20;
+    const int RangedUpgrade = 10;
+
     [HideInInspector]
     public ResourceBag resPool;
-    public List<Upgrade> upgrades;
-    public SyncListInt upgradeLevels;
+    [SyncVar]
+    int upgrade1level;
+    [SyncVar]
+    int upgrade2level;
+    [SyncVar]
+    int upgrade3level;
+    [SyncVar]
+    int upgrade4level;
+    [SyncVar]
+    int upgrade5level;
+    [SyncVar]
+    int upgrade6level;
+
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
     void Start()
@@ -27,46 +47,135 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
-        upgrades = new List<Upgrade>();
         for (int i = 0; i < tels.Length; i++)
         {
             tels[i].teamIndex = teamIndex;
         }
-        for (int i = 0; i < 3; i++)
+        if (isServer)
         {
-            upgrades.Add(new Upgrade(UpgradeType.Health, i+1));
-            if(isServer)
-                upgradeLevels.Add(1);
-
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            upgrades.Add(new Upgrade(UpgradeType.Gather, i+1));
-            if(isServer)
-                upgradeLevels.Add(1);
+            upgrade1level = 1;
+            upgrade2level = 1;
+            upgrade3level = 1;
+            upgrade4level = 1;
+            upgrade5level = 1;
+            upgrade6level = 1;
         }
     }
 
-    public bool purchaseUpgrade(Upgrade up)
+    public int getUpgradeLevel(int up)
     {
-        if (resPool.checkBag(up.cost) && (Time.time - lastPurchase) > cooldown)
+        if (up == 1)
         {
-            int[] cost = new int[6];
-            for(int j=0; j<6; j++)
-            {
-                cost[j] = 0;
-            }
-            for(int i=0; i<2; i++)
-            {
-                print(up.cost[i].getAmount());
-                cost[(int)up.cost[i].getType() - 1] = up.cost[i].getAmount();
-            }
-            CmdRemoveResources(cost);
-            up.UpdateStatsAndCost(baseStats);
+            return upgrade1level;
+        }
+        else if (up == 2)
+        {
+            return upgrade2level;
+        }
+        else if (up == 3)
+        {
+            return upgrade3level;
+        }
+        else if (up == 4)
+        {
+            return upgrade4level;
+        }
+        else if (up == 5)
+        {
+            return upgrade5level;
+        }
+        else if (up == 6)
+        {
+            return upgrade6level;
+        }
+        else return 0;
+    }
+
+    private void incrementUpgradeLevel(int up)
+    {
+        if (up == 1)
+        {
+            upgrade1level++;
+        }
+        else if (up == 2)
+        {
+            upgrade2level++;
+        }
+        else if (up == 3)
+        {
+            upgrade3level++;
+        }
+        else if (up == 4)
+        {
+            upgrade4level++;
+        }
+        else if (up == 5)
+        {
+            upgrade5level++;
+        }
+        else if (up == 6)
+        {
+            upgrade6level++;
+        }
+        else return;
+    }
+
+    float costMath(int i)
+    {
+        return (float)(4+i)/5;
+    }
+
+    public int[] resourceCostForUpgrade(int upgrade, int level)
+    {
+        if (upgrade == 1)
+        {
+            return new int[] { (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)), 0, 0, 0, 0 };
+        }
+        else if (upgrade == 2)
+        {
+            return new int[] { (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)), 0, 0, 0, 0 };
+        }
+        else if (upgrade == 3)
+        {
+            return new int[] {0,0, (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)), 0, 0};
+        }
+        else if (upgrade == 4)
+        {
+            return new int[] {0,0, (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)), 0, 0 };
+        }
+        else if (upgrade == 5)
+        {
+            return new int[] {0,0,0,0, (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)) };
+        }
+        else if (upgrade == 6)
+        {
+            return new int[] {0,0,0,0, (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)) };
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public bool purchaseUpgrade(int up)
+    {
+        int upLevel = getUpgradeLevel(up);
+        if(upLevel == 0)
+        {
+            return false;
+        }
+        int[] cost = resourceCostForUpgrade(up, upLevel);
+        if (resPool.checkBag(cost) && (Time.time - lastPurchase) > cooldown)
+        {
+            resPool.removeBagAsInt(cost);
+            //CmdRemoveResources(cost);
+            updateBasePlayerStats(up);
+            //up.UpdateStatsAndCost(baseStats);
             UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
                         baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
-            int upInd = upgrades.IndexOf(up);
-            CmdUpdateUpgradeList(upInd);
+            //int upInd = upgrades.IndexOf(up);
+            incrementUpgradeLevel(up);
+            //CmdUpdateUpgradeList(upInd);
             lastPurchase = Time.time;
             return true;
         }
@@ -77,7 +186,7 @@ public class Base : NetworkBehaviour
     {
         if  (resPool.checkBag(mon.cost) && mon.owner < 0)
         {
-            resPool.removeBag(mon.cost);
+            resPool.removeBagAsInt(mon.cost);
             mon.updateStatus(teamIndex);
 
             if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
@@ -91,7 +200,21 @@ public class Base : NetworkBehaviour
         return false;
     }
 
-    
+    private void updateBasePlayerStats(int upgrade)
+    {
+        if(upgrade % 2 == 0)
+        {
+            baseStats.baseHealth += HealthUpgrade;
+            baseStats.baseMovementSpeed += MovementUpgrade;
+            baseStats.baseInteractionSpeed += InteractionUpgrade;
+        }
+        else
+        {
+            baseStats.baseGatherAmount += GatherUpgrade;
+            baseStats.baseMeleeDamage += MeleeUpgrade;
+            baseStats.baseRangedDamage += RangedUpgrade;
+        }
+    }
     
     public void UpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
     {
@@ -121,7 +244,7 @@ public class Base : NetworkBehaviour
                 if (!p.resources.isEmpty())
                 {
                     resourceSound.Play();
-                    p.giveResToBase(teamIndex);
+                    resPool.addBagAsInt(p.resources.dumpResources());
                 }
 
                 /* Play entry sound effect */
@@ -146,48 +269,5 @@ public class Base : NetworkBehaviour
         {
             player.isInBase = false;
         }
-    }
-
-    [Command]
-    public void CmdReceiveResources(int[] res)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            RpcReceiveResources(i + 1, res[i]);
-        }
-    }
-
-    [ClientRpc]
-    public void RpcReceiveResources(int resName, int res)
-    {
-        resPool.addResource((ResourceName)resName, res);
-    }
-
-    [Command]
-    public void CmdRemoveResources(int[] res)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            RpcRemoveResources(i + 1, res[i]);
-        }
-    }
-
-    [ClientRpc]
-    public void RpcRemoveResources(int resName, int res)
-    {
-        resPool.removeAmount((ResourceName)resName, res);
-    }
-
-    [Command]
-    public void CmdUpdateUpgradeList(int upInd)
-    {
-        RpcUpdateUpgradeList(upInd);
-    }
-
-    [ClientRpc]
-    public void RpcUpdateUpgradeList(int upInd)
-    {
-        upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
-        upgradeLevels.RemoveAt(upInd + 1);
     }
 }

@@ -28,13 +28,13 @@ public class Upgrade
     public UpgradeType type;
     public int tier;
     public int level;
-    public SyncListResource cost = new SyncListResource();
+    public int[] cost = new int[6];
 
     //Value sliders that can be chaged for balance
     static int Health = 30;
-    static float Movement = 0.25f;
+    static float Movement = 1;
     static float Interaction = 0.1f;
-    static float Gather = 0.1f;
+    static float Gather = 1;
     static int Melee = 20;
     static int Ranged = 10;
     static float costScale = 1.2f;
@@ -52,7 +52,7 @@ public class Upgrade
         tier = r;
         level = 1;
 
-        Resource small = new Resource(
+        /*Resource small = new Resource(
             (ResourceName)(2*r - (int)type), //Utilizes lookup function - Ask Michael Beshear if confused
             (int)UpgradeCost.small
         );
@@ -64,11 +64,11 @@ public class Upgrade
             (int)UpgradeCost.large
         );
 
-        cost.Add(large);
+        cost.Add(large);*/
     }
 
     //Function that base calls to purchase an upgrade
-    public void UpdateStatsAndCost(PlayerStats ps)
+    public void UpdateStats(PlayerStats ps)
     {
        level++;
 
@@ -78,11 +78,6 @@ public class Upgrade
         if (type == UpgradeType.Gather) { ps.baseGatherAmount += Gather; }
         if (type == UpgradeType.Melee) { ps.baseMeleeDamage += Melee; }
         if (type == UpgradeType.Range) { ps.baseRangedDamage += Ranged; }
-
-        foreach(Resource res in cost)
-        {
-            res.setAmount((int)(res.getAmount() * costScale));
-        }
     }
 }
 

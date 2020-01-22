@@ -24,16 +24,16 @@ public class Monument : Upgrade
         tier = ((int)mainType / 2) + ((int)mainType % 2);
 
         Resource small = new Resource(
-            (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to covert large to small - Ask Michael Beshear if confused
+            ((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to covert large to small - Ask Michael Beshear if confused
             (int)UpgradeCost.small //* 10
         );
 
         Resource large = new Resource(
-            mainType,
+            (int)mainType,
             (int)UpgradeCost.large //* 10
         );
-        cost.Add(small);
-        cost.Add(large);
+        cost[small.getType()-1] = small.getAmount();
+        cost[large.getType()-1] = large.getAmount();
     }
 
     public void updateStatus(int team)
@@ -42,5 +42,3 @@ public class Monument : Upgrade
         owner = team;
     }
 }
-
-public class SyncListMonument : SyncList<Monument> { }

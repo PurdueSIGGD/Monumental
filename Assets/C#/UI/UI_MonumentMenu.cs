@@ -30,8 +30,7 @@ public class UI_MonumentMenu : MonoBehaviour
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].myBase = myBase;
-            Upgrade up = monHolder.monuments[i];
-            buttonList[i].setPrice(up);
+            buttonList[i].setPrice(i, true);
         }
     }
 }

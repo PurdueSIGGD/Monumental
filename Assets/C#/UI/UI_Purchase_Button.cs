@@ -12,13 +12,11 @@ public class UI_Purchase_Button : NetworkBehaviour
     public Text text = null;
     public Text title = null;
     private List<GameObject> resources = new List<GameObject>();
-    public Upgrade up;
+    public int up;
     public Base myBase;
 
     public void setPrice(ResourceBag price)
-    {
-        up = new Upgrade(UpgradeType.Gather, 1);
-        
+    {   
         if (!resourceLocation)
         {
             return;
@@ -30,13 +28,13 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         resources.Clear();
 
-        SyncListResource rsc = price.getBag();
-        for (int i = 0; i < rsc.Count; i++)
+        int[] rsc = price.getBag();
+        for (int i = 0; i < rsc.Length; i++)
         {
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
-            obj.GetComponentInChildren<Text>().text = "" + rsc[i].getAmount();
-            obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
+            obj.GetComponentInChildren<Text>().text = "" + rsc[i];
+            obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
             obj.transform.position += new Vector3(60 * i, 0, 0);
             resources.Add(obj);
         }
@@ -48,7 +46,7 @@ public class UI_Purchase_Button : NetworkBehaviour
         
     }
 
-    public void setPrice(Upgrade upgrade)
+    public void setPrice(int upgrade, bool isMonument)
     {
         up = upgrade;
 
@@ -63,27 +61,29 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         resources.Clear();
 
-        SyncListResource rsc = up.cost;
-        //Debug.Log("cost: " + rsc.Count);
-        if (up.type != UpgradeType.Monument || !((Monument)up).purchased)
+        int[] rsc = myBase.resourceCostForUpgrade(up, myBase.getUpgradeLevel(up));
+        if (!isMonument)
         {
-            for (int i = 0; i < rsc.Count; i++)
+            int objectOffset = 0;
+            for (int i = 0; i < rsc.Length; i++)
             {
+                if (rsc[i] == 0) continue;
                 /* Important to instantiate with parent transform parameter */
                 GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
-                obj.GetComponentInChildren<Text>().text = "" + rsc[i].getAmount();
-                obj.GetComponent<Image>().sprite = Resource.getSprite(rsc[i].getType());
+                obj.GetComponentInChildren<Text>().text = "" + rsc[i];
+                obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
                 float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
-                obj.transform.position += new Vector3(offset * i, 0, 0);
+                obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
                 resources.Add(obj);
+                objectOffset++;
             }
         }
         //Debug.Log("done");
         //title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
         text.text = "Purchase";
-        if (up.type == UpgradeType.Monument)
+        if (isMonument)
         {
-            Monument mon = (Monument)up;
+            /*Monument mon = new Monument();
             if (mon.purchased)
             {
                 title.text = mon.name + " " + mon.owner;
@@ -93,11 +93,11 @@ public class UI_Purchase_Button : NetworkBehaviour
             else
             {
                 title.text = "???";
-            }
+            }*/
         }
         else
         {
-            title.text = up.type + " Tier " + up.tier + " - " + up.level;
+            title.text = "Upgrade " + up + " - Tier " + myBase.getUpgradeLevel(up);
         }
         
         if (button)
@@ -107,21 +107,33 @@ public class UI_Purchase_Button : NetworkBehaviour
 
     }
 
+    private string getType(int upgrade)
+    {
+        if(upgrade % 2 == 0)
+        {
+            return "Health";
+        }
+        else
+        {
+            return "Damage";
+        }
+    }
+
     public void makePurchase()
     {
-        if (up.type == UpgradeType.Monument)
+        /*if (up.type == UpgradeType.Monument)
         {
             if (myBase.purchaseMonument((Monument)up))
             {
                 //Debug.Log("Monument obtained");
-                setPrice(up);
+                setPrice(up, true);
             }
             return;
-        }
-        if (myBase.purchaseUpgrade(up))
+        }*/
+        if (this.GetComponentInParent<UI_UpgradeMenu>().purchaseUp(myBase, up))
         {
             //Debug.Log("purchase successful");
-            setPrice(up);
+            setPrice(up, false);
             //myBase.resPool.testBag();
         }
         else

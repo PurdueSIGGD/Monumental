@@ -101,7 +101,7 @@ public class Player : NetworkBehaviour
 
     public void resourceTransfer(int attacker)
     {
-        int[] takenRes = resources.dumpResourcesAsInt();
+        int[] takenRes = resources.dumpResources();
         CmdTransferResources(attacker, takenRes);
     }
 
@@ -168,28 +168,9 @@ public class Player : NetworkBehaviour
         positionInPlayerList = p;
     }
     
-    public void giveResToBase(int target)
-    {
-        int[] res = resources.dumpResourcesAsInt();
-        CmdDepositResources(target, res);
-    }
-
-    [Command]
-    public void CmdUpdateRes(int resType, float size)
-    {
-        RpcUpdateRes(resType, size);
-    }
-
-    [ClientRpc]
-    public void RpcUpdateRes(int resType, float size)
+    public void gather(int resType, float size)
     {
         resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
-    }
-
-    [Command]
-    public void CmdDepositResources(int target, int[] res)
-    {
-        mnm.baseList[target].GetComponent<Base>().CmdReceiveResources(res);
     }
 
     [Command]

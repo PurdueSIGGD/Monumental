@@ -5,12 +5,13 @@ using Mirror;
 
 public class MonumentHolder : NetworkBehaviour
 {
-    public SyncListMonument monuments = new SyncListMonument();
+    string[] names = { "Straw Man", "Rock Henge", "Sun Dial", "Steel Throne", "Midas", "Vanity Sculpture" };
+    List<Monument> monuments;
 
     // Start is called before the first frame update
     void Start()
     {
-        string[] names = {"Straw Man","Rock Henge","Sun Dial","Steel Throne","Midas","Vanity Sculpture" };
+        monuments = new List<Monument>();
         for(int i = (int)ResourceName.WOOD; i <= (int)ResourceName.DIAMOND; i++)
         {
             monuments.Add(new Monument((ResourceName)i));

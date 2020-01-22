@@ -86,13 +86,13 @@ public class UI_Purchase_Button : NetworkBehaviour
             Monument mon = (Monument)up;
             if (mon.purchased)
             {
-                title.text = mon.name + " " + mon.owner;
+                title.text = mon.getName() + ": Team" + mon.owner;
                 text.text = "";
                 button.enabled = false;
             }
             else
             {
-                title.text = "???";
+                title.text = mon.getName();
             }
         }
         else

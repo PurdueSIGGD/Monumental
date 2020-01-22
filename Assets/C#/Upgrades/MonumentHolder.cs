@@ -10,11 +10,9 @@ public class MonumentHolder : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        string[] names = {"Straw Man","Rock Henge","Sun Dial","Steel Throne","Midas","Vanity Sculpture" };
         for(int i = (int)ResourceName.WOOD; i <= (int)ResourceName.DIAMOND; i++)
         {
             monuments.Add(new Monument((ResourceName)i));
-            monuments[i-1].name = names[i-1];
         }
     }
 

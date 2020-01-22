@@ -30,7 +30,7 @@ public class Upgrade
     public int level;
     public SyncListResource cost = new SyncListResource();
 
-    //Value sliders that can be chaged for balance
+    //Value sliders that can be changed for balance
     static int Health = 30;
     static float Movement = 0.25f;
     static float Interaction = 0.1f;

@@ -6,8 +6,9 @@ using Mirror;
 public class Monument : Upgrade
 {
     public bool purchased;
-    public string name;
     public int owner;
+    public ResourceName mainType;
+    private static string[] names = { "Straw Man", "Rock Henge", "Sun Dial", "Steel Throne", "Midas", "Vanity Sculpture" };
 
     public Monument()
     {
@@ -15,8 +16,14 @@ public class Monument : Upgrade
         owner = -1;
     }
 
+    public string getName()
+    {
+        return names[(int)mainType - 1];
+    }
+
     public Monument(ResourceName mainType)
     {
+        this.mainType = mainType;
         purchased = false;
         owner = -1;
 
@@ -24,7 +31,7 @@ public class Monument : Upgrade
         tier = ((int)mainType / 2) + ((int)mainType % 2);
 
         Resource small = new Resource(
-            (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to covert large to small - Ask Michael Beshear if confused
+            (ResourceName)((int)mainType+ ((int)mainType%2)*2 - 1), // Lookup function to convert large to small - Ask Michael Beshear if confused
             (int)UpgradeCost.small //* 10
         );
 

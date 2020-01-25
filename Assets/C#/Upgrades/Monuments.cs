@@ -9,11 +9,13 @@ public class Monument : Upgrade
     public int owner;
     public ResourceName mainType;
     private static string[] names = { "Straw Man", "Rock Henge", "Sun Dial", "Steel Throne", "Midas", "Vanity Sculpture" };
+    private UI_Control uiControl;
 
     public Monument()
     {
         purchased = false;
         owner = -1;
+        uiControl = GameObject.FindObjectOfType<UI_Control>();
     }
 
     public string getName()
@@ -47,6 +49,7 @@ public class Monument : Upgrade
     {
         purchased = true;
         owner = team;
+        uiControl.updateMonument((int)mainType, owner);
     }
 }
 

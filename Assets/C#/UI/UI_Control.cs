@@ -10,6 +10,7 @@ public class UI_Control : NetworkBehaviour
     public Button swapButton = null;
     public GameObject upgradeMenu = null;
     public GameObject monumentMenu = null;
+    public List<Image> monumentIcons = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -36,6 +37,11 @@ public class UI_Control : NetworkBehaviour
             resource_team_texts.Add(team_text);
             team_text.color = new Color(0,1,0);
 
+        }
+
+        for (int i = 0; i < monumentIcons.Count; i++)
+        {
+            updateMonument(i, -1);
         }
 
         if (shopButton)
@@ -87,6 +93,27 @@ public class UI_Control : NetworkBehaviour
 
     }
 
+    public void updateMonument(int monument, int owner)
+    {
+        if (monument < 0 || monument >= monumentIcons.Count)
+        {
+            return;
+        }
+
+        if (myBase == null || myBase.teamIndex == -1)
+        {
+            monumentIcons[monument].color = new Color(0.2f, 0.2f, 0.2f);
+        }
+        else if (myBase.teamIndex == owner)
+        {
+            monumentIcons[monument].color = new Color(1, 1, 1);
+        }
+        else
+        {
+            monumentIcons[monument].color = new Color(0, 0, 0);
+        }
+    }
+
     void onShopButton()
     {
         if (player.isInBase)
@@ -125,7 +152,6 @@ public class UI_Control : NetworkBehaviour
         }
         else
         {
-            //Debug.Log("swapping");
             currentMenu = upgradeMenu;
             currentMenu.SetActive(true);
             swapButton.GetComponentInChildren<Text>().text = "Monuments";

@@ -15,7 +15,6 @@ public class Monument : Upgrade
     {
         purchased = false;
         owner = -1;
-        uiControl = GameObject.FindObjectOfType<UI_Control>();
     }
 
     public string getName()
@@ -49,7 +48,11 @@ public class Monument : Upgrade
     {
         purchased = true;
         owner = team;
-        uiControl.updateMonument((int)mainType, owner);
+        if (!uiControl)
+        {
+            uiControl = GameObject.FindObjectOfType<UI_Control>();
+        }
+        uiControl.updateMonument((int)mainType - 1, owner);
     }
 }
 

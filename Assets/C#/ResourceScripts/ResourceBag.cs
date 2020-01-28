@@ -115,21 +115,27 @@ public class ResourceBag : NetworkBehaviour
         {
             case 1:
                 wood -= amount;
+                if (wood < 0) wood = 0;
                 return;
             case 2:
                 stone -= amount;
+                if (stone < 0) stone = 0;
                 return;
             case 3:
                 copper -= amount;
+                if (copper < 0) copper = 0;
                 return;
             case 4:
                 iron -= amount;
+                if (iron < 0) iron = 0;
                 return;
             case 5:
                 gold -= amount;
+                if (gold < 0) gold = 0;
                 return;
             case 6:
                 diamond -= amount;
+                if (diamond < 0) diamond = 0;
                 return;
         }
         return;
@@ -137,12 +143,10 @@ public class ResourceBag : NetworkBehaviour
 
     public void removeBagAsInt(int[] res)
     {
-        wood -= res[0];
-        stone -= res[1];
-        copper -= res[2];
-        iron -= res[3];
-        gold -= res[4];
-        diamond -= res[5];
+        for(int i=0; i<6; i++)
+        {
+            removeAmount(i + 1, res[i]);
+        }
     }
 
     //Removes all resources from bag

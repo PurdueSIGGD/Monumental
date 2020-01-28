@@ -101,14 +101,4 @@ public class PlayerStats : NetworkBehaviour
     {
         Class = 1 - Class;
     }
-    
-    public void UpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        baseHealth = bh;
-		baseMovementSpeed = ms;
-		baseInteractionSpeed = isp;
-		baseGatherAmount = ga;
-		baseMeleeDamage = md;
-		baseRangedDamage = rd;
-    }
 }

@@ -169,8 +169,8 @@ public class Base : NetworkBehaviour
         if (resPool.checkBag(cost) && (Time.time - lastPurchase) > cooldown)
         {
             if (localPlayer == null) return false;
-            localPlayer.CmdRemoveBaseResources(cost);
             localPlayer.CmdBaseUpgrade(up);
+            localPlayer.CmdRemoveBaseResources(cost);
             localPlayer.CmdUpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
                         baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
             return true;

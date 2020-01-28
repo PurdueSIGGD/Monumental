@@ -100,6 +100,16 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void UpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
+    {
+        stats.baseHealth = bh;
+        stats.baseMovementSpeed = ms;
+        stats.baseInteractionSpeed = isp;
+        stats.baseGatherAmount = ga;
+        stats.baseMeleeDamage = md;
+        stats.baseRangedDamage = rd;
+    }
+
     public void resourceTransfer(int attacker)
     {
         int[] takenRes = resources.dumpResources();
@@ -191,23 +201,16 @@ public class Player : NetworkBehaviour
         {
             if (player.GetComponent<Player>().teamIndex == team)
             {
-                print(player);
-                player.GetComponent<Player>().CmdUpdateStats(bh, ms, isp, ga, md, rd);
+                player.GetComponent<Player>().RpcUpdateStats(bh, ms, isp, ga, md, rd);
             }
         }
-    }
-
-    [Command]
-    public void CmdUpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        RpcUpdateStats(bh, ms, isp, ga, md, rd);
     }
 
     [ClientRpc]
     void RpcUpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
     {
-        stats.UpdateStats(bh, ms, isp, ga, md, rd);
-        health = stats.getHealth();
+        UpdateStats(bh, ms, isp, ga, md, rd);
+        health = bh;
     }
 
     [Command]

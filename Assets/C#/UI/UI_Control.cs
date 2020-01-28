@@ -75,14 +75,14 @@ public class UI_Control : NetworkBehaviour
 
         for (int i = 0; i < resource_texts.Count; i++)
         {
-            resource_texts[i].text = "" + player.resources.getAmount((ResourceName)(i+1));
+            resource_texts[i].text = "" + player.resources.getAmount(i+1);
         }
         if (myBase == null) {
             myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[player.teamIndex].GetComponent<Base>();
         }
         for (int i = 0; i < resource_team_texts.Count; i++)
         {
-            resource_team_texts[i].text = "" + myBase.resPool.getAmount((ResourceName)(i+1));
+            resource_team_texts[i].text = "" + myBase.resPool.getAmount(i+1);
         }
 
     }

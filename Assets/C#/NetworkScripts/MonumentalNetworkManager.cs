@@ -8,6 +8,7 @@ public class MonumentalNetworkManager : NetworkManager
     public int[] teamSizes;
     public List<GameObject> baseList = new List<GameObject>();
     public List<GameObject> playerList = new List<GameObject>();
+    public Monuments monuments;
     //public GameObject[] teamSpawns;
 
     public override void Start()

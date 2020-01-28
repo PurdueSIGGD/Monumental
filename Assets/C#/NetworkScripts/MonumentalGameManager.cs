@@ -47,7 +47,7 @@ public class MonumentalGameManager : MonoBehaviour//NetworkBehaviour
         }
     }
 
-    public void winGame(int teamIndex) //currently does not get called anywhere. This class has a network identity and cannot be added to the Network manager
+    public void WinGame(int teamIndex) //currently unused. This class has a network identity and can't be added to Network manager
     {
         Debug.Log("Grats to team " + teamIndex);
     }

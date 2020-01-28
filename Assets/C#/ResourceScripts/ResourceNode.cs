@@ -23,7 +23,7 @@ public class ResourceNode : MonoBehaviour
         amount = amount * rand * gatherMultiplier;
 
         //Returns the amount gathered in an integers
-        return new Resource(type, (int)Mathf.Ceil(amount));
+        return new Resource((int)type, (int)Mathf.Ceil(amount));
     }
 
     public Resource gatherPass(float gatherMultiplier, int typePass, float sizePass)
@@ -36,6 +36,6 @@ public class ResourceNode : MonoBehaviour
         amount = amount * rand * gatherMultiplier;
 
         //Returns the amount gathered in an integers
-        return new Resource((ResourceName)typePass, (int)Mathf.Ceil(amount));
+        return new Resource(typePass, (int)Mathf.Ceil(amount));
     }
 }

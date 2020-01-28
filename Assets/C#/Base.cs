@@ -48,6 +48,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
             tels[i].teamIndex = teamIndex;
@@ -168,33 +169,34 @@ public class Base : NetworkBehaviour
         int[] cost = resourceCostForUpgrade(up, upLevel);
         if (resPool.checkBag(cost) && (Time.time - lastPurchase) > cooldown)
         {
+            lastPurchase = Time.time;
             if (localPlayer == null) return false;
             localPlayer.CmdBaseUpgrade(up);
             localPlayer.CmdRemoveBaseResources(cost);
-            localPlayer.CmdUpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
-                        baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
             return true;
         }
         return false;
     }
 
-    /*public bool purchaseMonument(Monument mon)
+    public bool purchaseMonument(int mon)
     {
-        if  (resPool.checkBag(mon.cost) && mon.owner < 0)
+        if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1)
         {
-            resPool.removeBagAsInt(mon.cost);
-            mon.updateStatus(teamIndex);
+            localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
 
-            if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
+            if (mnm.monuments.GetScore(teamIndex) >= 2)
             {
                 //Insert code to win the game
-                GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
+                GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().WinGame(teamIndex);
 
             }
+
+            localPlayer.CmdPurchaseMonument(mon, teamIndex);
+
             return true;
         }
         return false;
-    }*/
+    }
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -207,6 +209,10 @@ public class Base : NetworkBehaviour
             }
             if (p.teamIndex == teamIndex)
             {
+                if(p.myBase == null)
+                {
+                    p.myBase = this;
+                }
                 p.isInBase = true;
                 //Heal player to full
                 p.health = p.stats.getHealth();

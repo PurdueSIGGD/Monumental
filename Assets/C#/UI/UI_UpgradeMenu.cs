@@ -17,11 +17,6 @@ public class UI_UpgradeMenu : NetworkBehaviour
             if (NetworkServer.active)
             {
                 this.gameObject.SetActive(false);
-                print("Server");
-            }
-            else
-            {
-                print("Not server");
             }
         }
     }
@@ -36,10 +31,5 @@ public class UI_UpgradeMenu : NetworkBehaviour
             buttonList[i].myBase = myBase;
             buttonList[i].setPrice(i+1, false);
         }
-    }
-
-    public bool purchaseUp(Base myBase, int up)
-    {
-        return myBase.purchaseUpgrade(up);
     }
 }

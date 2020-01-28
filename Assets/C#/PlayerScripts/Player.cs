@@ -26,7 +26,7 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
-    private Base myBase;
+    public Base myBase;
 
     public GameObject projectile;
 	private HitDetection hitDetect;
@@ -73,6 +73,7 @@ public class Player : NetworkBehaviour
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
+        checkForStatsUpdate();
 	}
 
     private void OnDestroy()
@@ -100,14 +101,19 @@ public class Player : NetworkBehaviour
         }
     }
 
-    public void UpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
+    private void checkForStatsUpdate()
     {
-        stats.baseHealth = bh;
-        stats.baseMovementSpeed = ms;
-        stats.baseInteractionSpeed = isp;
-        stats.baseGatherAmount = ga;
-        stats.baseMeleeDamage = md;
-        stats.baseRangedDamage = rd;
+        if (myBase == null) return;
+        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage)
+        {
+            stats.baseHealth = myBase.baseStats.baseHealth;
+            stats.baseMovementSpeed = myBase.baseStats.baseMovementSpeed;
+            stats.baseInteractionSpeed = myBase.baseStats.baseInteractionSpeed;
+            stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
+            stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
+            stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
+            health = stats.baseHealth;
+        }
     }
 
     public void resourceTransfer(int attacker)
@@ -195,25 +201,6 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
-    public void CmdUpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        foreach (GameObject player in mnm.playerList)
-        {
-            if (player.GetComponent<Player>().teamIndex == team)
-            {
-                player.GetComponent<Player>().RpcUpdateStats(bh, ms, isp, ga, md, rd);
-            }
-        }
-    }
-
-    [ClientRpc]
-    void RpcUpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        UpdateStats(bh, ms, isp, ga, md, rd);
-        health = bh;
-    }
-
-    [Command]
     public void CmdDamageThem(int target, int source, int damage)
     {
         mnm.playerList[target].GetComponent<Player>().RpcDamageThem(source, damage);
@@ -235,5 +222,11 @@ public class Player : NetworkBehaviour
     public void CmdBaseUpgrade(int upgrade)
     {
         myBase.RpcBaseUpgrade(upgrade);
+    }
+
+    [Command]
+    public void CmdPurchaseMonument(int mon, int team)
+    {
+        mnm.monuments.RpcClaimMonument(mon, team);
     }
 }

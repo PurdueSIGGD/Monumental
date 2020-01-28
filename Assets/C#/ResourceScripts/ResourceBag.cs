@@ -20,7 +20,7 @@ public class ResourceBag : NetworkBehaviour
     int diamond;
 
 
-    void start()
+    void Start()
     {
         wood = 0;
         stone = 0;
@@ -29,15 +29,6 @@ public class ResourceBag : NetworkBehaviour
         gold = 0;
         diamond = 0;
     }
-
-	//Prints out all resources and their amounts in the bag, used for debugging
-	/*public void testBag()
-	{
-		foreach (Resource res in bag)
-		{
-			Debug.Log(res.getType() + ": " + res.getAmount());
-		}
-	}*/
 
 	//Adds amount of resource of type
 	public void addAmount(int type, int amount)

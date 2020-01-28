@@ -11,100 +11,70 @@ public class UI_Purchase_Button : NetworkBehaviour
     public Button button = null;
     public Text text = null;
     public Text title = null;
-    private List<GameObject> resources = new List<GameObject>();
+    private List<GameObject> resourceSprites = new List<GameObject>();
     public int up;
     public Base myBase;
+    public Monuments myMon;
+    public bool isMonument = false;
+    private bool isInitialized = false;
+    private int upLevel = 1;
 
-    public void setPrice(ResourceBag price)
-    {   
+    public void setPrice(int upgrade, bool isMon)
+    {
+        up = upgrade;
+        isMonument = isMon;
+        isInitialized = true;
+
         if (!resourceLocation)
         {
             return;
         }
 
-        for (int i = 0; i < resources.Count; i++)
+        for (int i = 0; i < resourceSprites.Count; i++)
         {
-            Destroy(resources[i]);
+            Destroy(resourceSprites[i]);
         }
-        resources.Clear();
+        resourceSprites.Clear();
 
-        int[] rsc = price.getBag();
+        int[] rsc;
+
+        if (!isMon)
+        {
+            rsc = myBase.resourceCostForUpgrade(up, myBase.getUpgradeLevel(up));
+        }
+        else
+        {
+            rsc = myMon.GetCost(up);
+        }
+        int objectOffset = 0;
         for (int i = 0; i < rsc.Length; i++)
         {
+            if (rsc[i] == 0) continue;
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
             obj.GetComponentInChildren<Text>().text = "" + rsc[i];
             obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
-            obj.transform.position += new Vector3(60 * i, 0, 0);
-            resources.Add(obj);
+            float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
+            obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
+            resourceSprites.Add(obj);
+            objectOffset++;
         }
 
-        if (button)
-        {
-            button.onClick.AddListener(makePurchase);
-        }
-        
-    }
-
-    public void setPrice(int upgrade, bool isMonument)
-    {
-        up = upgrade;
-
-        if (!resourceLocation)
-        {
-            return;
-        }
-
-        for (int i = 0; i < resources.Count; i++)
-        {
-            Destroy(resources[i]);
-        }
-        resources.Clear();
-
-        int[] rsc = myBase.resourceCostForUpgrade(up, myBase.getUpgradeLevel(up));
-        if (!isMonument)
-        {
-            int objectOffset = 0;
-            for (int i = 0; i < rsc.Length; i++)
-            {
-                if (rsc[i] == 0) continue;
-                /* Important to instantiate with parent transform parameter */
-                GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
-                obj.GetComponentInChildren<Text>().text = "" + rsc[i];
-                obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
-                float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
-                obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
-                resources.Add(obj);
-                objectOffset++;
-            }
-        }
-        //Debug.Log("done");
-        //title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
         text.text = "Purchase";
-        if (isMonument)
+        if (isMon)
         {
-            /*Monument mon = new Monument();
-            if (mon.purchased)
-            {
-                title.text = mon.name + " " + mon.owner;
-                text.text = "";
-                button.enabled = false;
-            }
-            else
-            {
-                title.text = "???";
-            }*/
+            title.text = "Monument " + up;
+            //title.text = myMon.getMonumentName(up);
         }
         else
         {
-            title.text = "Upgrade " + up + " - Tier " + myBase.getUpgradeLevel(up);
+            title.text = getType(up) + " " + up + " - Tier " + myBase.getUpgradeLevel(up);
         }
         
         if (button)
         {
             button.onClick.AddListener(makePurchase);
         }
-
     }
 
     private string getType(int upgrade)
@@ -121,27 +91,59 @@ public class UI_Purchase_Button : NetworkBehaviour
 
     public void makePurchase()
     {
-        /*if (up.type == UpgradeType.Monument)
+        if (isMonument)
         {
-            if (myBase.purchaseMonument((Monument)up))
-            {
-                //Debug.Log("Monument obtained");
-                setPrice(up, true);
-            }
-            return;
-        }*/
-        if (this.GetComponentInParent<UI_UpgradeMenu>().purchaseUp(myBase, up))
-        {
-            //Debug.Log("purchase successful");
-            setPrice(up, false);
-            //myBase.resPool.testBag();
+            myBase.purchaseMonument(up);
         }
         else
         {
-            //Debug.Log("purchase failed");
-            //myBase.resPool.testBag();
+            myBase.purchaseUpgrade(up);
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (!isInitialized) return;
 
+        if (isMonument)
+        {
+            if(myMon.GetOwner(up) != -1)
+            {
+                if(myMon.GetOwner(up) == myBase.teamIndex)
+                {
+                    text.text = "Owned";
+                }
+                else
+                {
+                    text.text = "Sold out";
+                }
+
+                if (button)
+                {
+                    button.onClick.RemoveAllListeners();
+                }
+                isInitialized = false;
+                for(int i=0; i < resourceSprites.Count; i++)
+                {
+                    Destroy(resourceSprites[i]);
+                }
+            }
+        }
+        else
+        {
+            if(myBase.getUpgradeLevel(up) != upLevel)
+            {
+                upLevel = myBase.getUpgradeLevel(up);
+                int[] rsc = myBase.resourceCostForUpgrade(up, upLevel);
+                int a = 0;
+                title.text = getType(up) + " " + up + " - Tier " + upLevel;
+                for (int i=0; i<rsc.Length; i++)
+                {
+                    if (rsc[i] == 0) continue;
+                    resourceSprites[a].GetComponentInChildren<Text>().text = "" + rsc[i];
+                    a++;
+                }
+            }
+        }
+    }
 }

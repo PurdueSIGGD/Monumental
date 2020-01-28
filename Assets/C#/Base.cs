@@ -7,6 +7,7 @@ public class Base : NetworkBehaviour
 {
     private Collider2D myCol;
     public int teamIndex;
+    private Player localPlayer;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
     public AudioSource enterSound;
@@ -167,16 +168,11 @@ public class Base : NetworkBehaviour
         int[] cost = resourceCostForUpgrade(up, upLevel);
         if (resPool.checkBag(cost) && (Time.time - lastPurchase) > cooldown)
         {
-            resPool.removeBagAsInt(cost);
-            //CmdRemoveResources(cost);
-            updateBasePlayerStats(up);
-            //up.UpdateStatsAndCost(baseStats);
-            UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
+            if (localPlayer == null) return false;
+            localPlayer.CmdRemoveBaseResources(cost);
+            localPlayer.CmdBaseUpgrade(up);
+            localPlayer.CmdUpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
                         baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
-            //int upInd = upgrades.IndexOf(up);
-            incrementUpgradeLevel(up);
-            //CmdUpdateUpgradeList(upInd);
-            lastPurchase = Time.time;
             return true;
         }
         return false;
@@ -200,41 +196,16 @@ public class Base : NetworkBehaviour
         return false;
     }
 
-    private void updateBasePlayerStats(int upgrade)
-    {
-        if(upgrade % 2 == 0)
-        {
-            baseStats.baseHealth += HealthUpgrade;
-            baseStats.baseMovementSpeed += MovementUpgrade;
-            baseStats.baseInteractionSpeed += InteractionUpgrade;
-        }
-        else
-        {
-            baseStats.baseGatherAmount += GatherUpgrade;
-            baseStats.baseMeleeDamage += MeleeUpgrade;
-            baseStats.baseRangedDamage += RangedUpgrade;
-        }
-    }
-    
-    public void UpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        foreach (GameObject player in mnm.playerList)
-        {
-            if(player.GetComponent<Player>().teamIndex == team)
-            {
-                PlayerStats pStat = player.GetComponent<PlayerStats>();
-                pStat.UpdateStats(bh, ms, isp, ga, md, rd);
-                player.GetComponent<Player>().health = pStat.getHealth();
-            }
-        }
-    }
-
     void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.CompareTag("Player"))
         {
             Player p = col.gameObject.GetComponent<Player>();
-            if(p.teamIndex == teamIndex)
+            if (localPlayer == null && p.GetComponent<NetworkIdentity>().isLocalPlayer)
+            {
+                localPlayer = p;
+            }
+            if (p.teamIndex == teamIndex)
             {
                 p.isInBase = true;
                 //Heal player to full
@@ -244,7 +215,7 @@ public class Base : NetworkBehaviour
                 if (!p.resources.isEmpty())
                 {
                     resourceSound.Play();
-                    resPool.addBagAsInt(p.resources.dumpResources());
+                    p.CmdTransferResToBase(p.resources.dumpResources());
                 }
 
                 /* Play entry sound effect */
@@ -269,5 +240,36 @@ public class Base : NetworkBehaviour
         {
             player.isInBase = false;
         }
+    }
+
+    [ClientRpc]
+    public void RpcTransferResources(int[] res)
+    {
+        resPool.addBagAsInt(res);
+    }
+
+    [ClientRpc]
+    public void RpcRemoveResources(int[] res)
+    {
+        resPool.removeBagAsInt(res);
+    }
+
+    [ClientRpc]
+    public void RpcBaseUpgrade(int upgrade)
+    {
+        if (upgrade % 2 == 0)
+        {
+            baseStats.baseHealth += HealthUpgrade;
+            baseStats.baseMovementSpeed += MovementUpgrade;
+            baseStats.baseInteractionSpeed += InteractionUpgrade;
+        }
+        else
+        {
+            baseStats.baseGatherAmount += GatherUpgrade;
+            baseStats.baseMeleeDamage += MeleeUpgrade;
+            baseStats.baseRangedDamage += RangedUpgrade;
+        }
+        incrementUpgradeLevel(upgrade);
+        lastPurchase = Time.time;
     }
 }

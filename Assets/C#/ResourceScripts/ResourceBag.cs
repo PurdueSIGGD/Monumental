@@ -108,7 +108,6 @@ public class ResourceBag : NetworkBehaviour
         return new int[] { wood, stone, copper, iron, gold, diamond };
     }
 
-
     //Removes amount of resources from bag of type
     public void removeAmount(int type, int amount)
     {

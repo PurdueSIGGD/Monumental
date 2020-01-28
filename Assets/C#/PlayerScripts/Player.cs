@@ -26,6 +26,7 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
+    private Base myBase;
 
     public GameObject projectile;
 	private HitDetection hitDetect;
@@ -130,6 +131,16 @@ public class Player : NetworkBehaviour
         mnm.playerList[attacker].GetComponent<Player>().RpcTransferResources(res);
     }
 
+    [Command]
+    public void CmdTransferResToBase(int[] res)
+    {
+        if (myBase == null)
+        {
+            myBase = mnm.baseList[teamIndex].GetComponent<Base>();
+        }
+        myBase.RpcTransferResources(res);
+    }
+
     [ClientRpc]
     public void RpcTransferResources(int[] res)
     {
@@ -174,6 +185,32 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
+    public void CmdUpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
+    {
+        foreach (GameObject player in mnm.playerList)
+        {
+            if (player.GetComponent<Player>().teamIndex == team)
+            {
+                print(player);
+                player.GetComponent<Player>().CmdUpdateStats(bh, ms, isp, ga, md, rd);
+            }
+        }
+    }
+
+    [Command]
+    public void CmdUpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
+    {
+        RpcUpdateStats(bh, ms, isp, ga, md, rd);
+    }
+
+    [ClientRpc]
+    void RpcUpdateStats(int bh, float ms, float isp, float ga, int md, int rd)
+    {
+        stats.UpdateStats(bh, ms, isp, ga, md, rd);
+        health = stats.getHealth();
+    }
+
+    [Command]
     public void CmdDamageThem(int target, int source, int damage)
     {
         mnm.playerList[target].GetComponent<Player>().RpcDamageThem(source, damage);
@@ -183,5 +220,17 @@ public class Player : NetworkBehaviour
     void RpcDamageThem(int source, int damage)
     {
         takeDamage(damage, source);
+    }
+
+    [Command]
+    public void CmdRemoveBaseResources(int[] res)
+    {
+        myBase.RpcRemoveResources(res);
+    }
+    
+    [Command]
+    public void CmdBaseUpgrade(int upgrade)
+    {
+        myBase.RpcBaseUpgrade(upgrade);
     }
 }

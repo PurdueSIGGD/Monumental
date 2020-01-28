@@ -180,15 +180,15 @@ public class Base : NetworkBehaviour
 
     public bool purchaseMonument(int mon)
     {
-        if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1)
+        if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1 && (Time.time - lastPurchase) > cooldown)
         {
+            lastPurchase = Time.time;
             localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
 
             if (mnm.monuments.GetScore(teamIndex) >= 2)
             {
                 //Insert code to win the game
                 GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().WinGame(teamIndex);
-
             }
 
             localPlayer.CmdPurchaseMonument(mon, teamIndex);

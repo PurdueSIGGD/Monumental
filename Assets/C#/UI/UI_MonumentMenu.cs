@@ -7,7 +7,6 @@ public class UI_MonumentMenu : MonoBehaviour
     [HideInInspector]
     private bool skip_first_enable = true;
     [HideInInspector]
-    private MonumentHolder monHolder;
 
     private void OnEnable()
     {
@@ -21,9 +20,6 @@ public class UI_MonumentMenu : MonoBehaviour
     public void reset(int team)
     {
         Base myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
-        if (!monHolder) {
-            monHolder = GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>();
-        }
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
         //Debug.Log("Num Buts: " + buttonList.Length);

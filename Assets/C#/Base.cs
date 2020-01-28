@@ -178,7 +178,7 @@ public class Base : NetworkBehaviour
         return false;
     }
 
-    public bool purchaseMonument(Monument mon)
+    /*public bool purchaseMonument(Monument mon)
     {
         if  (resPool.checkBag(mon.cost) && mon.owner < 0)
         {
@@ -194,7 +194,7 @@ public class Base : NetworkBehaviour
             return true;
         }
         return false;
-    }
+    }*/
 
     void OnTriggerEnter2D(Collider2D col)
     {

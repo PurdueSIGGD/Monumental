@@ -37,7 +37,6 @@ public class Upgrade
     static float Gather = 1;
     static int Melee = 20;
     static int Ranged = 10;
-    static float costScale = 1.2f;
 
     public Upgrade()
     {

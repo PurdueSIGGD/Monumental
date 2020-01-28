@@ -31,10 +31,10 @@ RectTransform:
   - {fileID: 2565460594448856413}
   - {fileID: 328241800614095586}
   - {fileID: 2894334063019555008}
-  - {fileID: 5708981657240337858}
-  - {fileID: 3490268126929257332}
   - {fileID: 615519310364477100}
+  - {fileID: 5708981657240337858}
   - {fileID: 7583383598582992475}
+  - {fileID: 3490268126929257332}
   - {fileID: 1949143639520613476}
   m_Father: {fileID: 7502050784895007874}
   m_RootOrder: 0
@@ -304,6 +304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f257ff8bf97c9468c181c2b96d07d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &8747742961156716626
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +435,7 @@ PrefabInstance:
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
@@ -808,7 +810,7 @@ PrefabInstance:
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
@@ -948,7 +950,7 @@ PrefabInstance:
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
@@ -1073,7 +1075,7 @@ PrefabInstance:
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}

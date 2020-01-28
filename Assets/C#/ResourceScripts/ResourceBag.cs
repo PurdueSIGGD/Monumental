@@ -6,237 +6,168 @@ using Mirror;
 public class ResourceBag : NetworkBehaviour
 {
     //List of all resources being held
-    public SyncListResource bag = new SyncListResource();
+    [SyncVar]
+    int wood;
+    [SyncVar]
+    int stone;
+    [SyncVar]
+    int copper;
+    [SyncVar]
+    int iron;
+    [SyncVar]
+    int gold;
+    [SyncVar]
+    int diamond;
 
-    void start()
+
+    void Start()
     {
-        for(int i = (int)(ResourceName.WOOD); i <= (int)(ResourceName.DIAMOND); i++)
-        {
-            bag.Add(new Resource((ResourceName)i, 0));
-        }
+        wood = 0;
+        stone = 0;
+        copper = 0;
+        iron = 0;
+        gold = 0;
+        diamond = 0;
     }
-
-	//Prints out all resources and their amounts in the bag, used for debugging
-	public void testBag()
-	{
-		foreach (Resource res in bag)
-		{
-			Debug.Log(res.getType() + ": " + res.getAmount());
-		}
-	}
 
 	//Adds amount of resource of type
-	public void addResource(ResourceName type, int amount)
+	public void addAmount(int type, int amount)
     {
-		foreach (Resource res in bag)
+        switch (type)
         {
-			if (res.getType() == type)
-            {
-				res.addAmount(amount);
+            case 1:
+                wood += amount;
                 return;
-            }
+            case 2:
+                stone += amount;
+                return;
+            case 3:
+                copper += amount;
+                return;
+            case 4:
+                iron += amount;
+                return;
+            case 5:
+                gold += amount;
+                return;
+            case 6:
+                diamond += amount;
+                return;
         }
-        bag.Add(new Resource(type, amount));
+        return;
     }
-
-    //Adds a resource, combining any identical resources
+    
     public void addResource(Resource r)
     {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == r.getType())
-            {
-                res.addAmount(r.getAmount());
-                return;
-            }
-        }
-        bag.Add(r);
-    }
-
-    //Adds a bag of resources
-    public void addBag(SyncListResource b)
-    {
-        foreach(Resource r in b)
-        {
-            addResource(r);
-        }
+        addAmount(r.getType(), r.getAmount());
     }
 
     public void addBagAsInt(int[] res)
     {
-        for(int i = (int)(ResourceName.WOOD); i <= (int)ResourceName.DIAMOND; i++)
-        {
-            addResource((ResourceName)i, res[i - 1]);
-        }
+        wood += res[0];
+        stone += res[1];
+        copper += res[2];
+        iron += res[3];
+        gold += res[4];
+        diamond += res[5];
     }
 
     //Gets the amount of resources from bag of type
-    public int getAmount(ResourceName type)
+    public int getAmount(int type)
     {
-        foreach (Resource res in bag)
+        switch (type)
         {
-            if (res.getType() == type)
-            {
-                return res.getAmount();
-            }
-        }
-        return 0;
-    }
-
-    //Gets the amount of resource r
-    public int getAmount(Resource r)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == r.getType())
-            {
-                return res.getAmount();
-            }
-        }
-        return 0;
-    }
-
-    //Gets all of resource type
-    public int getResource(ResourceName type)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == type)
-            {
-                return res.getAmount();
-            }
+            case 1:
+                return wood;
+            case 2:
+                return stone;
+            case 3:
+                return copper;
+            case 4:
+                return iron;
+            case 5:
+                return gold;
+            case 6:
+                return diamond;
         }
         return 0;
     }
 
     //Gets the total bag of resources
-    public SyncListResource getBag()
+    public int[] getBag()
     {
-        return bag;
+        return new int[] { wood, stone, copper, iron, gold, diamond };
     }
-
 
     //Removes amount of resources from bag of type
-    public Resource removeAmount(ResourceName type, int amount)
+    public void removeAmount(int type, int amount)
     {
-        foreach(Resource res in bag)
+        switch (type)
         {
-            if(res.getType() == type)
-            {
-                res.addAmount(- amount);
-                return new Resource(type, Mathf.Abs(amount - res.getAmount()));
-            }
+            case 1:
+                wood -= amount;
+                if (wood < 0) wood = 0;
+                return;
+            case 2:
+                stone -= amount;
+                if (stone < 0) stone = 0;
+                return;
+            case 3:
+                copper -= amount;
+                if (copper < 0) copper = 0;
+                return;
+            case 4:
+                iron -= amount;
+                if (iron < 0) iron = 0;
+                return;
+            case 5:
+                gold -= amount;
+                if (gold < 0) gold = 0;
+                return;
+            case 6:
+                diamond -= amount;
+                if (diamond < 0) diamond = 0;
+                return;
         }
-        return new Resource(type, 0);
+        return;
     }
 
-    //Removes an amount of resource r
-    public Resource removeAmount(Resource r)
+    public void removeBagAsInt(int[] res)
     {
-        foreach (Resource res in bag)
+        for(int i=0; i<6; i++)
         {
-            if (res.getType() == r.getType())
-            {
-                return new Resource(r.getType(), res.removeAmount(r.getAmount()));
-            }
+            removeAmount(i + 1, res[i]);
         }
-        return new Resource(r.getType(), 0);
-    }
-
-    //Remove all of resource type
-    public Resource removeResource(ResourceName type)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == type)
-            {
-                Resource ret = new Resource(res);
-                res.setAmount(0);
-                return ret;
-            }
-        }
-        return new Resource(type, 0);
-    }
-
-    //Removes b's worth of resources from bag
-    public SyncListResource removeBag(SyncListResource b)
-    {
-        ResourceBag ret = new ResourceBag();
-        foreach (Resource res in b)
-        {
-            ret.addResource(removeAmount(res));
-        }
-        return ret.bag;
     }
 
     //Removes all resources from bag
-    public SyncListResource dumpResources()
+    public int[] dumpResources()
     {
-        SyncListResource b = new SyncListResource();
-        foreach (Resource res in bag)
-        {
-            b.Add(removeResource(res.getType()));
-        }
+        int[] b = getBag();
+        removeBagAsInt(b);
         return b;
     }
 
-    public int[] dumpResourcesAsInt()
-    {
-        int[] ret = new int[6];
-        for(int i = (int)ResourceName.WOOD; i <= (int)ResourceName.DIAMOND; i++)
-        {
-            ret[i-1] = removeResource((ResourceName)i).getAmount();
-        }
-        return ret;
-    }
-
     //Checks the amount of resources from bag of type
-    public bool checkAmount(ResourceName type, int amount)
+    public bool checkAmount(int type, int amount)
     {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == type)
-            {
-                return (res.getAmount() >= amount);
-            }
-        }
-        return false;
-    }
-
-    //Checks for an amount of resource r
-    public bool checkAmount(Resource r)
-    {
-        foreach (Resource res in bag)
-        {
-            if (res.getType() == r.getType())
-            {
-                return (res.getAmount() >= r.getAmount());
-            }
-        }
-        return false;
+        int a = getAmount(type);
+        return a >= amount;
     }
 
     //Checks if the bag has at least the resources of b
-    public bool checkBag(SyncListResource b)
+    public bool checkBag(int[] b)
     {
-        bool ret = true;
-        foreach(Resource res in b)
+        for(int i=0; i<6; i++)
         {
-            ret = ret && checkAmount(res);
+            if (!checkAmount(i + 1, b[i])) return false;
         }
-        return ret;
+        return true;
     }
 
     public bool isEmpty()
     {
-        foreach (Resource res in bag)
-        {
-            if (res.getAmount() > 0)
-            {
-                return false;
-            }
-        }
-        return true;
+        return wood == 0 && stone == 0 && copper == 0 && iron == 0 && gold == 0 && diamond == 0;
     }
 
 }

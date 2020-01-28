@@ -15,31 +15,31 @@ public enum ResourceName
 
 public class Resource
 {
-    private ResourceName type;
+    private int type;
     [SyncVar]
     private int amount;
 
-    public static Sprite getSprite(ResourceName r)
+    public static Sprite getSprite(int r)
     {
         string path = "Sprites/Resources/" + getName(r);
         return Resources.Load(path, typeof(Sprite)) as Sprite;
     }
 
-    public static string getName(ResourceName r)
+    public static string getName(int r)
     {
         switch (r)
         {
-            case ResourceName.WOOD:
+            case 1:
                 return "Wood";
-            case ResourceName.STONE:
+            case 2:
                 return "Stone";
-            case ResourceName.COPPER:
+            case 3:
                 return "Copper";
-            case ResourceName.IRON:
+            case 4:
                 return "Iron";
-            case ResourceName.GOLD:
+            case 5:
                 return "Gold";
-            case ResourceName.DIAMOND:
+            case 6:
                 return "Diamond";
         }
 
@@ -53,7 +53,7 @@ public class Resource
   		amount = 0;
   	}
 
-    public Resource(ResourceName t, int a)
+    public Resource(int t, int a)
     {
         type = t;
         amount = a;
@@ -65,12 +65,12 @@ public class Resource
         amount = r.getAmount();
     }
 
-    public ResourceName getType()
+    public int getType()
     {
         return type;
     }
 
-    public void setType(ResourceName t)
+    public void setType(int t)
     {
         type = t;
     }
@@ -100,5 +100,3 @@ public class Resource
         return Mathf.Abs(amount - start);
     }
 }
-
-public class SyncListResource : SyncList<Resource> { }

@@ -90,7 +90,7 @@ public class Base : NetworkBehaviour
             {
                 PlayerStats pStat = player.GetComponent<PlayerStats>();
                 pStat.UpdateStats(bh, ms, isp, ga, md, rd);
-                player.GetComponent<Player>().health = pStat.getHealth();
+                player.GetComponent<Player>().currentHealth = pStat.getHealth();
             }
         }
     }
@@ -104,7 +104,7 @@ public class Base : NetworkBehaviour
             {
                 p.isInBase = true;
                 //Heal player to full
-                p.health = p.stats.getHealth();
+                p.currentHealth = p.stats.getHealth();
 
                 //dump player resources into pool
                 if (!p.resources.isEmpty())

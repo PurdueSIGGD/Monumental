@@ -10,9 +10,11 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     [SyncVar]
-    public int health;
+    public int currentHealth;
     private Rigidbody2D body;
     private Slider healthbar;
+    public Sprite[] classSprites;
+    private SpriteRenderer spriteRender;
     public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
@@ -39,7 +41,7 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         resources = GetComponent<ResourceBag>();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
@@ -52,7 +54,9 @@ public class Player : NetworkBehaviour
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
-            health = stats.getHealth();
+            currentHealth = stats.getHealth();
+            spriteRender = this.GetComponent<SpriteRenderer>();
+            spriteRender.sprite = classSprites[stats.Class];
         }
     }
 
@@ -82,6 +86,13 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void changeClass()
+    {
+        stats.changeClass();
+        currentHealth = stats.getHealth();
+        spriteRender.sprite = classSprites[stats.Class];
+    }
+
     //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
     {
@@ -91,8 +102,8 @@ public class Player : NetworkBehaviour
     //player takes damage of amount damage from player attacker
     public void takeDamage(int damage, int attacker)
     {
-        health -= damage;
-        if (health <= 0)
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
             resourceTransfer(attacker);
             respawn();
@@ -108,7 +119,7 @@ public class Player : NetworkBehaviour
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
     public void respawn()
     {
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         CmdRespawn();
     }
 
@@ -138,17 +149,17 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = health / (float)stats.getHealth();
+        healthbar.value = currentHealth / (float)stats.getHealth();
         healthbar.transform.parent.position = this.transform.position;
     }
 
     public void setHealth(int val)
     {
-        health = val;
-        if (health <= 0)
+        currentHealth = val;
+        if (currentHealth <= 0)
         {
 			Debug.Log(gameObject.name + " is dead");
-			health = 100;
+			currentHealth = 100;
         }
     }
 

@@ -8,6 +8,7 @@ public class UI_Control : NetworkBehaviour
 {
     public Button shopButton = null;
     public Button swapButton = null;
+    public Button classButton = null;
     public GameObject upgradeMenu = null;
     public GameObject monumentMenu = null;
     public List<Image> monumentIcons = null;
@@ -47,6 +48,11 @@ public class UI_Control : NetworkBehaviour
         if (shopButton)
         {
             shopButton.onClick.AddListener(onShopButton);
+        }
+
+        if (classButton)
+        {
+            classButton.onClick.AddListener(onClassButton);
         }
 
         if (swapButton)
@@ -111,6 +117,14 @@ public class UI_Control : NetworkBehaviour
         else
         {
             monumentIcons[monument].color = new Color(0, 0, 0);
+        }
+    }
+
+    void onClassButton()
+    {
+        if (player.isInBase)
+        {
+            player.changeClass();
         }
     }
 

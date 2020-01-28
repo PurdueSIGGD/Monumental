@@ -64,7 +64,6 @@ public class UI_Purchase_Button : NetworkBehaviour
         resources.Clear();
 
         SyncListResource rsc = up.cost;
-        //Debug.Log("cost: " + rsc.Count);
         if (up.type != UpgradeType.Monument || !((Monument)up).purchased)
         {
             for (int i = 0; i < rsc.Count; i++)
@@ -78,7 +77,6 @@ public class UI_Purchase_Button : NetworkBehaviour
                 resources.Add(obj);
             }
         }
-        //Debug.Log("done");
         //title.text = up.type + " Tier " + up.tier + " - " + myBase.upgradeLevels[myBase.upgrades.IndexOf(up)];
         text.text = "Purchase";
         if (up.type == UpgradeType.Monument)
@@ -113,21 +111,13 @@ public class UI_Purchase_Button : NetworkBehaviour
         {
             if (myBase.purchaseMonument((Monument)up))
             {
-                //Debug.Log("Monument obtained");
                 setPrice(up);
             }
             return;
         }
         if (myBase.purchaseUpgrade(up))
         {
-            //Debug.Log("purchase successful");
             setPrice(up);
-            //myBase.resPool.testBag();
-        }
-        else
-        {
-            //Debug.Log("purchase failed");
-            //myBase.resPool.testBag();
         }
     }
 

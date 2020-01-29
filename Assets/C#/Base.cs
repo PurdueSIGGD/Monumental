@@ -18,11 +18,11 @@ public class Base : NetworkBehaviour
     const int bigCost = 100;
 
     const int HealthUpgrade = 30;
-    const float MovementUpgrade = 1.05f;
-    const float InteractionUpgrade = .95f;
+    const float MovementUpgrade = 1.02f;
+    const float InteractionUpgrade = .98f;
     const float GatherUpgrade = 1.05f;
-    const int MeleeUpgrade = 30;
-    const int RangedUpgrade = 15;
+    const int MeleeUpgrade = 20;
+    const int RangedUpgrade = 10;
 
     [HideInInspector]
     public ResourceBag resPool;
@@ -124,7 +124,7 @@ public class Base : NetworkBehaviour
 
     float costMath(int i)
     {
-        return Mathf.Pow(1.1f, i);
+        return Mathf.Pow(1.2f, i-1);
     }
 
     public int[] resourceCostForUpgrade(int upgrade, int level)

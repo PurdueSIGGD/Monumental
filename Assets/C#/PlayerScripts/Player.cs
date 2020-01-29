@@ -73,6 +73,11 @@ public class Player : NetworkBehaviour
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
+        if(Input.GetAxis("Jump") > 0 && isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
+        {
+            timeOfLastClick = Time.time;
+            stats.changeClass();
+        }
         checkForStatsUpdate();
 	}
 
@@ -112,7 +117,7 @@ public class Player : NetworkBehaviour
             stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
             stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
             stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
-            health = stats.baseHealth;
+            health = stats.getHealth();
         }
     }
 

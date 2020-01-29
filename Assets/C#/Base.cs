@@ -18,11 +18,11 @@ public class Base : NetworkBehaviour
     const int bigCost = 100;
 
     const int HealthUpgrade = 30;
-    const float MovementUpgrade = 1;
-    const float InteractionUpgrade = 0.1f;
-    const float GatherUpgrade = 1;
-    const int MeleeUpgrade = 20;
-    const int RangedUpgrade = 10;
+    const float MovementUpgrade = 1.05f;
+    const float InteractionUpgrade = .95f;
+    const float GatherUpgrade = 1.05f;
+    const int MeleeUpgrade = 30;
+    const int RangedUpgrade = 15;
 
     [HideInInspector]
     public ResourceBag resPool;
@@ -124,7 +124,7 @@ public class Base : NetworkBehaviour
 
     float costMath(int i)
     {
-        return (float)(4+i)/5;
+        return Mathf.Pow(1.1f, i);
     }
 
     public int[] resourceCostForUpgrade(int upgrade, int level)
@@ -263,17 +263,18 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcBaseUpgrade(int upgrade)
     {
+        int factor = (upgrade + 1) / 2;
         if (upgrade % 2 == 0)
         {
-            baseStats.baseHealth += HealthUpgrade;
-            baseStats.baseMovementSpeed += MovementUpgrade;
-            baseStats.baseInteractionSpeed += InteractionUpgrade;
+            baseStats.baseHealth += (HealthUpgrade * factor);
+            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
+            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
         }
         else
         {
-            baseStats.baseGatherAmount += GatherUpgrade;
-            baseStats.baseMeleeDamage += MeleeUpgrade;
-            baseStats.baseRangedDamage += RangedUpgrade;
+            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
+            baseStats.baseMeleeDamage += (MeleeUpgrade * factor);
+            baseStats.baseRangedDamage += (RangedUpgrade * factor);
         }
         incrementUpgradeLevel(upgrade);
         lastPurchase = Time.time;

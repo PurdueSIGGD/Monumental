@@ -20,12 +20,12 @@ public class Monuments : NetworkBehaviour
     [SyncVar]
     int monument6;
 
-    public readonly int[] cost1 = { 10, 10, 0, 0, 0, 0 };
-    public readonly int[] cost2 = { 10, 10, 0, 0, 0, 0 };
-    public readonly int[] cost3 = { 0, 0, 10, 10, 0, 0 };
-    public readonly int[] cost4 = { 0, 0, 10, 10, 0, 0 };
-    public readonly int[] cost5 = { 0, 0, 0, 0, 10, 10 };
-    public readonly int[] cost6 = { 0, 0, 0, 0, 10, 10 };
+    public readonly int[] cost1 = { 1000, 100, 0, 0, 0, 0 };
+    public readonly int[] cost2 = { 100, 1000, 0, 0, 0, 0 };
+    public readonly int[] cost3 = { 0, 0, 1000, 100, 0, 0 };
+    public readonly int[] cost4 = { 0, 0, 100, 1000, 0, 0 };
+    public readonly int[] cost5 = { 0, 0, 0, 0, 1000, 100 };
+    public readonly int[] cost6 = { 0, 0, 0, 0, 100, 1000 };
 
     // Start is called before the first frame update
     void Start()

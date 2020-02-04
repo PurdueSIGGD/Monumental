@@ -124,7 +124,10 @@ public class Player : NetworkBehaviour
     public void resourceTransfer(int attacker)
     {
         int[] takenRes = resources.dumpResources();
-        CmdTransferResources(attacker, takenRes);
+        if (isLocalPlayer)
+        {
+            CmdTransferResources(attacker, takenRes);
+        }
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player

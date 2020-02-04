@@ -42,6 +42,7 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
+        resources.initEmpty();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;

@@ -22,6 +22,19 @@ public class ResourceBag : NetworkBehaviour
 
     void Start()
     {
+        if (isServer)
+        {
+            wood = 0;
+            stone = 0;
+            copper = 0;
+            iron = 0;
+            gold = 0;
+            diamond = 0;
+        }
+    }
+
+    public void initEmpty()
+    {
         wood = 0;
         stone = 0;
         copper = 0;

@@ -47,8 +47,15 @@ public class MonumentalGameManager : MonoBehaviour//NetworkBehaviour
         }
     }
 
-    public void winGame(int teamIndex) //currently does not get called anywhere. This class has a network identity and cannot be added to the Network manager
+    public void winGame(int teamIndex) //Called by base when last monument purchased
     {
         Debug.Log("Grats to team " + teamIndex);
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].OnWinGame(players[i].teamIndex == teamIndex);
+        }
+
+
     }
 }

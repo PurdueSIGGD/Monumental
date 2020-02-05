@@ -34,6 +34,8 @@ public class Player : NetworkBehaviour
 	private ShootingProjectiles shootingProjectile;
     private float timeOfLastClick;
 
+    private UI_Control uiControl;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -50,7 +52,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             hitDetect.isTheLocalPlayer = true;
-            UI_Control uiControl = GameObject.FindObjectOfType<UI_Control>();
+            uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
@@ -160,6 +162,22 @@ public class Player : NetworkBehaviour
         {
 			Debug.Log(gameObject.name + " is dead");
 			currentHealth = 100;
+        }
+    }
+
+    public void OnWinGame(bool didWin)
+    {
+        if (isLocalPlayer)
+        {
+            if (didWin) {
+                uiControl.centerText.text = "VICTORY";
+                uiControl.centerText.color = new Color(0, 1, 0);
+            }
+            else
+            {
+                uiControl.centerText.text = "DEFEAT";
+                uiControl.centerText.color = new Color(1, 0, 0);
+            }
         }
     }
 

@@ -12,6 +12,7 @@ public class UI_Control : NetworkBehaviour
     public GameObject upgradeMenu = null;
     public GameObject monumentMenu = null;
     public List<Image> monumentIcons = null;
+    public Text centerText = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -73,6 +74,7 @@ public class UI_Control : NetworkBehaviour
                 swapButton.transform.parent.gameObject.SetActive(false);
             }
             shopButton.interactable = player.isInBase;
+            classButton.interactable = player.isInBase;
         }
         /* Toggle shop menu */
         if (Input.GetKeyDown(KeyCode.E))

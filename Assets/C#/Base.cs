@@ -71,7 +71,7 @@ public class Base : NetworkBehaviour
 
             if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
             {
-                //Insert code to win the game
+                //WIN GAME
                 GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
 
             }

@@ -7,17 +7,38 @@ public class Base : NetworkBehaviour
 {
     private Collider2D myCol;
     public int teamIndex;
+    private Player localPlayer;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
     public AudioSource enterSound;
     public AudioSource resourceSound;
     private float lastPurchase;
     private float cooldown = 1;
-    
+    const int smallCost = 10;
+    const int bigCost = 100;
+
+    const int HealthUpgrade = 30;
+    const float MovementUpgrade = 1.02f;
+    const float InteractionUpgrade = .98f;
+    const float GatherUpgrade = 1.05f;
+    const int MeleeUpgrade = 20;
+    const int RangedUpgrade = 10;
+
     [HideInInspector]
     public ResourceBag resPool;
-    public SyncListUpgrade upgrades;
-    public SyncListInt upgradeLevels;
+    [SyncVar]
+    int upgrade1level;
+    [SyncVar]
+    int upgrade2level;
+    [SyncVar]
+    int upgrade3level;
+    [SyncVar]
+    int upgrade4level;
+    [SyncVar]
+    int upgrade5level;
+    [SyncVar]
+    int upgrade6level;
+
     // 0 for team 1; 1 for team 2 because indexing
     // Start is called before the first frame update
     void Start()
@@ -27,72 +48,157 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
             tels[i].teamIndex = teamIndex;
         }
-        for (int i = 0; i < 3; i++)
+        if (isServer)
         {
-            upgrades.Add(new Upgrade(UpgradeType.Health, i+1));
-            upgradeLevels.Add(1);
-
-        }
-        for (int i = 0; i < 3; i++)
-        {
-            upgrades.Add(new Upgrade(UpgradeType.Gather, i+1));
-            upgradeLevels.Add(1);
+            upgrade1level = 1;
+            upgrade2level = 1;
+            upgrade3level = 1;
+            upgrade4level = 1;
+            upgrade5level = 1;
+            upgrade6level = 1;
         }
     }
 
-    public bool purchaseUpgrade(Upgrade up)
+    public int getUpgradeLevel(int up)
     {
-        if (resPool.checkBag(up.cost) && (Time.time - lastPurchase) > cooldown)
+        if (up == 1)
         {
-            resPool.removeBag(up.cost);
-            up.UpdateStatsAndCost(baseStats);
-            UpdateAllPlayerStats(teamIndex, baseStats.baseHealth, baseStats.baseMovementSpeed, baseStats.baseInteractionSpeed,
-                        baseStats.baseGatherAmount, baseStats.baseMeleeDamage, baseStats.baseRangedDamage);
-            int upInd = upgrades.IndexOf(up);
-            upgradeLevels.Insert(upInd, upgradeLevels[upInd] + 1);
-            upgradeLevels.RemoveAt(upInd + 1);
+            return upgrade1level;
+        }
+        else if (up == 2)
+        {
+            return upgrade2level;
+        }
+        else if (up == 3)
+        {
+            return upgrade3level;
+        }
+        else if (up == 4)
+        {
+            return upgrade4level;
+        }
+        else if (up == 5)
+        {
+            return upgrade5level;
+        }
+        else if (up == 6)
+        {
+            return upgrade6level;
+        }
+        else return 0;
+    }
+
+    private void incrementUpgradeLevel(int up)
+    {
+        if (up == 1)
+        {
+            upgrade1level++;
+        }
+        else if (up == 2)
+        {
+            upgrade2level++;
+        }
+        else if (up == 3)
+        {
+            upgrade3level++;
+        }
+        else if (up == 4)
+        {
+            upgrade4level++;
+        }
+        else if (up == 5)
+        {
+            upgrade5level++;
+        }
+        else if (up == 6)
+        {
+            upgrade6level++;
+        }
+        else return;
+    }
+
+    float costMath(int i)
+    {
+        return Mathf.Pow(1.2f, i-1);
+    }
+
+    public int[] resourceCostForUpgrade(int upgrade, int level)
+    {
+        if (upgrade == 1)
+        {
+            return new int[] { (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)), 0, 0, 0, 0 };
+        }
+        else if (upgrade == 2)
+        {
+            return new int[] { (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)), 0, 0, 0, 0 };
+        }
+        else if (upgrade == 3)
+        {
+            return new int[] {0,0, (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)), 0, 0};
+        }
+        else if (upgrade == 4)
+        {
+            return new int[] {0,0, (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)), 0, 0 };
+        }
+        else if (upgrade == 5)
+        {
+            return new int[] {0,0,0,0, (int)(smallCost * costMath(level)), (int)(bigCost * costMath(level)) };
+        }
+        else if (upgrade == 6)
+        {
+            return new int[] {0,0,0,0, (int)(bigCost * costMath(level)), (int)(smallCost * costMath(level)) };
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public bool purchaseUpgrade(int up)
+    {
+        int upLevel = getUpgradeLevel(up);
+        if(upLevel == 0)
+        {
+            return false;
+        }
+        int[] cost = resourceCostForUpgrade(up, upLevel);
+        if (resPool.checkBag(cost) && (Time.time - lastPurchase) > cooldown)
+        {
             lastPurchase = Time.time;
-
+            if (localPlayer == null) return false;
+            localPlayer.CmdBaseUpgrade(up);
+            localPlayer.CmdRemoveBaseResources(cost);
             return true;
         }
         return false;
     }
 
-    public bool purchaseMonument(Monument mon)
+    public bool purchaseMonument(int mon)
     {
-        if  (resPool.checkBag(mon.cost) && mon.owner < 0)
+        if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1 && (Time.time - lastPurchase) > cooldown)
         {
-            resPool.removeBag(mon.cost);
-            mon.updateStatus(teamIndex);
+            lastPurchase = Time.time;
+            localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
 
-            if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
+            if (mnm.monuments.GetScore(teamIndex) >= 2)
             {
-                //WIN GAME
-                GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
-
+                if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
+                {
+                     //WIN GAME
+                  GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
+                }
             }
+
+            localPlayer.CmdPurchaseMonument(mon, teamIndex);
+
             return true;
         }
         return false;
-    }
-
-    
-    
-    public void UpdateAllPlayerStats(int team, int bh, float ms, float isp, float ga, int md, int rd)
-    {
-        foreach (GameObject player in mnm.playerList)
-        {
-            if(player.GetComponent<Player>().teamIndex == team)
-            {
-                PlayerStats pStat = player.GetComponent<PlayerStats>();
-                pStat.UpdateStats(bh, ms, isp, ga, md, rd);
-                player.GetComponent<Player>().currentHealth = pStat.getHealth();
-            }
-        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -100,8 +206,16 @@ public class Base : NetworkBehaviour
         if(col.gameObject.CompareTag("Player"))
         {
             Player p = col.gameObject.GetComponent<Player>();
-            if(p.teamIndex == teamIndex)
+            if (localPlayer == null && p.GetComponent<NetworkIdentity>().isLocalPlayer)
             {
+                localPlayer = p;
+            }
+            if (p.teamIndex == teamIndex)
+            {
+                if(p.myBase == null)
+                {
+                    p.myBase = this;
+                }
                 p.isInBase = true;
                 //Heal player to full
                 p.currentHealth = p.stats.getHealth();
@@ -110,7 +224,7 @@ public class Base : NetworkBehaviour
                 if (!p.resources.isEmpty())
                 {
                     resourceSound.Play();
-                    p.giveResToBase(teamIndex);
+                    p.CmdTransferResToBase(p.resources.dumpResources());
                 }
 
                 /* Play entry sound effect */
@@ -137,20 +251,35 @@ public class Base : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void CmdReceiveResources(int[] res)
+    [ClientRpc]
+    public void RpcTransferResources(int[] res)
     {
-        for (int i = 0; i < 6; i++)
-        {
-            RpcReceiveResources(i+1, res[i]);
-        }
+        if(resPool != null) resPool.addBagAsInt(res);
     }
 
     [ClientRpc]
-    public void RpcReceiveResources(int resName, int res)
+    public void RpcRemoveResources(int[] res)
     {
-        Debug.Log(res);
-        resPool.addResource((ResourceName)resName, res);
+        resPool.removeBagAsInt(res);
     }
 
+    [ClientRpc]
+    public void RpcBaseUpgrade(int upgrade)
+    {
+        int factor = (upgrade + 1) / 2;
+        if (upgrade % 2 == 0)
+        {
+            baseStats.baseHealth += (HealthUpgrade * factor);
+            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
+            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
+        }
+        else
+        {
+            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
+            baseStats.baseMeleeDamage += (MeleeUpgrade * factor);
+            baseStats.baseRangedDamage += (RangedUpgrade * factor);
+        }
+        incrementUpgradeLevel(upgrade);
+        lastPurchase = Time.time;
+    }
 }

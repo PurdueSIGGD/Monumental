@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
+    public Base myBase;
 
     public GameObject projectile;
 	private HitDetection hitDetect;
@@ -35,6 +36,7 @@ public class Player : NetworkBehaviour
     private float timeOfLastClick;
 
     private UI_Control uiControl;
+    public Sprite[] playerSprites;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +47,7 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         currentHealth = stats.getHealth();
         resources = GetComponent<ResourceBag>();
+        resources.initEmpty();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
@@ -78,6 +81,13 @@ public class Player : NetworkBehaviour
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
+        if(Input.GetAxis("Jump") > 0 && isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
+        {
+            timeOfLastClick = Time.time;
+            stats.changeClass();
+            updateSprite(teamIndex, stats.Class);
+        }
+        checkForStatsUpdate();
 	}
 
     private void OnDestroy()
@@ -112,9 +122,24 @@ public class Player : NetworkBehaviour
         }
     }
 
+    private void checkForStatsUpdate()
+    {
+        if (myBase == null) return;
+        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage)
+        {
+            stats.baseHealth = myBase.baseStats.baseHealth;
+            stats.baseMovementSpeed = myBase.baseStats.baseMovementSpeed;
+            stats.baseInteractionSpeed = myBase.baseStats.baseInteractionSpeed;
+            stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
+            stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
+            stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
+            health = stats.getHealth();
+        }
+    }
+
     public void resourceTransfer(int attacker)
     {
-        int[] takenRes = resources.dumpResourcesAsInt();
+        int[] takenRes = resources.dumpResources();
         CmdTransferResources(attacker, takenRes);
     }
 
@@ -141,6 +166,16 @@ public class Player : NetworkBehaviour
     public void CmdTransferResources(int attacker, int[] res)
     {
         mnm.playerList[attacker].GetComponent<Player>().RpcTransferResources(res);
+    }
+
+    [Command]
+    public void CmdTransferResToBase(int[] res)
+    {
+        if (myBase == null)
+        {
+            myBase = mnm.baseList[teamIndex].GetComponent<Base>();
+        }
+        myBase.RpcTransferResources(res);
     }
 
     [ClientRpc]
@@ -185,6 +220,15 @@ public class Player : NetworkBehaviour
     public void SetTeam(int team)
     {
         teamIndex = team;
+        updateSprite(team, 0);
+    }
+
+    void updateSprite(int team, int Class)
+    {
+        int value = team + (2 * Class);
+        value = Mathf.Max(value, 0);
+        value = Mathf.Min(value, 3);
+        this.GetComponent<SpriteRenderer>().sprite = playerSprites[value];
     }
 
     public void SetNetManager(MonumentalNetworkManager m)
@@ -197,28 +241,9 @@ public class Player : NetworkBehaviour
         positionInPlayerList = p;
     }
     
-    public void giveResToBase(int target)
-    {
-        int[] res = resources.dumpResourcesAsInt();
-        CmdDepositResources(target, res);
-    }
-
-    [Command]
-    public void CmdUpdateRes(int resType, float size)
-    {
-        RpcUpdateRes(resType, size);
-    }
-
-    [ClientRpc]
-    public void RpcUpdateRes(int resType, float size)
+    public void gather(int resType, float size)
     {
         resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
-    }
-
-    [Command]
-    public void CmdDepositResources(int target, int[] res)
-    {
-        mnm.baseList[target].GetComponent<Base>().CmdReceiveResources(res);
     }
 
     [Command]
@@ -231,5 +256,23 @@ public class Player : NetworkBehaviour
     void RpcDamageThem(int source, int damage)
     {
         takeDamage(damage, source);
+    }
+
+    [Command]
+    public void CmdRemoveBaseResources(int[] res)
+    {
+        myBase.RpcRemoveResources(res);
+    }
+    
+    [Command]
+    public void CmdBaseUpgrade(int upgrade)
+    {
+        myBase.RpcBaseUpgrade(upgrade);
+    }
+
+    [Command]
+    public void CmdPurchaseMonument(int mon, int team)
+    {
+        mnm.monuments.RpcClaimMonument(mon, team);
     }
 }

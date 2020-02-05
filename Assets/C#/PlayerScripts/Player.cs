@@ -33,6 +33,8 @@ public class Player : NetworkBehaviour
 	private ShootingProjectiles shootingProjectile;
     private float timeOfLastClick;
 
+    public Sprite[] playerSprites;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,6 +80,7 @@ public class Player : NetworkBehaviour
         {
             timeOfLastClick = Time.time;
             stats.changeClass();
+            updateSprite(teamIndex, stats.Class);
         }
         checkForStatsUpdate();
 	}
@@ -189,6 +192,12 @@ public class Player : NetworkBehaviour
     public void SetTeam(int team)
     {
         teamIndex = team;
+        updateSprite(team, 0);
+    }
+
+    void updateSprite(int team, int Class)
+    {
+        this.GetComponent<SpriteRenderer>().sprite = playerSprites[team + 2 * Class];
     }
 
     public void SetNetManager(MonumentalNetworkManager m)

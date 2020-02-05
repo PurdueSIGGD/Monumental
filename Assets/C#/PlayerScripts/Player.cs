@@ -197,7 +197,10 @@ public class Player : NetworkBehaviour
 
     void updateSprite(int team, int Class)
     {
-        this.GetComponent<SpriteRenderer>().sprite = playerSprites[team + 2 * Class];
+        int value = team + (2 * Class);
+        value = Mathf.Max(value, 0);
+        value = Mathf.Min(value, 3);
+        this.GetComponent<SpriteRenderer>().sprite = playerSprites[value];
     }
 
     public void SetNetManager(MonumentalNetworkManager m)

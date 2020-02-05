@@ -251,7 +251,7 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcTransferResources(int[] res)
     {
-        resPool.addBagAsInt(res);
+        if(resPool != null) resPool.addBagAsInt(res);
     }
 
     [ClientRpc]

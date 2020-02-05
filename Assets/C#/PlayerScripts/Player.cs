@@ -102,7 +102,7 @@ public class Player : NetworkBehaviour
     {
         stats.changeClass();
         currentHealth = stats.getHealth();
-        spriteRender.sprite = classSprites[stats.Class];
+        spriteRender.sprite = classSprites[myBase.teamIndex * 2 + stats.Class];
     }
 
     //calculates the difference between the current player and the other player
@@ -133,7 +133,7 @@ public class Player : NetworkBehaviour
             stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
             stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
             stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
-            health = stats.getHealth();
+            currentHealth = stats.getHealth();
         }
     }
 

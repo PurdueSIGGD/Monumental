@@ -63,6 +63,8 @@ public class UI_Control : NetworkBehaviour
 
     }
 
+    
+
     public void LateUpdate()
     {
         if (player)

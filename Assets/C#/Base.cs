@@ -187,11 +187,11 @@ public class Base : NetworkBehaviour
 
             if (mnm.monuments.GetScore(teamIndex) >= 2)
             {
-                if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
+                /*if (GameObject.Find("MonumentHolder").GetComponent<MonumentHolder>().getScore(teamIndex) >= 3)
                 {
                      //WIN GAME
                   GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().winGame(teamIndex);
-                }
+                }*/
             }
 
             localPlayer.CmdPurchaseMonument(mon, teamIndex);

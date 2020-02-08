@@ -63,7 +63,12 @@ public class UI_Control : NetworkBehaviour
 
     }
 
-    
+    public void clear()
+    {
+        centerText.text = "";
+        currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
+    }
 
     public void LateUpdate()
     {
@@ -116,11 +121,11 @@ public class UI_Control : NetworkBehaviour
         }
         else if (myBase.teamIndex == owner)
         {
-            monumentIcons[monument].color = new Color(1, 1, 1);
+            monumentIcons[monument].color = Color.white;
         }
         else
         {
-            monumentIcons[monument].color = new Color(0, 0, 0);
+            monumentIcons[monument].color = Color.black;
         }
     }
 

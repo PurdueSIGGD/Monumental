@@ -215,7 +215,7 @@ public class Player : NetworkBehaviour
     
     public void gather(int resType, float size)
     {
-        resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
+        resources.addResourceWithLimit(stats.getCarryCapacity(), resNode.gatherPass(stats.getGatherAmount(), resType, size));
     }
 
     [Command]

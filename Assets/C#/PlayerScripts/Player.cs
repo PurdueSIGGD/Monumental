@@ -26,12 +26,17 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
+    [SyncVar]
+    public int spriteNum = -1;
+    private bool spriteUpdated = false;
     public Base myBase;
 
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
     private float timeOfLastClick;
+
+    public Sprite[] playerSprites;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +47,7 @@ public class Player : NetworkBehaviour
         body = GetComponent<Rigidbody2D>();
         health = stats.getHealth();
         resources = GetComponent<ResourceBag>();
+        resources.initEmpty();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
@@ -59,8 +65,12 @@ public class Player : NetworkBehaviour
 
 	// Update is called once per frame
 	void FixedUpdate()
-	{
-		if (!isLocalPlayer) return;
+    {
+        if (spriteNum != -1 && !spriteUpdated)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
+        }
+        if (!isLocalPlayer) return;
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
@@ -77,6 +87,12 @@ public class Player : NetworkBehaviour
         {
             timeOfLastClick = Time.time;
             stats.changeClass();
+            CmdUpdateSprite(teamIndex, stats.Class);
+        }
+        if (spriteNum == -1)
+        {
+            CmdUpdateSprite(teamIndex, stats.Class);
+            spriteUpdated = true;
         }
         checkForStatsUpdate();
 	}
@@ -117,6 +133,7 @@ public class Player : NetworkBehaviour
             stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
             stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
             stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
+            stats.baseCarryCapacity = myBase.baseStats.baseCarryCapacity;
             health = stats.getHealth();
         }
     }
@@ -193,6 +210,21 @@ public class Player : NetworkBehaviour
         teamIndex = team;
     }
 
+    [Command]
+    public void CmdUpdateSprite(int team, int Class){
+        RpcUpdateSprite(team, Class);
+    }
+
+    [ClientRpc]
+    void RpcUpdateSprite(int team, int Class)
+    {
+        int value = team + (2 * Class);
+        value = Mathf.Max(value, 0);
+        value = Mathf.Min(value, 3);
+        spriteNum = value;
+        this.GetComponent<SpriteRenderer>().sprite = playerSprites[value];
+    }
+
     public void SetNetManager(MonumentalNetworkManager m)
     {
         mnm = m;
@@ -205,7 +237,7 @@ public class Player : NetworkBehaviour
     
     public void gather(int resType, float size)
     {
-        resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
+        resources.addResourceWithLimit(stats.getCarryCapacity(), resNode.gatherPass(stats.getGatherAmount(), resType, size));
     }
 
     [Command]

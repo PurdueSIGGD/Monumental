@@ -72,13 +72,21 @@ public class UI_Control : NetworkBehaviour
 	
     public void updateResources()
     {
-
+        bool isFull = player.resources.getSumOfBag() >= player.stats.getCarryCapacity();
         for (int i = 0; i < resource_texts.Count; i++)
         {
             resource_texts[i].text = "" + player.resources.getAmount(i+1);
+            if (isFull)
+            {
+                resource_texts[i].color = Color.red;
+            }
+            else
+            {
+                resource_texts[i].color = Color.white;
+            }
         }
         if (myBase == null) {
-            myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[player.teamIndex].GetComponent<Base>();
+            myBase = player.myBase;
         }
         for (int i = 0; i < resource_team_texts.Count; i++)
         {

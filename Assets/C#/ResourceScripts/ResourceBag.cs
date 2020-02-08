@@ -22,6 +22,19 @@ public class ResourceBag : NetworkBehaviour
 
     void Start()
     {
+        if (isServer)
+        {
+            wood = 0;
+            stone = 0;
+            copper = 0;
+            iron = 0;
+            gold = 0;
+            diamond = 0;
+        }
+    }
+
+    public void initEmpty()
+    {
         wood = 0;
         stone = 0;
         copper = 0;
@@ -56,10 +69,24 @@ public class ResourceBag : NetworkBehaviour
         }
         return;
     }
-    
+
     public void addResource(Resource r)
     {
         addAmount(r.getType(), r.getAmount());
+    }
+
+    public void addResourceWithLimit(int cap, Resource r)
+    {
+        if(cap > getSumOfBag()) {
+            if(cap > getSumOfBag() + r.getAmount())
+            {
+                addAmount(r.getType(), r.getAmount());
+            }
+            else
+            {
+                addAmount(r.getType(), cap - getSumOfBag());
+            }
+        }
     }
 
     public void addBagAsInt(int[] res)
@@ -97,6 +124,11 @@ public class ResourceBag : NetworkBehaviour
     public int[] getBag()
     {
         return new int[] { wood, stone, copper, iron, gold, diamond };
+    }
+
+    public int getSumOfBag()
+    {
+        return wood + stone + copper + iron + gold + diamond;
     }
 
     //Removes amount of resources from bag of type

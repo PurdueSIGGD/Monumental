@@ -23,6 +23,7 @@ public class Base : NetworkBehaviour
     const float GatherUpgrade = 1.05f;
     const int MeleeUpgrade = 20;
     const int RangedUpgrade = 10;
+    const int CarryUpgrade = 20;
 
     [HideInInspector]
     public ResourceBag resPool;
@@ -251,7 +252,7 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcTransferResources(int[] res)
     {
-        resPool.addBagAsInt(res);
+        if(resPool != null) resPool.addBagAsInt(res);
     }
 
     [ClientRpc]
@@ -267,14 +268,15 @@ public class Base : NetworkBehaviour
         if (upgrade % 2 == 0)
         {
             baseStats.baseHealth += (HealthUpgrade * factor);
-            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
-            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
+            baseStats.baseCarryCapacity += (CarryUpgrade * factor);
+            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
         }
         else
         {
-            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
             baseStats.baseMeleeDamage += (MeleeUpgrade * factor);
             baseStats.baseRangedDamage += (RangedUpgrade * factor);
+            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
+            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
         }
         incrementUpgradeLevel(upgrade);
         lastPurchase = Time.time;

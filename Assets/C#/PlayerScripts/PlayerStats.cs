@@ -10,6 +10,7 @@ struct ClassMods {
     static public float ggather = 1.5f;
     static public float gmelee = 1f;
     static public float grange = 1f;
+    static public float gcarry = 1.5f;
 
     static public float fhealth = 1.2f;
     static public float fmovementSpeed = 1.05f;
@@ -17,6 +18,7 @@ struct ClassMods {
     static public float fgather = 1f;
     static public float fmelee = 1.5f;
     static public float frange = 1.5f;
+    static public float fcarry = 1f;
 }
 
 enum classes
@@ -42,6 +44,8 @@ public class PlayerStats : NetworkBehaviour
     public int baseMeleeDamage = 40;
     [SyncVar]
     public int baseRangedDamage = 20;
+    [SyncVar]
+    public int baseCarryCapacity = 60;
 
     public int getHealth()
     {
@@ -95,7 +99,16 @@ public class PlayerStats : NetworkBehaviour
             return Mathf.CeilToInt(baseRangedDamage * ClassMods.grange);
         }
         return Mathf.CeilToInt(baseRangedDamage * ClassMods.frange);
-	}
+    }
+
+    public int getCarryCapacity()
+    {
+        if (Class == 0)
+        {
+            return Mathf.CeilToInt(baseCarryCapacity * ClassMods.gcarry);
+        }
+        return Mathf.CeilToInt(baseCarryCapacity * ClassMods.fcarry);
+    }
 
     public void changeClass()
     {

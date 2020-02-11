@@ -88,12 +88,6 @@ public class Player : NetworkBehaviour
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
 		}
-        if(Input.GetAxis("Jump") > 0 && isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
-        {
-            timeOfLastClick = Time.time;
-            stats.changeClass();
-            CmdUpdateSprite(teamIndex, stats.Class);
-        }
         if (spriteNum == -1)
         {
             CmdUpdateSprite(teamIndex, stats.Class);
@@ -113,8 +107,8 @@ public class Player : NetworkBehaviour
     public void changeClass()
     {
         stats.changeClass();
+        CmdUpdateSprite(teamIndex, stats.Class);
         currentHealth = stats.getHealth();
-        spriteRender.sprite = classSprites[myBase.teamIndex * 2 + stats.Class];
     }
 
     //calculates the difference between the current player and the other player

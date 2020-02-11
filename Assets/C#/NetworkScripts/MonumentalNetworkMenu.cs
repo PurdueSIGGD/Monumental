@@ -88,6 +88,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     private void OnJoined()
     {
+        GameObject.FindObjectOfType<UI_Control>().clear();
         menuIsShowing = !menuIsShowing;
         menu.SetActive(menuIsShowing);
         cancelConnectButton.gameObject.SetActive(false);

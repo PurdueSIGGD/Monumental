@@ -10,9 +10,11 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     [SyncVar]
-    public int health;
+    public int currentHealth;
     private Rigidbody2D body;
     private Slider healthbar;
+    public Sprite[] classSprites;
+    private SpriteRenderer spriteRender;
     public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
@@ -36,6 +38,7 @@ public class Player : NetworkBehaviour
 	private ShootingProjectiles shootingProjectile;
     private float timeOfLastClick;
 
+    private UI_Control uiControl;
     public Sprite[] playerSprites;
 
     // Start is called before the first frame update
@@ -45,7 +48,7 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         resources = GetComponent<ResourceBag>();
         resources.initEmpty();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
@@ -55,11 +58,13 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             hitDetect.isTheLocalPlayer = true;
-            UI_Control uiControl = GameObject.FindObjectOfType<UI_Control>();
+            uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
-            health = stats.getHealth();
+            currentHealth = stats.getHealth();
+            spriteRender = this.GetComponent<SpriteRenderer>();
+            spriteRender.sprite = classSprites[stats.Class];
         }
     }
 
@@ -105,6 +110,13 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void changeClass()
+    {
+        stats.changeClass();
+        currentHealth = stats.getHealth();
+        spriteRender.sprite = classSprites[myBase.teamIndex * 2 + stats.Class];
+    }
+
     //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
     {
@@ -114,8 +126,8 @@ public class Player : NetworkBehaviour
     //player takes damage of amount damage from player attacker
     public void takeDamage(int damage, int attacker)
     {
-        health -= damage;
-        if (health <= 0)
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
             resourceTransfer(attacker);
             respawn();
@@ -134,7 +146,7 @@ public class Player : NetworkBehaviour
             stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
             stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
             stats.baseCarryCapacity = myBase.baseStats.baseCarryCapacity;
-            health = stats.getHealth();
+            currentHealth = stats.getHealth();
         }
     }
 
@@ -150,7 +162,7 @@ public class Player : NetworkBehaviour
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
     public void respawn()
     {
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         CmdRespawn();
     }
 
@@ -190,17 +202,33 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = health / (float)stats.getHealth();
+        healthbar.value = currentHealth / (float)stats.getHealth();
         healthbar.transform.parent.position = this.transform.position;
     }
 
     public void setHealth(int val)
     {
-        health = val;
-        if (health <= 0)
+        currentHealth = val;
+        if (currentHealth <= 0)
         {
 			Debug.Log(gameObject.name + " is dead");
-			health = 100;
+			currentHealth = 100;
+        }
+    }
+
+    public void OnWinGame(bool didWin)
+    {
+        if (isLocalPlayer)
+        {
+            if (didWin) {
+                uiControl.centerText.text = "VICTORY";
+                uiControl.centerText.color = new Color(0, 1, 0);
+            }
+            else
+            {
+                uiControl.centerText.text = "DEFEAT";
+                uiControl.centerText.color = new Color(1, 0, 0);
+            }
         }
     }
 

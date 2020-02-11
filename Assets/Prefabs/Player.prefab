@@ -201,7 +201,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  health: 100
+  currentHealth: 0
+  classSprites:
+  - {fileID: 21300000, guid: 1afe993e56d6ec547bc8c583a6ace272, type: 3}
+  - {fileID: 21300000, guid: c8d81cdd140a68a439231cbf729dceff, type: 3}
+  - {fileID: 21300000, guid: 8a74b231e85219a4ab9c4ddab3bff16f, type: 3}
+  - {fileID: 21300000, guid: 300064b85dd69fa41bd4267d23626f7e, type: 3}
   mnm: {fileID: 0}
   stats: {fileID: 0}
   resources: {fileID: 0}

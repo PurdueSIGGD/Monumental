@@ -28,7 +28,7 @@ public class UI_MonumentMenu : NetworkBehaviour
         Monuments myMon = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().monuments;
 
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
-        //Debug.Log("Num Buts: " + buttonList.Length);
+        
         for (int i = 0; i < buttonList.Length; i++)
         {
             buttonList[i].myBase = myBase;

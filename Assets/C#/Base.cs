@@ -10,6 +10,8 @@ public class Base : NetworkBehaviour
     private Player localPlayer;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
+    public MonumentalGameManager mgm;
+    public Monuments monuments;
     public AudioSource enterSound;
     public AudioSource resourceSound;
     private float lastPurchase;
@@ -49,6 +51,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        mgm = GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>();
         lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
@@ -63,6 +66,7 @@ public class Base : NetworkBehaviour
             upgrade5level = 1;
             upgrade6level = 1;
         }
+        monuments = GameObject.FindObjectOfType<Monuments>();
     }
 
     public int getUpgradeLevel(int up)
@@ -185,14 +189,14 @@ public class Base : NetworkBehaviour
         {
             lastPurchase = Time.time;
             localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
-
-            if (mnm.monuments.GetScore(teamIndex) >= 2)
+            localPlayer.CmdPurchaseMonument(mon, teamIndex);
+            if (monuments.GetScore(teamIndex) >= 3)
             {
-                //Insert code to win the game
-                GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>().WinGame(teamIndex);
+                //WIN GAME
+                mgm.winGame(teamIndex);
             }
 
-            localPlayer.CmdPurchaseMonument(mon, teamIndex);
+            GameObject.FindObjectOfType<UI_Control>().updateMonument(mon, teamIndex);
 
             return true;
         }
@@ -216,7 +220,7 @@ public class Base : NetworkBehaviour
                 }
                 p.isInBase = true;
                 //Heal player to full
-                p.health = p.stats.getHealth();
+                p.currentHealth = p.stats.getHealth();
 
                 //dump player resources into pool
                 if (!p.resources.isEmpty())

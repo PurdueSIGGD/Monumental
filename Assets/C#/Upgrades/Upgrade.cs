@@ -30,7 +30,7 @@ public class Upgrade
     public int level;
     public int[] cost = new int[6];
 
-    //Value sliders that can be chaged for balance
+    //Value sliders that can be changed for balance
     static int Health = 30;
     static float Movement = 1;
     static float Interaction = 0.1f;

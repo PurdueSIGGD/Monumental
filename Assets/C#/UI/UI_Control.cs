@@ -8,8 +8,11 @@ public class UI_Control : NetworkBehaviour
 {
     public Button shopButton = null;
     public Button swapButton = null;
+    public Button classButton = null;
     public GameObject upgradeMenu = null;
     public GameObject monumentMenu = null;
+    public List<Image> monumentIcons = null;
+    public Text centerText = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -38,9 +41,19 @@ public class UI_Control : NetworkBehaviour
 
         }
 
+        for (int i = 0; i < monumentIcons.Count; i++)
+        {
+            updateMonument(i, -1);
+        }
+
         if (shopButton)
         {
             shopButton.onClick.AddListener(onShopButton);
+        }
+
+        if (classButton)
+        {
+            classButton.onClick.AddListener(onClassButton);
         }
 
         if (swapButton)
@@ -48,6 +61,13 @@ public class UI_Control : NetworkBehaviour
             swapButton.onClick.AddListener(onSwapButton);
         }
 
+    }
+
+    public void clear()
+    {
+        centerText.text = "";
+        currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
     }
 
     public void LateUpdate()
@@ -61,6 +81,7 @@ public class UI_Control : NetworkBehaviour
                 swapButton.transform.parent.gameObject.SetActive(false);
             }
             shopButton.interactable = player.isInBase;
+            classButton.interactable = player.isInBase;
         }
         /* Toggle shop menu */
         if (Input.GetKeyDown(KeyCode.E))
@@ -93,6 +114,35 @@ public class UI_Control : NetworkBehaviour
             resource_team_texts[i].text = "" + myBase.resPool.getAmount(i+1);
         }
 
+    }
+
+    public void updateMonument(int monument, int owner)
+    {
+        if (monument < 0 || monument >= monumentIcons.Count)
+        {
+            return;
+        }
+
+        if (myBase == null || myBase.teamIndex == -1)
+        {
+            monumentIcons[monument].color = new Color(0.2f, 0.2f, 0.2f);
+        }
+        else if (myBase.teamIndex == owner)
+        {
+            monumentIcons[monument].color = Color.white;
+        }
+        else
+        {
+            monumentIcons[monument].color = Color.black;
+        }
+    }
+
+    void onClassButton()
+    {
+        if (player.isInBase)
+        {
+            player.changeClass();
+        }
     }
 
     void onShopButton()
@@ -133,7 +183,6 @@ public class UI_Control : NetworkBehaviour
         }
         else
         {
-            //Debug.Log("swapping");
             currentMenu = upgradeMenu;
             currentMenu.SetActive(true);
             swapButton.GetComponentInChildren<Text>().text = "Monuments";

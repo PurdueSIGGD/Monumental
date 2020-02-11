@@ -268,21 +268,36 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcBaseUpgrade(int upgrade)
     {
-        int factor = (upgrade + 1) / 2;
-        if (upgrade % 2 == 0)
-        {
-            baseStats.baseHealth += (HealthUpgrade * factor);
-            baseStats.baseCarryCapacity += (CarryUpgrade * factor);
-            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
-        }
-        else
-        {
-            baseStats.baseMeleeDamage += (MeleeUpgrade * factor);
-            baseStats.baseRangedDamage += (RangedUpgrade * factor);
-            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
-            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
-        }
         incrementUpgradeLevel(upgrade);
         lastPurchase = Time.time;
+        switch (upgrade)
+        {
+            case 1: // Melee
+                baseStats.baseMeleeDamage += (MeleeUpgrade);
+                baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1/2));
+                baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1/2));
+                return;
+            case 2: // Health
+                baseStats.baseHealth += (HealthUpgrade);
+                baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1/2));
+                return;
+            case 3: // Ranged
+                baseStats.baseRangedDamage += (RangedUpgrade);
+                baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1));
+                baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1));
+                return;
+            case 4: // Carry
+                baseStats.baseCarryCapacity += (CarryUpgrade);
+                baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1));
+                return;
+            case 5: // Speed
+                baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 2));
+                baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 2));
+                return;
+            case 6: // Gather
+                baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 2));
+                return;
+        }
+        return;
     }
 }

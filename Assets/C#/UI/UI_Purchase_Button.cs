@@ -65,7 +65,7 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         else
         {
-            title.text = getType(up) + " " + up + " - Tier " + myBase.getUpgradeLevel(up);
+            title.text = getType(up) + " " + myBase.getUpgradeLevel(up);
         }
         
         if (button)
@@ -76,14 +76,22 @@ public class UI_Purchase_Button : NetworkBehaviour
 
     private string getType(int upgrade)
     {
-        if(upgrade % 2 == 0)
+        switch (upgrade)
         {
-            return "Health";
+            case 1:
+                return "Melee";
+            case 2:
+                return "Health";
+            case 3:
+                return "Ranged";
+            case 4:
+                return "Carry";
+            case 5:
+                return "Speed";
+            case 6:
+                return "Gather";
         }
-        else
-        {
-            return "Damage";
-        }
+        return "";
     }
 
     public void makePurchase()

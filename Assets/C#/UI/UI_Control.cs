@@ -12,7 +12,9 @@ public class UI_Control : NetworkBehaviour
     public GameObject upgradeMenu = null;
     public GameObject monumentMenu = null;
     public List<Image> monumentIcons = null;
+    public List<Sprite> classIcons = null;
     public Text centerText = null;
+    public Image classImage = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
@@ -142,6 +144,7 @@ public class UI_Control : NetworkBehaviour
         if (player.isInBase)
         {
             player.changeClass();
+            classImage.sprite = classIcons[player.stats.Class];
         }
     }
 

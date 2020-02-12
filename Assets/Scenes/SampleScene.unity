@@ -1324,7 +1324,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 2325493372
+  m_SceneId: 2743986438
 --- !u!1 &1316718833615320280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7502050784895007878, guid: 2264c751673b1d94b918301cd78adf86,

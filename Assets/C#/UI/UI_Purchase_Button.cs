@@ -65,7 +65,8 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         else
         {
-            title.text = getType(up) + " " + myBase.getUpgradeLevel(up);
+            title.text = "Tier " + myBase.getUpgradeLevel(up);
+            text.text = getType(up);
         }
         
         if (button)

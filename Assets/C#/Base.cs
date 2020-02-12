@@ -26,6 +26,7 @@ public class Base : NetworkBehaviour
     const int MeleeUpgrade = 20;
     const int RangedUpgrade = 10;
     const int CarryUpgrade = 20;
+    const float baseSpeed = .01;
 
     [HideInInspector]
     public ResourceBag resPool;
@@ -298,6 +299,8 @@ public class Base : NetworkBehaviour
                 baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 2));
                 return;
         }
+        // Speed = SpeMul (1000 + MeleeLevel + 2 * RangeLevel + 4 * SpeMulLevel)
+        // For interaction speed, use - instead of +
         return;
     }
 }

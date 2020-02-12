@@ -8,6 +8,10 @@ public class UI_UpgradeMenu : NetworkBehaviour
 {
     
     private bool skip_first_enable = true;
+    
+    public GameObject[] UpgradeDisplay;
+    public GameObject SpeedText;
+    public GameObject GatherText;
 
     private void OnEnable()
     {
@@ -30,6 +34,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
         {
             buttonList[i].myBase = myBase;
             buttonList[i].setPrice(i+1, false);
+            //UpgradeDisplay[i].getComponent<Text>().text = myBase.baseStats;
         }
     }
 }

@@ -131,7 +131,9 @@ public class Player : NetworkBehaviour
     private void checkForStatsUpdate()
     {
         if (myBase == null) return;
-        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage)
+        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage ||
+            stats.baseCarryCapacity != myBase.baseStats.baseCarryCapacity || stats.baseRangedDamage != myBase.baseStats.baseRangedDamage ||
+            stats.baseMovementSpeed != myBase.baseStats.baseMovementSpeed || stats.baseGatherAmount != myBase.baseStats.baseGatherAmount)
         {
             stats.baseHealth = myBase.baseStats.baseHealth;
             stats.baseMovementSpeed = myBase.baseStats.baseMovementSpeed;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UI;
 
 public class Monuments : NetworkBehaviour
 {
@@ -81,6 +82,12 @@ public class Monuments : NetworkBehaviour
                 return monument6;
         }
         return -2;
+    }
+
+    [Command]
+    public void CmdSetMonumentButton(Button button, int mon)
+    {
+        button.interactable = (GetOwner(mon) == -1);
     }
 
     // Returns the number of monuments owned by the given team.

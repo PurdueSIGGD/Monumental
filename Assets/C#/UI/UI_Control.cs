@@ -14,12 +14,14 @@ public class UI_Control : NetworkBehaviour
     public List<Image> monumentIcons = null;
     public List<Sprite> classIcons = null;
     public Text centerText = null;
-    public Image classImage = null;
+    public Image classImageFront = null;
+    public Image classImageBack = null;
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
     private List<Text> resource_team_texts = new List<Text>();
     private GameObject currentMenu = null;
+    private float[] cooldownTimes = new float[2];// {Start, End}
 
     public Player player = null;
     public Base myBase = null;
@@ -34,7 +36,7 @@ public class UI_Control : NetworkBehaviour
             clone.transform.SetParent(obj.transform.parent);
             clone.transform.position = obj.transform.position;
             clone.transform.localScale = obj.transform.localScale;
-            Vector3 delta = new Vector3(0, -obj.GetComponent<RectTransform>().sizeDelta.y, 0);
+            Vector3 delta = new Vector3(0, -obj.GetComponent<RectTransform>().sizeDelta.y * clone.transform.localScale.y, 0);
             clone.transform.localPosition += delta;
 
             Text team_text = clone.GetComponent<Text>();
@@ -43,7 +45,7 @@ public class UI_Control : NetworkBehaviour
 
         }
 
-        for (int i = 0; i < monumentIcons.Count; i++)
+        for (int i = 1; i <= monumentIcons.Count; i++)
         {
             updateMonument(i, -1);
         }
@@ -84,13 +86,37 @@ public class UI_Control : NetworkBehaviour
             }
             shopButton.interactable = player.isInBase;
             classButton.interactable = player.isInBase;
+
+            if (Time.time < cooldownTimes[1])
+            {
+                float ratio = (Time.time - cooldownTimes[0]) / (cooldownTimes[1] - cooldownTimes[0]);
+                //classImageFront.color = Color.white * ratio;
+                Vector2 size = classImageBack.rectTransform.sizeDelta;
+                size = new Vector2(size.x, size.y * ratio);
+                classImageFront.rectTransform.sizeDelta = size;
+            }
+
         }
-        /* Toggle shop menu */
+        /* Keyboard shortcuts */
         if (Input.GetKeyDown(KeyCode.E))
         {
             onShopButton();
         }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            onClassButton();
+        }
+        else if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            onSwapButton();
+        }
 
+    }
+
+    public void setCooldown(float duration)
+    {
+        cooldownTimes[0] = Time.time;
+        cooldownTimes[1] = Time.time + duration;
     }
 	
     public void updateResources()
@@ -120,6 +146,7 @@ public class UI_Control : NetworkBehaviour
 
     public void updateMonument(int monument, int owner)
     {
+        monument--; //To array index
         if (monument < 0 || monument >= monumentIcons.Count)
         {
             return;
@@ -144,7 +171,8 @@ public class UI_Control : NetworkBehaviour
         if (player.isInBase)
         {
             player.changeClass();
-            classImage.sprite = classIcons[player.stats.Class];
+            classImageFront.sprite = classIcons[player.stats.Class];
+            classImageBack.sprite = classIcons[player.stats.Class];
         }
     }
 

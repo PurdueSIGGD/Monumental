@@ -87,6 +87,7 @@ public class Player : NetworkBehaviour
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
+            uiControl.setCooldown(stats.getInteractionSpeed());
 		}
         if (spriteNum == -1)
         {
@@ -109,6 +110,11 @@ public class Player : NetworkBehaviour
         stats.changeClass();
         CmdUpdateSprite(teamIndex, stats.Class);
         currentHealth = stats.getHealth();
+        /* DONT FORGET TO REMOVE THIS CHEAT */
+        for (int i = 1; i <= 6; i++)
+        {
+            resources.addAmount(i, 10000);
+        }
     }
 
     //calculates the difference between the current player and the other player
@@ -278,14 +284,22 @@ public class Player : NetworkBehaviour
     }
     
     [Command]
-    public void CmdBaseUpgrade(int upgrade)
+    public void CmdBaseUpgrade(int upgrade, UI_Purchase_Button button)
     {
         myBase.RpcBaseUpgrade(upgrade);
+        if (button)
+        {
+            button.updatePrice();
+        }
     }
 
     [Command]
-    public void CmdPurchaseMonument(int mon, int team)
+    public void CmdPurchaseMonument(int mon, int team, UI_Purchase_Button button)
     {
         mnm.monuments.RpcClaimMonument(mon, team);
+        if (button)
+        {
+            button.updatePrice();
+        }
     }
 }

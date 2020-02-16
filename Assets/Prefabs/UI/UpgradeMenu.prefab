@@ -71,7 +71,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110477413282705609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1110477413282705609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
-  m_AssetId: b704fb0200f7bec45a81705bb777daeb
+  m_AssetId: 
   m_SceneId: 0
 --- !u!114 &6566220523840583438
 MonoBehaviour:
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2316044584799879219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -194,8 +194,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: a1520e99af7d413409d2009b4c43bc0b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -205,6 +203,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3996692438368727452
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,15 +275,15 @@ RectTransform:
   m_GameObject: {fileID: 5508957033256273631}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_Children: []
   m_Father: {fileID: 5778721789625464424}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -282, y: 180}
-  m_SizeDelta: {x: 200, y: 45}
+  m_AnchoredPosition: {x: -232, y: 180}
+  m_SizeDelta: {x: 800, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &131756683440976743
 CanvasRenderer:
@@ -303,7 +302,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5508957033256273631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -312,15 +311,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 32
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 42
+    m_MaxSize: 100
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -382,7 +379,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6325370040843135585}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -391,8 +388,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: a1520e99af7d413409d2009b4c43bc0b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -402,6 +397,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1001 &251776374866505824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -409,11 +405,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button2
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -534,6 +525,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.98467743
       objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &4440343997417863201 stripped
@@ -549,11 +545,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button6
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -659,6 +650,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &3321748923493427945 stripped
@@ -674,11 +670,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -784,6 +775,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &2107468730884539981 stripped
@@ -799,11 +795,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button5
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -909,6 +900,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &394745037960166905 stripped
@@ -924,11 +920,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button3
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1034,6 +1025,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &8804509002522018639 stripped
@@ -1049,11 +1045,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5778721789625464424}
     m_Modifications:
-    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
-        type: 3}
-      propertyPath: m_Name
-      value: Button4
-      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1158,6 +1149,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5586640072677894053, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Name
+      value: Button4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}

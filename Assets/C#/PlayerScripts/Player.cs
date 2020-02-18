@@ -137,7 +137,9 @@ public class Player : NetworkBehaviour
     private void checkForStatsUpdate()
     {
         if (myBase == null) return;
-        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage)
+        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage ||
+            stats.baseCarryCapacity != myBase.baseStats.baseCarryCapacity || stats.baseRangedDamage != myBase.baseStats.baseRangedDamage ||
+            stats.baseMovementSpeed != myBase.baseStats.baseMovementSpeed || stats.baseGatherAmount != myBase.baseStats.baseGatherAmount)
         {
             stats.baseHealth = myBase.baseStats.baseHealth;
             stats.baseMovementSpeed = myBase.baseStats.baseMovementSpeed;
@@ -153,7 +155,10 @@ public class Player : NetworkBehaviour
     public void resourceTransfer(int attacker)
     {
         int[] takenRes = resources.dumpResources();
-        CmdTransferResources(attacker, takenRes);
+        if (isLocalPlayer)
+        {
+            CmdTransferResources(attacker, takenRes);
+        }
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player

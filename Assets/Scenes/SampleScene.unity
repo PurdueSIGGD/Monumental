@@ -836,6 +836,11 @@ PrefabInstance:
       propertyPath: monuments
       value: 
       objectReference: {fileID: 4228195044712375536}
+    - target: {fileID: 1525191907533777721, guid: 2118175d75ad7644dafa73f8637e171d,
+        type: 3}
+      propertyPath: lobbyCamera
+      value: 
+      objectReference: {fileID: 1731994623}
     - target: {fileID: 5547360073664140466, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1292,7 +1297,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731994623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -10, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

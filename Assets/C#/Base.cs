@@ -14,6 +14,7 @@ public class Base : NetworkBehaviour
     public Monuments monuments;
     public AudioSource enterSound;
     public AudioSource resourceSound;
+    public UI_UpgradeMenu upgradeMenu;
     private float lastPurchase;
     private float cooldown = 1;
     const int smallCost = 10;
@@ -260,21 +261,70 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcBaseUpgrade(int upgrade)
     {
-        int factor = (upgrade + 1) / 2;
-        if (upgrade % 2 == 0)
+        incrementUpgradeLevel(upgrade);
+        lastPurchase = Time.time;
+        switch (upgrade)
         {
-            baseStats.baseHealth += (HealthUpgrade * factor);
-            baseStats.baseCarryCapacity += (CarryUpgrade * factor);
-            baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, factor));
+            case 1: // Melee
+                baseStats.baseMeleeDamage += (MeleeUpgrade);
+                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1/2));
+                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1/2));
+                speGatUpdate(0);
+                return;
+            case 2: // Health
+                baseStats.baseHealth += (HealthUpgrade);
+                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1/2));
+                speGatUpdate(1);
+                return;
+            case 3: // Ranged
+                baseStats.baseRangedDamage += (RangedUpgrade);
+                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1));
+                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1));
+                speGatUpdate(0);
+                return;
+            case 4: // Carry
+                baseStats.baseCarryCapacity += (CarryUpgrade);
+                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1));
+                speGatUpdate(1);
+                return;
+            case 5: // Speed
+                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 2));
+                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 2));
+                speGatUpdate(0);
+                return;
+            case 6: // Gather
+                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 2));
+                speGatUpdate(1);
+                return;
+        }
+        // Speed = SpeMul (1000 + MeleeLevel + 2 * RangeLevel + 4 * SpeMulLevel)
+        // For interaction speed, use - instead of +
+        return;
+    }
+    
+    //[ClientRpc]
+    public void speGatUpdate(int type) //Speed = 0; Gather = 1;
+    {
+        if (type == 0)
+        {
+            baseStats.baseMovementSpeed = Mathf.Pow(MovementUpgrade,getUpgradeLevel0(5))
+                * (100 + getUpgradeLevel0(1) + getUpgradeLevel0(3) * 2 + getUpgradeLevel0(5) * 4)/10;
+            baseStats.baseInteractionSpeed = Mathf.Pow(InteractionUpgrade, getUpgradeLevel0(5))
+                * (100 - getUpgradeLevel0(1) - getUpgradeLevel0(3) * 2 - getUpgradeLevel0(5) * 4)/100;
         }
         else
         {
-            baseStats.baseMeleeDamage += (MeleeUpgrade * factor);
-            baseStats.baseRangedDamage += (RangedUpgrade * factor);
-            baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, factor));
-            baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, factor));
+            baseStats.baseGatherAmount =  Mathf.Pow(GatherUpgrade, getUpgradeLevel0(6))
+                * (100 + getUpgradeLevel0(2) + getUpgradeLevel0(4) * 2 + getUpgradeLevel0(6) * 4)/100;
         }
-        incrementUpgradeLevel(upgrade);
-        lastPurchase = Time.time;
+        if (upgradeMenu)
+        {
+            upgradeMenu.reset(teamIndex);
+        }
     }
+    public int getUpgradeLevel0(int up)
+    {
+        return getUpgradeLevel(up) - 1;
+    }
+
 }

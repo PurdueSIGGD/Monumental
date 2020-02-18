@@ -87,6 +87,7 @@ public class Player : NetworkBehaviour
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
+            uiControl.setCooldown(stats.getInteractionSpeed());
 		}
         if (spriteNum == -1)
         {
@@ -283,14 +284,22 @@ public class Player : NetworkBehaviour
     }
     
     [Command]
-    public void CmdBaseUpgrade(int upgrade)
+    public void CmdBaseUpgrade(int upgrade, UI_Purchase_Button button)
     {
         myBase.RpcBaseUpgrade(upgrade);
+        if (button)
+        {
+            button.updatePrice();
+        }
     }
 
     [Command]
-    public void CmdPurchaseMonument(int mon, int team)
+    public void CmdPurchaseMonument(int mon, int team, UI_Purchase_Button button)
     {
         mnm.monuments.RpcClaimMonument(mon, team);
+        if (button)
+        {
+            button.updatePrice();
+        }
     }
 }

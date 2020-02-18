@@ -520,7 +520,12 @@ PrefabInstance:
     - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}
       propertyPath: m_SceneId
-      value: 4153992872
+      value: 3606652425
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b704fb0200f7bec45a81705bb777daeb
       objectReference: {fileID: 0}
     - target: {fileID: 5778721789625464424, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}
@@ -1329,7 +1334,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 2325493372
+  m_SceneId: 3166628943
 --- !u!1 &1316718833615320280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7502050784895007878, guid: 2264c751673b1d94b918301cd78adf86,

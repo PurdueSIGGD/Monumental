@@ -165,7 +165,7 @@ public class Base : NetworkBehaviour
         }
     }
 
-    public bool purchaseUpgrade(int up)
+    public bool purchaseUpgrade(int up, UI_Purchase_Button button)
     {
         int upLevel = getUpgradeLevel(up);
         if(upLevel == 0)
@@ -177,28 +177,28 @@ public class Base : NetworkBehaviour
         {
             lastPurchase = Time.time;
             if (localPlayer == null) return false;
-            localPlayer.CmdBaseUpgrade(up);
+            localPlayer.CmdBaseUpgrade(up, button);
             localPlayer.CmdRemoveBaseResources(cost);
             return true;
         }
         return false;
     }
 
-    public bool purchaseMonument(int mon)
+    public bool purchaseMonument(int mon, UI_Purchase_Button button)
     {
         if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1 && (Time.time - lastPurchase) > cooldown)
         {
             lastPurchase = Time.time;
             localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
-            localPlayer.CmdPurchaseMonument(mon, teamIndex);
-            if (monuments.GetScore(teamIndex) >= 3)
+            int score = monuments.GetScore(teamIndex) + 1; //Dont wait for command
+            localPlayer.CmdPurchaseMonument(mon, teamIndex, button);
+            if (score >= 3)
             {
                 //WIN GAME
                 mgm.winGame(teamIndex);
             }
 
             GameObject.FindObjectOfType<UI_Control>().updateMonument(mon, teamIndex);
-
             return true;
         }
         return false;
@@ -233,14 +233,6 @@ public class Base : NetworkBehaviour
                 /* Play entry sound effect */
                 enterSound.Play();
                 
-            } else
-            {/*
-                Rigidbody2D pRigid = p.GetComponentInParent<Rigidbody2D>();
-                //pRigid.position += (myCol.GetComponentInParent<Rigidbody2D>().position - pRigid.position);
-                pRigid.position = pRigid.position - 2f * Time.deltaTime * pRigid.velocity;
-                pRigid.velocity = Vector2.zero;
-                Debug.Log("not welcome");
-                */
             }
         }
     }

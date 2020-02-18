@@ -110,11 +110,6 @@ public class Player : NetworkBehaviour
         stats.changeClass();
         CmdUpdateSprite(teamIndex, stats.Class);
         currentHealth = stats.getHealth();
-        /* DONT FORGET TO REMOVE THIS CHEAT */
-        for (int i = 1; i <= 6; i++)
-        {
-            resources.addAmount(i, 10000);
-        }
     }
 
     //calculates the difference between the current player and the other player

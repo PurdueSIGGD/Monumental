@@ -13,7 +13,6 @@ public class Projectile : NetworkBehaviour
 
 	private void Start()
 	{
-		timer = 300;
 		StartCoroutine(TimerDestroy());
 	}
 

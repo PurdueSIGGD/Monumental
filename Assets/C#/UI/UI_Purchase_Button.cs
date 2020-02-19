@@ -16,7 +16,6 @@ public class UI_Purchase_Button : NetworkBehaviour
     public Base myBase;
     public Monuments myMon;
     public bool isMonument = false;
-    private MonumentalNetworkManager mnm = null;
 
     public void setPrice(int upgrade, bool isMon)
     {
@@ -62,10 +61,6 @@ public class UI_Purchase_Button : NetworkBehaviour
         if (isMon)
         {
             title.text = "Monument " + up;
-            if (!mnm)
-            {
-                mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
-            }
         }
         else
         {

@@ -10,7 +10,6 @@ public class Base : NetworkBehaviour
     private Player localPlayer;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
-    public MonumentalGameManager mgm;
     public Monuments monuments;
     public AudioSource enterSound;
     public AudioSource resourceSound;
@@ -52,7 +51,6 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
-        mgm = GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>();
         lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
@@ -195,7 +193,7 @@ public class Base : NetworkBehaviour
             if (score >= 3)
             {
                 //WIN GAME
-                mgm.winGame(teamIndex);
+                winGame(teamIndex);
             }
 
             GameObject.FindObjectOfType<UI_Control>().updateMonument(mon, teamIndex);
@@ -222,6 +220,11 @@ public class Base : NetworkBehaviour
                 p.isInBase = true;
                 //Heal player to full
                 p.currentHealth = p.stats.getHealth();
+                /* CHEAT */
+                for (int i = 1; i <= 6; i++)
+                {
+                    resPool.addAmount(i, 10000);
+                }
 
                 //dump player resources into pool
                 if (!p.resources.isEmpty())
@@ -325,6 +328,28 @@ public class Base : NetworkBehaviour
     public int getUpgradeLevel0(int up)
     {
         return getUpgradeLevel(up) - 1;
+    }
+
+    public void winGame(int teamIndex) //Called by base when last monument purchased
+    {
+        CmdEndGame(teamIndex);
+    }
+
+    [Command]
+    private void CmdEndGame(int winningTeam)
+    {
+        RpcEndGame(winningTeam);
+    }
+
+    [ClientRpc]
+    private void RpcEndGame(int winningTeam)
+    {
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].OnWinGame(players[i].teamIndex == winningTeam);
+        }
+
     }
 
 }

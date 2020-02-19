@@ -75,6 +75,7 @@ public class Player : NetworkBehaviour
         {
             this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
         }
+        checkForStatsUpdate();
         if (!isLocalPlayer) return;
 
 		float dx = Input.GetAxis("Horizontal");
@@ -94,7 +95,6 @@ public class Player : NetworkBehaviour
             CmdUpdateSprite(teamIndex, stats.Class);
             spriteUpdated = true;
         }
-        checkForStatsUpdate();
 	}
 
     private void OnDestroy()

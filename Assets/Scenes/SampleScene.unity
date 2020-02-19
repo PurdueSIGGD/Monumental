@@ -520,7 +520,12 @@ PrefabInstance:
     - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}
       propertyPath: m_SceneId
-      value: 4153992872
+      value: 3606652425
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
+        type: 3}
+      propertyPath: m_AssetId
+      value: b704fb0200f7bec45a81705bb777daeb
       objectReference: {fileID: 0}
     - target: {fileID: 5778721789625464424, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}
@@ -831,6 +836,11 @@ PrefabInstance:
       propertyPath: monuments
       value: 
       objectReference: {fileID: 4228195044712375536}
+    - target: {fileID: 1525191907533777721, guid: 2118175d75ad7644dafa73f8637e171d,
+        type: 3}
+      propertyPath: lobbyCamera
+      value: 
+      objectReference: {fileID: 1731994623}
     - target: {fileID: 5547360073664140466, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1287,7 +1297,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731994623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -10, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1324,7 +1334,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 612182341
+  m_SceneId: 3166628943
 --- !u!1 &1316718833615320280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7502050784895007878, guid: 2264c751673b1d94b918301cd78adf86,

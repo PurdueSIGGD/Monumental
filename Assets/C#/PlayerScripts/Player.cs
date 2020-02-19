@@ -10,9 +10,11 @@ using UnityEngine.UI;
 public class Player : NetworkBehaviour
 {
     [SyncVar]
-    public int health;
+    public int currentHealth;
     private Rigidbody2D body;
     private Slider healthbar;
+    public Sprite[] classSprites;
+    private SpriteRenderer spriteRender;
     public MonumentalNetworkManager mnm;
     [HideInInspector]
     public PlayerStats stats;
@@ -26,12 +28,18 @@ public class Player : NetworkBehaviour
     public int teamIndex = -1;
     [SyncVar]
     public int positionInPlayerList = -1;
+    [SyncVar]
+    public int spriteNum = -1;
+    private bool spriteUpdated = false;
     public Base myBase;
 
     public GameObject projectile;
 	private HitDetection hitDetect;
 	private ShootingProjectiles shootingProjectile;
     private float timeOfLastClick;
+
+    private UI_Control uiControl;
+    public Sprite[] playerSprites;
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +48,9 @@ public class Player : NetworkBehaviour
 		shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         resources = GetComponent<ResourceBag>();
+        resources.initEmpty();
         healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
@@ -49,18 +58,24 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer)
         {
             hitDetect.isTheLocalPlayer = true;
-            UI_Control uiControl = GameObject.FindObjectOfType<UI_Control>();
+            uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
             uiCamera.followTarget = this.gameObject;
-            health = stats.getHealth();
+            currentHealth = stats.getHealth();
+            spriteRender = this.GetComponent<SpriteRenderer>();
+            spriteRender.sprite = classSprites[stats.Class];
         }
     }
 
 	// Update is called once per frame
 	void FixedUpdate()
-	{
-		if (!isLocalPlayer) return;
+    {
+        if (spriteNum != -1 && !spriteUpdated)
+        {
+            this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
+        }
+        if (!isLocalPlayer) return;
 
 		float dx = Input.GetAxis("Horizontal");
 		float dy = Input.GetAxis("Vertical");
@@ -72,11 +87,12 @@ public class Player : NetworkBehaviour
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
+            uiControl.setCooldown(stats.getInteractionSpeed());
 		}
-        if(Input.GetAxis("Jump") > 0 && isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
+        if (spriteNum == -1)
         {
-            timeOfLastClick = Time.time;
-            stats.changeClass();
+            CmdUpdateSprite(teamIndex, stats.Class);
+            spriteUpdated = true;
         }
         checkForStatsUpdate();
 	}
@@ -89,6 +105,13 @@ public class Player : NetworkBehaviour
         }
     }
 
+    public void changeClass()
+    {
+        stats.changeClass();
+        CmdUpdateSprite(teamIndex, stats.Class);
+        currentHealth = stats.getHealth();
+    }
+
     //calculates the difference between the current player and the other player
     public float calculateDistance(Player there)
     {
@@ -98,8 +121,8 @@ public class Player : NetworkBehaviour
     //player takes damage of amount damage from player attacker
     public void takeDamage(int damage, int attacker)
     {
-        health -= damage;
-        if (health <= 0)
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
             resourceTransfer(attacker);
             respawn();
@@ -109,7 +132,9 @@ public class Player : NetworkBehaviour
     private void checkForStatsUpdate()
     {
         if (myBase == null) return;
-        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage)
+        if (stats.baseHealth != myBase.baseStats.baseHealth || stats.baseMeleeDamage != myBase.baseStats.baseMeleeDamage ||
+            stats.baseCarryCapacity != myBase.baseStats.baseCarryCapacity || stats.baseRangedDamage != myBase.baseStats.baseRangedDamage ||
+            stats.baseMovementSpeed != myBase.baseStats.baseMovementSpeed || stats.baseGatherAmount != myBase.baseStats.baseGatherAmount)
         {
             stats.baseHealth = myBase.baseStats.baseHealth;
             stats.baseMovementSpeed = myBase.baseStats.baseMovementSpeed;
@@ -117,20 +142,24 @@ public class Player : NetworkBehaviour
             stats.baseGatherAmount = myBase.baseStats.baseGatherAmount;
             stats.baseMeleeDamage = myBase.baseStats.baseMeleeDamage;
             stats.baseRangedDamage = myBase.baseStats.baseRangedDamage;
-            health = stats.getHealth();
+            stats.baseCarryCapacity = myBase.baseStats.baseCarryCapacity;
+            currentHealth = stats.getHealth();
         }
     }
 
     public void resourceTransfer(int attacker)
     {
         int[] takenRes = resources.dumpResources();
-        CmdTransferResources(attacker, takenRes);
+        if (isLocalPlayer)
+        {
+            CmdTransferResources(attacker, takenRes);
+        }
     }
 
     //respawns character by setting character to maxHealth, moving the character back to spawn, and giving resources to other player
     public void respawn()
     {
-        health = stats.getHealth();
+        currentHealth = stats.getHealth();
         CmdRespawn();
     }
 
@@ -170,17 +199,33 @@ public class Player : NetworkBehaviour
 
     void LateUpdate()
     {
-        healthbar.value = health / (float)stats.getHealth();
+        healthbar.value = currentHealth / (float)stats.getHealth();
         healthbar.transform.parent.position = this.transform.position;
     }
 
     public void setHealth(int val)
     {
-        health = val;
-        if (health <= 0)
+        currentHealth = val;
+        if (currentHealth <= 0)
         {
 			Debug.Log(gameObject.name + " is dead");
-			health = 100;
+			currentHealth = 100;
+        }
+    }
+
+    public void OnWinGame(bool didWin)
+    {
+        if (isLocalPlayer)
+        {
+            if (didWin) {
+                uiControl.centerText.text = "VICTORY";
+                uiControl.centerText.color = new Color(0, 1, 0);
+            }
+            else
+            {
+                uiControl.centerText.text = "DEFEAT";
+                uiControl.centerText.color = new Color(1, 0, 0);
+            }
         }
     }
 
@@ -188,6 +233,21 @@ public class Player : NetworkBehaviour
     public void SetTeam(int team)
     {
         teamIndex = team;
+    }
+
+    [Command]
+    public void CmdUpdateSprite(int team, int Class){
+        RpcUpdateSprite(team, Class);
+    }
+
+    [ClientRpc]
+    void RpcUpdateSprite(int team, int Class)
+    {
+        int value = team + (2 * Class);
+        value = Mathf.Max(value, 0);
+        value = Mathf.Min(value, 3);
+        spriteNum = value;
+        this.GetComponent<SpriteRenderer>().sprite = playerSprites[value];
     }
 
     public void SetNetManager(MonumentalNetworkManager m)
@@ -202,7 +262,7 @@ public class Player : NetworkBehaviour
     
     public void gather(int resType, float size)
     {
-        resources.addResource(resNode.gatherPass(stats.getGatherAmount(), resType, size));
+        resources.addResourceWithLimit(stats.getCarryCapacity(), resNode.gatherPass(stats.getGatherAmount(), resType, size));
     }
 
     [Command]

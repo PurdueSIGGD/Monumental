@@ -58,6 +58,7 @@ public class MonumentalNetworkManager : NetworkManager
         }
         NetworkServer.DestroyPlayerForConnection(conn);
         Debug.Log("OnServerDisconnect: Client disconnected.");
+
     }
 
     public override void OnServerRemovePlayer(NetworkConnection conn, NetworkIdentity player)

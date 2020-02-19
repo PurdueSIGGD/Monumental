@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 [RequireComponent(typeof(NetworkManager))]
 public class MonumentalNetworkMenu : MonoBehaviour
@@ -11,10 +14,21 @@ public class MonumentalNetworkMenu : MonoBehaviour
     bool menuIsShowing = true;
     bool joining = false;
     NetworkManager manager;
-    
+
+    public GameObject lobbyCamera;
+    private Vector3 lobbyCameraPosition;
     public GameObject menu;
     public InputField text;
     public Button joinButton, hostButton, quitButton, cancelConnectButton;
+
+    private void Start()
+    {
+        if(lobbyCamera != null)
+        {
+            lobbyCamera.SetActive(true);
+            lobbyCameraPosition = lobbyCamera.GetComponent<Transform>().position;
+        }
+    }
 
     void Awake()
     {
@@ -69,6 +83,20 @@ public class MonumentalNetworkMenu : MonoBehaviour
         {
             manager.StopHost();
             DefaultMenu();
+            if (lobbyCamera != null)
+            {
+                lobbyCamera.SetActive(true);
+                lobbyCamera.GetComponent<Transform>().position = lobbyCameraPosition;
+            }
+        }
+        else
+        {
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#endif
+#if UNITY_STANDALONE
+            Application.Quit();
+#endif
         }
     }
 
@@ -88,6 +116,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     private void OnJoined()
     {
+        GameObject.FindObjectOfType<UI_Control>().clear();
         menuIsShowing = !menuIsShowing;
         menu.SetActive(menuIsShowing);
         cancelConnectButton.gameObject.SetActive(false);

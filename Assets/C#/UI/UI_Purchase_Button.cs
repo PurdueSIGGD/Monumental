@@ -16,14 +16,12 @@ public class UI_Purchase_Button : NetworkBehaviour
     public Base myBase;
     public Monuments myMon;
     public bool isMonument = false;
-    private bool isInitialized = false;
-    private int upLevel = 1;
+    private MonumentalNetworkManager mnm = null;
 
     public void setPrice(int upgrade, bool isMon)
     {
         up = upgrade;
         isMonument = isMon;
-        isInitialized = true;
 
         if (!resourceLocation)
         {
@@ -64,29 +62,47 @@ public class UI_Purchase_Button : NetworkBehaviour
         if (isMon)
         {
             title.text = "Monument " + up;
-            //title.text = myMon.getMonumentName(up);
+            if (!mnm)
+            {
+                mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+            }
         }
         else
         {
-            title.text = getType(up) + " " + up + " - Tier " + myBase.getUpgradeLevel(up);
+            title.text = "Tier " + myBase.getUpgradeLevel(up);
+            text.text = getType(up);
         }
         
         if (button)
         {
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(makePurchase);
         }
     }
 
+    public void updatePrice()
+    {
+        setPrice(up, isMonument);
+    }
+
     private string getType(int upgrade)
     {
-        if(upgrade % 2 == 0)
+        switch (upgrade)
         {
-            return "Health";
+            case 1:
+                return "Melee";
+            case 2:
+                return "Health";
+            case 3:
+                return "Ranged";
+            case 4:
+                return "Carry";
+            case 5:
+                return "Speed";
+            case 6:
+                return "Gather";
         }
-        else
-        {
-            return "Damage";
-        }
+        return "";
     }
 
     public void makePurchase()
@@ -101,49 +117,4 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        if (!isInitialized) return;
-
-        if (isMonument)
-        {
-            if(myMon.GetOwner(up) != -1)
-            {
-                if(myMon.GetOwner(up) == myBase.teamIndex)
-                {
-                    text.text = "Owned";
-                }
-                else
-                {
-                    text.text = "Sold out";
-                }
-
-                if (button)
-                {
-                    button.onClick.RemoveAllListeners();
-                }
-                isInitialized = false;
-                for(int i=0; i < resourceSprites.Count; i++)
-                {
-                    Destroy(resourceSprites[i]);
-                }
-            }
-        }
-        else
-        {
-            if(myBase.getUpgradeLevel(up) != upLevel)
-            {
-                upLevel = myBase.getUpgradeLevel(up);
-                int[] rsc = myBase.resourceCostForUpgrade(up, upLevel);
-                int a = 0;
-                title.text = getType(up) + " " + up + " - Tier " + upLevel;
-                for (int i=0; i<rsc.Length; i++)
-                {
-                    if (rsc[i] == 0) continue;
-                    resourceSprites[a].GetComponentInChildren<Text>().text = "" + rsc[i];
-                    a++;
-                }
-            }
-        }
-    }
 }

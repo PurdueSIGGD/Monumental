@@ -1318,7 +1318,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   followTarget: {fileID: 0}
-  offset: {x: 0, y: 0}
+  offset: {x: 0, y: -0.5}
+  FOVDistance: -12
 --- !u!114 &1731994628
 MonoBehaviour:
   m_ObjectHideFlags: 0

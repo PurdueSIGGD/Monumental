@@ -165,7 +165,7 @@ public class Base : NetworkBehaviour
         }
     }
 
-    public bool purchaseUpgrade(int up, UI_Purchase_Button button)
+    public bool purchaseUpgrade(int up)
     {
         int upLevel = getUpgradeLevel(up);
         if(upLevel == 0)
@@ -177,21 +177,21 @@ public class Base : NetworkBehaviour
         {
             lastPurchase = Time.time;
             if (localPlayer == null) return false;
-            localPlayer.CmdBaseUpgrade(up, button);
+            localPlayer.CmdBaseUpgrade(up);
             localPlayer.CmdRemoveBaseResources(cost);
             return true;
         }
         return false;
     }
 
-    public bool purchaseMonument(int mon, UI_Purchase_Button button)
+    public bool purchaseMonument(int mon)
     {
         if  (resPool.checkBag(mnm.monuments.GetCost(mon)) && mnm.monuments.GetOwner(mon) == -1 && (Time.time - lastPurchase) > cooldown)
         {
             lastPurchase = Time.time;
             localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
             int score = monuments.GetScore(teamIndex) + 1; //Dont wait for command
-            localPlayer.CmdPurchaseMonument(mon, teamIndex, button);
+            localPlayer.CmdPurchaseMonument(mon, teamIndex);
             if (score >= 3)
             {
                 //WIN GAME

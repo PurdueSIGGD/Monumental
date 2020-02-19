@@ -66,7 +66,6 @@ public class UI_Purchase_Button : NetworkBehaviour
             {
                 mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
             }
-            mnm.monuments.CmdSetMonumentButton(button, up);
         }
         else
         {
@@ -110,11 +109,11 @@ public class UI_Purchase_Button : NetworkBehaviour
     {
         if (isMonument)
         {
-            myBase.purchaseMonument(up, this);
+            myBase.purchaseMonument(up);
         }
         else
         {
-            myBase.purchaseUpgrade(up, this);
+            myBase.purchaseUpgrade(up);
         }
     }
 

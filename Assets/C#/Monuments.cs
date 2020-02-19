@@ -84,12 +84,6 @@ public class Monuments : NetworkBehaviour
         return -2;
     }
 
-    [Command]
-    public void CmdSetMonumentButton(Button button, int mon)
-    {
-        button.interactable = (GetOwner(mon) == -1);
-    }
-
     // Returns the number of monuments owned by the given team.
     public int GetScore(int team)
     {

@@ -284,22 +284,14 @@ public class Player : NetworkBehaviour
     }
     
     [Command]
-    public void CmdBaseUpgrade(int upgrade, UI_Purchase_Button button)
+    public void CmdBaseUpgrade(int upgrade)
     {
         myBase.RpcBaseUpgrade(upgrade);
-        if (button)
-        {
-            button.updatePrice();
-        }
     }
 
     [Command]
-    public void CmdPurchaseMonument(int mon, int team, UI_Purchase_Button button)
+    public void CmdPurchaseMonument(int mon, int team)
     {
         mnm.monuments.RpcClaimMonument(mon, team);
-        if (button)
-        {
-            button.updatePrice();
-        }
     }
 }

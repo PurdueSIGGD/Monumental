@@ -23,7 +23,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
             buttonList[i].setPrice(i+1, false);
             UpgradeDisplay[i].text = ""+myBase.getUpgradeLevel(i+1);
         }
-        SpeedText.text = "" + myBase.baseStats.baseMovementSpeed;
-        GatherText.text = "" + myBase.baseStats.baseGatherAmount;
+        SpeedText.text = string.Format("{0:0.##}", myBase.baseStats.baseMovementSpeed/10);
+        GatherText.text = string.Format("{0:0.##}", myBase.baseStats.baseGatherAmount);
     }
 }

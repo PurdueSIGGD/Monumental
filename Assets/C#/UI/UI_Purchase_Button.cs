@@ -50,7 +50,7 @@ public class UI_Purchase_Button : NetworkBehaviour
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
             obj.GetComponentInChildren<Text>().text = "" + rsc[i];
-            obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
+            obj.GetComponent<Image>().sprite = Resource.getSpriteRefined(i+1);
             float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
             obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
             resourceSprites.Add(obj);
@@ -64,8 +64,8 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         else
         {
-            title.text = "Tier " + myBase.getUpgradeLevel(up);
-            text.text = getType(up);
+            title.text = "";//"Tier " + myBase.getUpgradeLevel(up);
+            //text.text = getType(up);
         }
         
         if (button)

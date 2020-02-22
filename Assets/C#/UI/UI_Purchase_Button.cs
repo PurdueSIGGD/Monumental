@@ -56,11 +56,11 @@ public class UI_Purchase_Button : NetworkBehaviour
             resourceSprites.Add(obj);
             objectOffset++;
         }
-
-        text.text = "Purchase";
+        
         if (isMon)
         {
-            title.text = "Monument " + up;
+            title.text = "";
+            text.text = Monuments.MonumentNames[up - 1];
         }
         else
         {

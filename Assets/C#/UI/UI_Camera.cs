@@ -20,8 +20,8 @@ public class UI_Camera : NetworkBehaviour
         if (followTarget)
         {
             Vector3 pos = new Vector3();
-            pos.x = followTarget.transform.position.x + pos.x + offset.x;
-            pos.y = followTarget.transform.position.y + pos.y + offset.y;
+            pos.x = followTarget.transform.position.x + offset.x;
+            pos.y = followTarget.transform.position.y + offset.y;
             pos.z = FOVDistance;
 
             this.transform.position = pos;

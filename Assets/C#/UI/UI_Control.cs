@@ -205,6 +205,10 @@ public class UI_Control : NetworkBehaviour
 
     void onSwapButton()
     {
+        if (!player.isInBase)
+        {
+            return;
+        }
         currentMenu.SetActive(false);
         swapButton.transform.parent.gameObject.SetActive(false);
         if (currentMenu == upgradeMenu)

@@ -13,7 +13,7 @@ struct ClassMods {
     static public float gcarry = 1.5f;
 
     static public float fhealth = 1.2f;
-    static public float fmovementSpeed = 1.05f;
+    static public float fmovementSpeed = 1f;
     static public float finteractionSpeed = 0.9f;
     static public float fgather = 1f;
     static public float fmelee = 1.5f;

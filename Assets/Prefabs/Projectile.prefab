@@ -60,6 +60,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -137,7 +138,8 @@ MonoBehaviour:
   parentGameobject: {fileID: 0}
   damage: 0
   teamIndex: 0
-  timer: 0
+  sourcePlayer: 0
+  timer: 0.7
 --- !u!114 &1654469536181316323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,4 +155,4 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 209738807
+  m_SceneId: 0

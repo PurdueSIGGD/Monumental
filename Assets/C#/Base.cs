@@ -193,7 +193,7 @@ public class Base : NetworkBehaviour
             if (score >= 3)
             {
                 //WIN GAME
-                winGame(teamIndex);
+                localPlayer.CmdEndGame(teamIndex);
             }
 
             GameObject.FindObjectOfType<UI_Control>().updateMonument(mon, teamIndex);
@@ -330,26 +330,6 @@ public class Base : NetworkBehaviour
         return getUpgradeLevel(up) - 1;
     }
 
-    public void winGame(int teamIndex) //Called by base when last monument purchased
-    {
-        CmdEndGame(teamIndex);
-    }
-
-    [Command]
-    private void CmdEndGame(int winningTeam)
-    {
-        RpcEndGame(winningTeam);
-    }
-
-    [ClientRpc]
-    private void RpcEndGame(int winningTeam)
-    {
-        Player[] players = GameObject.FindObjectsOfType<Player>();
-        for (int i = 0; i < players.Length; i++)
-        {
-            players[i].OnWinGame(players[i].teamIndex == winningTeam);
-        }
-
-    }
+    
 
 }

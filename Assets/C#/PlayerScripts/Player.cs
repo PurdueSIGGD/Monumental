@@ -294,4 +294,23 @@ public class Player : NetworkBehaviour
     {
         mnm.monuments.RpcClaimMonument(mon, team);
     }
+
+    [Command]
+    public void CmdEndGame(int winningTeam)
+    {
+        RpcEndGame(winningTeam);
+    }
+
+    [ClientRpc]
+    private void RpcEndGame(int winningTeam)
+    {
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].OnWinGame(players[i].teamIndex == winningTeam);
+        }
+        //OnWinGame(teamIndex == winningTeam);
+
+    }
+
 }

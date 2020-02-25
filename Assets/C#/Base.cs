@@ -220,11 +220,6 @@ public class Base : NetworkBehaviour
                 p.isInBase = true;
                 //Heal player to full
                 p.currentHealth = p.stats.getHealth();
-                /* CHEAT */
-                for (int i = 1; i <= 6; i++)
-                {
-                    resPool.addAmount(i, 10000);
-                }
 
                 //dump player resources into pool
                 if (!p.resources.isEmpty())

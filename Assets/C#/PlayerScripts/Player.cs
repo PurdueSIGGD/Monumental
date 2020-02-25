@@ -214,7 +214,6 @@ public class Player : NetworkBehaviour
         currentHealth = val;
         if (currentHealth <= 0)
         {
-			Debug.Log(gameObject.name + " is dead");
 			currentHealth = 100;
         }
     }

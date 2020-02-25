@@ -17,6 +17,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     public GameObject lobbyCamera;
     private Vector3 lobbyCameraPosition;
+    public GameObject titleCard;
+    public GameObject bottomBar;
     public GameObject menu;
     public InputField text;
     public Button joinButton, hostButton, quitButton, cancelConnectButton;
@@ -112,6 +114,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
         joinButton.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
         hostButton.gameObject.SetActive(true);
+        bottomBar.SetActive(false);
+        titleCard.SetActive(true);
     }
 
     private void OnJoined()
@@ -123,5 +127,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
         joinButton.gameObject.SetActive(false);
         text.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
+        bottomBar.SetActive(true);
+        titleCard.SetActive(false);
     }
 }

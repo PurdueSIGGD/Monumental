@@ -23,6 +23,7 @@ public class Player : NetworkBehaviour
     public ResourceNode resNode;
     public bool isInBase = false;
     private Vector2 spawn;
+    public Animator attackAnimator;
 
     [SyncVar]
     public int teamIndex = -1;
@@ -85,11 +86,16 @@ public class Player : NetworkBehaviour
 		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
 		if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
+            attackAnimator.SetBool("isAttacking", true);
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
             uiControl.setCooldown(stats.getInteractionSpeed());
-		}
+        }
+        else
+        {
+            attackAnimator.SetBool("isAttacking", false);
+        }
         if (spriteNum == -1)
         {
             CmdUpdateSprite(teamIndex, stats.Class);

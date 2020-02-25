@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using UnityEngine.EventSystems;
 
-public class UI_Purchase_Button : NetworkBehaviour
+public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     public GameObject resourceLocation = null;
@@ -15,7 +16,15 @@ public class UI_Purchase_Button : NetworkBehaviour
     public int up;
     public Base myBase;
     public Monuments myMon;
+    private UI_UpgradeMenu menu;
     public bool isMonument = false;
+
+    public void setPrice(int upgrade, UI_UpgradeMenu men)
+    {
+        menu = men;
+        setPrice(upgrade, false);
+        
+    }
 
     public void setPrice(int upgrade, bool isMon)
     {
@@ -98,6 +107,16 @@ public class UI_Purchase_Button : NetworkBehaviour
                 return "Gather";
         }
         return "";
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        menu.preview(up);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        menu.unPreview();
     }
 
     public void makePurchase()

@@ -20,12 +20,12 @@ public class Base : NetworkBehaviour
     const int smallCost = 10;
     const int bigCost = 100;
 
-    const int HealthUpgrade = 30;
+    const int HealthUpgrade = 35;
     const float MovementUpgrade = 1.02f;
     const float InteractionUpgrade = .98f;
     const float GatherUpgrade = 1.05f;
-    const int MeleeUpgrade = 20;
-    const int RangedUpgrade = 10;
+    const int MeleeUpgrade = 18;
+    const int RangedUpgrade = 9;
     const int CarryUpgrade = 20;
 
     [HideInInspector]

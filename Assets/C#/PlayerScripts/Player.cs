@@ -23,6 +23,7 @@ public class Player : NetworkBehaviour
     public ResourceNode resNode;
     public bool isInBase = false;
     private Vector2 spawn;
+    public Animator attackAnimator;
 
     [SyncVar]
     public int teamIndex = -1;
@@ -45,7 +46,8 @@ public class Player : NetworkBehaviour
     void Start()
     {
 		hitDetect = GetComponentInChildren<HitDetection>();
-		shootingProjectile = GetComponent<ShootingProjectiles>();
+        attackAnimator = GetComponentInChildren<Animator>();
+        shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         currentHealth = stats.getHealth();
@@ -75,6 +77,7 @@ public class Player : NetworkBehaviour
         {
             this.GetComponent<SpriteRenderer>().sprite = playerSprites[spriteNum];
         }
+        checkForStatsUpdate();
         if (!isLocalPlayer) return;
 
 		float dx = Input.GetAxis("Horizontal");
@@ -84,17 +87,21 @@ public class Player : NetworkBehaviour
 		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
 		if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
 		{
+            attackAnimator.SetBool("isAttacking", true);
             timeOfLastClick = Time.time;
 			hitDetect.clicked = true;
 			shootingProjectile.clicked = true;
             uiControl.setCooldown(stats.getInteractionSpeed());
-		}
+        }
+        else
+        {
+            attackAnimator.SetBool("isAttacking", false);
+        }
         if (spriteNum == -1)
         {
             CmdUpdateSprite(teamIndex, stats.Class);
             spriteUpdated = true;
         }
-        checkForStatsUpdate();
 	}
 
     private void OnDestroy()

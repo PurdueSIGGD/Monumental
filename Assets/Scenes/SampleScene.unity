@@ -582,6 +582,31 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1438166533390356353, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.38268343
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438166533390356353, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438166533390356353, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438166533390356353, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438166533390356353, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 26.73
+      objectReference: {fileID: 0}
     - target: {fileID: 2474774007430231139, guid: c97ced5463b651949b21234ebb940f27,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -1318,7 +1343,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   followTarget: {fileID: 0}
-  offset: {x: 0, y: 0}
+  offset: {x: 0, y: -0.5}
+  FOVDistance: -12
 --- !u!114 &1731994628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,7 +1360,7 @@ MonoBehaviour:
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
-  m_SceneId: 3166628943
+  m_SceneId: 2611162663
 --- !u!1 &1316718833615320280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7502050784895007878, guid: 2264c751673b1d94b918301cd78adf86,

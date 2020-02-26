@@ -50,7 +50,7 @@ public class Resource
     public static Sprite getSpriteRefined(int r)
     {
         string path = "Sprites/Resources/" + getNameRefined(r);
-        Debug.Log(path);
+        //Debug.Log(path);
         return Resources.Load(path, typeof(Sprite)) as Sprite;
     }
 

@@ -16,7 +16,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
     {
         if (!(myBase))
         {
-            Debug.Log("finding");
+            //Debug.Log("finding");
             myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
         }
         else Debug.Log("already");
@@ -28,9 +28,12 @@ public class UI_UpgradeMenu : NetworkBehaviour
             buttonList[i].isMonument = false;
             buttonList[i].setPrice(i+1, this);
             UpgradeDisplay[i].text = ""+myBase.getUpgradeLevel(i+1);
+            UpgradeDisplay[i].color = Color.white;
         }
         SpeedText.text = string.Format("{0:0.##}", myBase.baseStats.baseMovementSpeed/10);
         GatherText.text = string.Format("{0:0.##}", myBase.baseStats.baseGatherAmount);
+        SpeedText.color = Color.white;
+        GatherText.color = Color.white;
     }
 
     public void preview(int up)
@@ -39,9 +42,25 @@ public class UI_UpgradeMenu : NetworkBehaviour
         {
             return;
         }
+        float[] prev = myBase.previewUpgrade(up);
+        Debug.Log(string.Join(" ", prev));
         for (int i = 0; i < UpgradeDisplay.Length; i++)
         {
-            UpgradeDisplay[i].text = up+":" + myBase.getUpgradeLevel(i + 1);
+            if (prev[i] != 0)
+            {
+                UpgradeDisplay[i].text = ""+prev[i];
+                UpgradeDisplay[i].color = Color.green;
+            }
+        }
+        if (prev[6] != 0)
+        {
+            SpeedText.text = string.Format("{0:0.##}", prev[6] / 10);
+            SpeedText.color = Color.green;
+        }
+        else
+        {
+            GatherText.text = string.Format("{0:0.##}", prev[7]);
+            GatherText.color = Color.green;
         }
     }
 
@@ -53,8 +72,13 @@ public class UI_UpgradeMenu : NetworkBehaviour
         }
         for (int i = 0; i < UpgradeDisplay.Length; i++)
         {
-
             UpgradeDisplay[i].text = ""+myBase.getUpgradeLevel(i + 1);
+            UpgradeDisplay[i].color = Color.white;
         }
+
+        SpeedText.text = string.Format("{0:0.##}", myBase.baseStats.baseMovementSpeed / 10);
+        GatherText.text = string.Format("{0:0.##}", myBase.baseStats.baseGatherAmount);
+        SpeedText.color = Color.white;
+        GatherText.color = Color.white;
     }
 }

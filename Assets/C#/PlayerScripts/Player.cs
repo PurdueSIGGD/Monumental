@@ -28,6 +28,8 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public int teamIndex = -1;
     [SyncVar]
+    public string playerName;
+    [SyncVar]
     public int positionInPlayerList = -1;
     [SyncVar]
     public int spriteNum = -1;
@@ -300,5 +302,16 @@ public class Player : NetworkBehaviour
     public void CmdPurchaseMonument(int mon, int team)
     {
         mnm.monuments.RpcClaimMonument(mon, team);
+    }
+
+    public void chooseName(string name)
+    {
+        CmdChooseName(name);
+    }
+
+    [Command]
+    public void CmdChooseName(string name)
+    {
+        playerName = name;
     }
 }

@@ -45,13 +45,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lobbyCamera: {fileID: 0}
-  titleCard: {fileID: 0}
+  titleCard: {fileID: 8868582812756430549}
   bottomBar: {fileID: 0}
   menu: {fileID: 7482203383067188931}
   text: {fileID: 7120728112563296091}
+  nameField: {fileID: 6964018892508604682}
   joinButton: {fileID: 7482203383193554192}
   hostButton: {fileID: 7482203384064116984}
-  quitButton: {fileID: 7482203384072537899}
+  quitButton1: {fileID: 7482203384072537899}
+  quitButton2: {fileID: 1075124517661391626}
   cancelConnectButton: {fileID: 1451642928909904930}
 --- !u!1001 &1525191907639796035
 PrefabInstance:
@@ -166,6 +168,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999895071452003428, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1525191907533777721}
+    - target: {fileID: 1999895071452003428, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuitGame
       objectReference: {fileID: 0}
     - target: {fileID: 4643726727623957950, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
         type: 3}
@@ -302,6 +314,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 8471195844067192420, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1525191907533777721}
+    - target: {fileID: 8471195844067192420, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: changeName
+      objectReference: {fileID: 0}
+    - target: {fileID: 8471195844067192420, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+        type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ec4eb261d4f6e849a27b74488d6a0a7, type: 3}
 --- !u!1 &7482203383067188931 stripped
@@ -313,6 +340,12 @@ GameObject:
 --- !u!224 &7482203383067188935 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8285692717045143977, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1525191908718430062}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8868582812756430549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7942406774002092475, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
     type: 3}
   m_PrefabInstance: {fileID: 1525191908718430062}
   m_PrefabAsset: {fileID: 0}
@@ -367,6 +400,30 @@ MonoBehaviour:
 --- !u!114 &1451642928909904930 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 76513333554424652, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1525191908718430062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6964018892508604682 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8471195844067192420, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1525191908718430062}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1075124517661391626 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1999895071452003428, guid: 3ec4eb261d4f6e849a27b74488d6a0a7,
     type: 3}
   m_PrefabInstance: {fileID: 1525191908718430062}
   m_PrefabAsset: {fileID: 0}

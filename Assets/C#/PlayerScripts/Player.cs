@@ -46,7 +46,8 @@ public class Player : NetworkBehaviour
     void Start()
     {
 		hitDetect = GetComponentInChildren<HitDetection>();
-		shootingProjectile = GetComponent<ShootingProjectiles>();
+        attackAnimator = GetComponentInChildren<Animator>();
+        shootingProjectile = GetComponent<ShootingProjectiles>();
         stats = GetComponent<PlayerStats>();
         body = GetComponent<Rigidbody2D>();
         currentHealth = stats.getHealth();

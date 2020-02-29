@@ -520,7 +520,7 @@ PrefabInstance:
     - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}
       propertyPath: m_SceneId
-      value: 3509066776
+      value: 1548599373
       objectReference: {fileID: 0}
     - target: {fileID: 4961396413315044192, guid: b704fb0200f7bec45a81705bb777daeb,
         type: 3}

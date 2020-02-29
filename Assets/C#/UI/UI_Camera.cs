@@ -12,7 +12,11 @@ public class UI_Camera : NetworkBehaviour
 
     void Start()
     {
-        
+        Camera cam = this.GetComponent<Camera>();
+        foreach(TallGrass tg in FindObjectsOfType<TallGrass>())
+        {
+            cam.cullingMask = cam.cullingMask ^ (1 << tg.layer);
+        }
     }
     
     void FixedUpdate()

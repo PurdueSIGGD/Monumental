@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
 #if UNITY_EDITOR
@@ -22,7 +23,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
     public GameObject menu;
     public InputField text;
     public InputField nameField;
-    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton;
+    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton, restartButton;
 
     private void Start()
     {
@@ -121,6 +122,17 @@ public class MonumentalNetworkMenu : MonoBehaviour
         }
     }
 
+    public void restart()
+    {
+        GameObject.FindObjectOfType<UI_Control>().clear();
+        GameObject.FindObjectOfType<Monuments>().clear();
+        Base[] bases = GameObject.FindObjectsOfType<Base>();
+        for (int i = 0; i < bases.Length; i++)
+        {
+            bases[i].clear();
+        }
+    }
+
     public void HostGame()
     {
         manager.StartHost();
@@ -138,6 +150,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
         titleCard.SetActive(true);
         nameField.gameObject.SetActive(false);
         quitButton2.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
     }
 
     private void OnJoined()
@@ -154,5 +167,6 @@ public class MonumentalNetworkMenu : MonoBehaviour
         titleCard.SetActive(false);
         nameField.gameObject.SetActive(true);
         quitButton2.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
     }
 }

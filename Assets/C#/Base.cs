@@ -70,6 +70,17 @@ public class Base : NetworkBehaviour
         monuments = GameObject.FindObjectOfType<Monuments>();
     }
 
+    public void clear()
+    {
+        resPool.dumpResources();
+        upgrade1level = 1;
+        upgrade2level = 1;
+        upgrade3level = 1;
+        upgrade4level = 1;
+        upgrade5level = 1;
+        upgrade6level = 1;
+    }
+
     public int getUpgradeLevel(int up)
     {
         if (up == 1)
@@ -252,11 +263,14 @@ public class Base : NetworkBehaviour
         if (resPool != null)
         {
             resPool.addBagAsInt(res);
-            for (int i = 0; i < 6; i++)
+            if (localPlayer.teamIndex == teamIndex)
             {
-                if (res[i] > 0)
+                for (int i = 0; i < 6; i++)
                 {
-                    uiControl.pulseResource((ResourceName)(i + 1));
+                    if (res[i] > 0)
+                    {
+                        uiControl.pulseResource((ResourceName)(i + 1));
+                    }
                 }
             }
         }

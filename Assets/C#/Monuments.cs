@@ -50,6 +50,16 @@ public class Monuments : NetworkBehaviour
         }
     }
 
+    public void clear()
+    {
+        monument1 = -1;
+        monument2 = -1;
+        monument3 = -1;
+        monument4 = -1;
+        monument5 = -1;
+        monument6 = -1;
+    }
+
     public int[] GetCost(int mon)
     {
         switch (mon)

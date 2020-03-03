@@ -75,4 +75,5 @@ public class MonumentalNetworkManager : NetworkManager
         }
         Debug.Log("OnServerRemovePlayer: Client disconnected.");
     }
+
 }

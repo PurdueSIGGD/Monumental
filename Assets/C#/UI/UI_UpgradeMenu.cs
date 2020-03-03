@@ -13,7 +13,6 @@ public class UI_UpgradeMenu : NetworkBehaviour
     public Text GatherText;
     public void reset(int team)
     {
-        Debug.Log("Updating Menu");
         Base myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
         myBase.upgradeMenu = this;
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();

@@ -224,7 +224,6 @@ public class Player : NetworkBehaviour
         currentHealth = val;
         if (currentHealth <= 0)
         {
-			Debug.Log(gameObject.name + " is dead");
 			currentHealth = 100;
         }
     }
@@ -275,7 +274,7 @@ public class Player : NetworkBehaviour
     {
         positionInPlayerList = p;
     }
-    
+
     public void gather(int resType, float size)
     {
         resources.addResourceWithLimit(stats.getCarryCapacity(), resNode.gatherPass(stats.getGatherAmount(), resType, size));
@@ -298,7 +297,7 @@ public class Player : NetworkBehaviour
     {
         myBase.RpcRemoveResources(res);
     }
-    
+
     [Command]
     public void CmdBaseUpgrade(int upgrade)
     {
@@ -320,5 +319,23 @@ public class Player : NetworkBehaviour
     public void CmdChooseName(string name)
     {
         playerName = name;
+    }
+
+    [Command]
+    public void CmdEndGame(int winningTeam)
+    {
+        RpcEndGame(winningTeam);
+    }
+
+    [ClientRpc]
+    private void RpcEndGame(int winningTeam)
+    {
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].OnWinGame(players[i].teamIndex == winningTeam);
+        }
+        //OnWinGame(teamIndex == winningTeam);
+
     }
 }

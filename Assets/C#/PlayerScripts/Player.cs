@@ -13,6 +13,8 @@ public class Player : NetworkBehaviour
     public int currentHealth;
     private Rigidbody2D body;
     private Slider healthbar;
+    private TMPro.TextMeshProUGUI nameUI;
+    private GameObject abovePlayerUI;
     public Sprite[] classSprites;
     private SpriteRenderer spriteRender;
     public MonumentalNetworkManager mnm;
@@ -27,6 +29,8 @@ public class Player : NetworkBehaviour
 
     [SyncVar]
     public int teamIndex = -1;
+    [SyncVar]
+    public string playerName;
     [SyncVar]
     public int positionInPlayerList = -1;
     [SyncVar]
@@ -53,7 +57,11 @@ public class Player : NetworkBehaviour
         currentHealth = stats.getHealth();
         resources = GetComponent<ResourceBag>();
         resources.initEmpty();
-        healthbar = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject).GetComponentInChildren<Slider>();
+
+        abovePlayerUI = (Instantiate(Resources.Load("UI/Healthbar")) as GameObject);
+        healthbar = abovePlayerUI.GetComponentInChildren<Slider>();
+        nameUI = abovePlayerUI.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
         spawn = new Vector2(transform.position.x, transform.position.y);
         timeOfLastClick = Time.time;
 
@@ -208,6 +216,7 @@ public class Player : NetworkBehaviour
     {
         healthbar.value = currentHealth / (float)stats.getHealth();
         healthbar.transform.parent.position = this.transform.position;
+        nameUI.text = playerName;
     }
 
     public void setHealth(int val)
@@ -215,7 +224,6 @@ public class Player : NetworkBehaviour
         currentHealth = val;
         if (currentHealth <= 0)
         {
-			Debug.Log(gameObject.name + " is dead");
 			currentHealth = 100;
         }
     }
@@ -266,7 +274,7 @@ public class Player : NetworkBehaviour
     {
         positionInPlayerList = p;
     }
-    
+
     public void gather(int resType, float size)
     {
         resources.addResourceWithLimit(stats.getCarryCapacity(), resNode.gatherPass(stats.getGatherAmount(), resType, size));
@@ -289,7 +297,7 @@ public class Player : NetworkBehaviour
     {
         myBase.RpcRemoveResources(res);
     }
-    
+
     [Command]
     public void CmdBaseUpgrade(int upgrade)
     {
@@ -300,5 +308,34 @@ public class Player : NetworkBehaviour
     public void CmdPurchaseMonument(int mon, int team)
     {
         mnm.monuments.RpcClaimMonument(mon, team);
+    }
+
+    public void chooseName(string name)
+    {
+        CmdChooseName(name);
+    }
+
+    [Command]
+    public void CmdChooseName(string name)
+    {
+        playerName = name;
+    }
+
+    [Command]
+    public void CmdEndGame(int winningTeam)
+    {
+        RpcEndGame(winningTeam);
+    }
+
+    [ClientRpc]
+    private void RpcEndGame(int winningTeam)
+    {
+        Player[] players = GameObject.FindObjectsOfType<Player>();
+        for (int i = 0; i < players.Length; i++)
+        {
+            players[i].OnWinGame(players[i].teamIndex == winningTeam);
+        }
+        //OnWinGame(teamIndex == winningTeam);
+
     }
 }

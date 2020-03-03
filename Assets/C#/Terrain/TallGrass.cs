@@ -5,15 +5,7 @@ using Mirror;
 
 public class TallGrass : MonoBehaviour
 {
-
-    // This should be a unique value from all other tall grasses, and also should never be 0.
-    public int layer;
-    private Camera cam;
-
-    void Start()
-    {
-        cam = FindObjectOfType<Camera>();
-    }
+    public GameObject grass;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -22,13 +14,8 @@ public class TallGrass : MonoBehaviour
         {
             if(p.isLocalPlayer == true)
             {
-                cam.cullingMask = cam.cullingMask ^ (1 << layer);
+                grass.SetActive(false);
             }
-        }
-        SpriteRenderer sr;
-        if((sr = collision.GetComponent<SpriteRenderer>()))
-        {
-            sr.renderingLayerMask = (uint)layer;
         }
     }
 
@@ -39,13 +26,8 @@ public class TallGrass : MonoBehaviour
         {
             if (p.isLocalPlayer == true)
             {
-                cam.cullingMask = cam.cullingMask ^ (1 << layer);
+                grass.SetActive(true);
             }
-        }
-        SpriteRenderer sr;
-        if ((sr = collision.GetComponent<SpriteRenderer>()))
-        {
-            sr.renderingLayerMask = 0;
         }
     }
 }

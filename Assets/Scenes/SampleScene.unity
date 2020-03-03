@@ -150,17 +150,17 @@ PrefabInstance:
     - target: {fileID: 1934150198620680686, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: upgradeMenu
-      value:
+      value: 
       objectReference: {fileID: 809046550}
     - target: {fileID: 1934150198620680686, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: monumentMenu
-      value:
+      value: 
       objectReference: {fileID: 1316718833615320280}
     - target: {fileID: 1934150198620680686, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: swapButton
-      value:
+      value: 
       objectReference: {fileID: 4082190683314720458}
     - target: {fileID: 1934150198620680687, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
@@ -380,7 +380,7 @@ PrefabInstance:
     - target: {fileID: 8831337355669452358, guid: ec5a502523fd2774b963c699b6f149ac,
         type: 3}
       propertyPath: m_Sprite
-      value:
+      value: 
       objectReference: {fileID: 21300000, guid: 60a123635e945a847a4924517dc0db18,
         type: 3}
     m_RemovedComponents: []
@@ -558,6 +558,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 614034057004557839, guid: c97ced5463b651949b21234ebb940f27,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 862637579101053469, guid: c97ced5463b651949b21234ebb940f27,
         type: 3}
       propertyPath: m_AssetId
@@ -850,42 +855,42 @@ PrefabInstance:
     - target: {fileID: 994197000539726596, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: teamSpawns.Array.data[0]
-      value:
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 994197000539726596, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: teamSpawns.Array.data[1]
-      value:
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 994197000539726596, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: baseList.Array.data[0]
-      value:
+      value: 
       objectReference: {fileID: 1350131717}
     - target: {fileID: 994197000539726596, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: baseList.Array.data[1]
-      value:
+      value: 
       objectReference: {fileID: 1567573568}
     - target: {fileID: 994197000539726596, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: monuments
-      value:
+      value: 
       objectReference: {fileID: 4228195044712375536}
     - target: {fileID: 1525191907533777721, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: lobbyCamera
-      value:
+      value: 
       objectReference: {fileID: 1731994623}
     - target: {fileID: 1525191907533777721, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: bottomBar
-      value:
+      value: 
       objectReference: {fileID: 315111939}
     - target: {fileID: 1525191907533777721, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
       propertyPath: titleCard
-      value:
+      value: 
       objectReference: {fileID: 1164854752}
     - target: {fileID: 5547360073664140466, guid: 2118175d75ad7644dafa73f8637e171d,
         type: 3}
@@ -1114,8 +1119,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d98e4a089d4c4a4f8f2c98779e2ea00, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1567573567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1365,8 +1370,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 829af5eb96b48194fa6bf980c4fc5a32, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   followTarget: {fileID: 0}
@@ -1382,8 +1387,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   serverOnly: 0
   localPlayerAuthority: 1
   m_AssetId: 
@@ -1484,8 +1489,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4228195044712375535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1556,7 +1561,7 @@ PrefabInstance:
     - target: {fileID: 6859835435158012587, guid: 459e956c81bf2604692990ca333e40a9,
         type: 3}
       propertyPath: mnm
-      value:
+      value: 
       objectReference: {fileID: 1506386716}
     - target: {fileID: 7480275862364518956, guid: 459e956c81bf2604692990ca333e40a9,
         type: 3}
@@ -1575,8 +1580,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7deeee2fb6a5bb40a42376003882df3, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7684335304839345132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1722,17 +1727,17 @@ PrefabInstance:
     - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}
       propertyPath: upgradeMenu
-      value:
+      value: 
       objectReference: {fileID: 809046550}
     - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}
       propertyPath: monumentMenu
-      value:
+      value: 
       objectReference: {fileID: 1316718833615320280}
     - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}
       propertyPath: swapButton
-      value:
+      value: 
       objectReference: {fileID: 4082190683314720458}
     - target: {fileID: 4688443755821949291, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}

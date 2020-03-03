@@ -19,9 +19,12 @@ public class UI_Control : NetworkBehaviour
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
+    private UI_ResourceCounter[] resource_counters;
     private List<Text> resource_team_texts = new List<Text>();
+
     private GameObject currentMenu = null;
     private float[] cooldownTimes = new float[2];// {Start, End}
+    private Monuments monuments = null;
 
     public Player player = null;
     public Base myBase = null;
@@ -45,6 +48,8 @@ public class UI_Control : NetworkBehaviour
 
         }
 
+        resource_counters = GetComponentsInChildren<UI_ResourceCounter>();
+
         for (int i = 1; i <= monumentIcons.Count; i++)
         {
             updateMonument(i, -1);
@@ -64,6 +69,8 @@ public class UI_Control : NetworkBehaviour
         {
             swapButton.onClick.AddListener(onSwapButton);
         }
+
+        monuments = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().monuments;
 
     }
 
@@ -90,7 +97,6 @@ public class UI_Control : NetworkBehaviour
             if (Time.time < cooldownTimes[1])
             {
                 float ratio = (Time.time - cooldownTimes[0]) / (cooldownTimes[1] - cooldownTimes[0]);
-                //classImageFront.color = Color.white * ratio;
                 Vector2 size = classImageBack.rectTransform.sizeDelta;
                 size = new Vector2(size.x, size.y * ratio);
                 classImageFront.rectTransform.sizeDelta = size;
@@ -109,6 +115,17 @@ public class UI_Control : NetworkBehaviour
         else if (Input.GetKeyDown(KeyCode.Tab))
         {
             onSwapButton();
+        }
+
+        UI_MonumentMenu monumentMenuScript = monumentMenu.GetComponent<UI_MonumentMenu>();
+        for (int i = 1; i <= monumentMenuScript.buttonList.Length; i++)
+        {
+            int owner = monuments.GetOwner(i);
+            updateMonument(i, owner);
+            if (monumentMenu.activeInHierarchy)
+            {
+                monumentMenuScript.buttonList[i - 1].button.interactable = (owner == -1);
+            }
         }
 
     }
@@ -151,19 +168,7 @@ public class UI_Control : NetworkBehaviour
         {
             return;
         }
-
-        if (myBase == null || myBase.teamIndex == -1)
-        {
-            monumentIcons[monument].color = new Color(0.2f, 0.2f, 0.2f);
-        }
-        else if (myBase.teamIndex == owner)
-        {
-            monumentIcons[monument].color = Color.white;
-        }
-        else
-        {
-            monumentIcons[monument].color = Color.black;
-        }
+        monumentIcons[monument].color = (owner == -1 ? Color.gray : (owner == 0 ? Color.blue : Color.red));
     }
 
     void onClassButton()
@@ -203,6 +208,10 @@ public class UI_Control : NetworkBehaviour
 
     void onSwapButton()
     {
+        if (!player.isInBase)
+        {
+            return;
+        }
         currentMenu.SetActive(false);
         swapButton.transform.parent.gameObject.SetActive(false);
         if (currentMenu == upgradeMenu)
@@ -220,6 +229,11 @@ public class UI_Control : NetworkBehaviour
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
         }
         swapButton.transform.parent.gameObject.SetActive(true);
+    }
+
+    public void pulseResource(ResourceName res)
+    {
+        resource_counters[(int)res - 1].pulseAnimation();
     }
 
 }

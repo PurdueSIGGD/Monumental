@@ -5,7 +5,7 @@ using Mirror;
 
 public class TallGrass : MonoBehaviour
 {
-    public GameObject grass;
+    public GameObject[] grass;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -14,7 +14,10 @@ public class TallGrass : MonoBehaviour
         {
             if(p.isLocalPlayer == true)
             {
-                grass.SetActive(false);
+                foreach (GameObject g in grass)
+                {
+                    g.SetActive(false);
+                }
             }
         }
     }
@@ -26,7 +29,10 @@ public class TallGrass : MonoBehaviour
         {
             if (p.isLocalPlayer == true)
             {
-                grass.SetActive(true);
+                foreach (GameObject g in grass)
+                {
+                    g.SetActive(true);
+                }
             }
         }
     }

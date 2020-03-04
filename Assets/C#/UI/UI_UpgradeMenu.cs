@@ -19,7 +19,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
             //Debug.Log("finding");
             myBase = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().baseList[team].GetComponent<Base>();
         }
-        else Debug.Log("already");
+        //else Debug.Log("already");
         myBase.upgradeMenu = this;
         UI_Purchase_Button[] buttonList = GetComponentsInChildren<UI_Purchase_Button>();
         for (int i = 0; i < buttonList.Length; i++)
@@ -43,7 +43,7 @@ public class UI_UpgradeMenu : NetworkBehaviour
             return;
         }
         float[] prev = myBase.previewUpgrade(up);
-        Debug.Log(string.Join(" ", prev));
+        //Debug.Log(string.Join(" ", prev));
         for (int i = 0; i < UpgradeDisplay.Length; i++)
         {
             if (prev[i] != 0)

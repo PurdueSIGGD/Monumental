@@ -335,7 +335,7 @@ public class Base : NetworkBehaviour
             int lev5 = getUpgradeLevel0(5) + Math.Sign(display[4]);
             int lev3 = getUpgradeLevel0(3) + Math.Sign(display[2]);
             int lev1 = getUpgradeLevel0(1) + Math.Sign(display[0]);
-            Debug.Log("5,3,1: " + lev5 + ","+lev3+","+lev1);
+            //Debug.Log("5,3,1: " + lev5 + ","+lev3+","+lev1);
             display[6] = Mathf.Pow(MovementUpgrade, lev5)
                 * (100 + lev1 + lev3 * 2 + lev5 * 4) / 10;
         }
@@ -345,7 +345,7 @@ public class Base : NetworkBehaviour
             int lev4 = getUpgradeLevel0(4) + Math.Sign(display[3]);
             int lev2 = getUpgradeLevel0(2) + Math.Sign(display[1]);
 
-            Debug.Log("6,4,2: " + lev6 + "," + lev4 + "," + lev2);
+            //Debug.Log("6,4,2: " + lev6 + "," + lev4 + "," + lev2);
             display[7] = Mathf.Pow(GatherUpgrade, lev6)
                 * (100 + lev2 + lev4 * 2 + lev6 * 4) / 100;
         }

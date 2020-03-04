@@ -17,9 +17,12 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     public GameObject lobbyCamera;
     private Vector3 lobbyCameraPosition;
+    public GameObject titleCard;
+    public GameObject bottomBar;
     public GameObject menu;
     public InputField text;
-    public Button joinButton, hostButton, quitButton, cancelConnectButton;
+    public InputField nameField;
+    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton;
 
     private void Start()
     {
@@ -100,6 +103,24 @@ public class MonumentalNetworkMenu : MonoBehaviour
         }
     }
 
+    public void changeName()
+    {
+        foreach(GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            if (player.GetComponent<NetworkIdentity>().isLocalPlayer)
+            {
+                if (string.IsNullOrEmpty(nameField.text))
+                {
+                    player.GetComponent<Player>().chooseName("Player");
+                }
+                else
+                {
+                    player.GetComponent<Player>().chooseName(nameField.text);
+                }
+            }
+        }
+    }
+
     public void HostGame()
     {
         manager.StartHost();
@@ -112,6 +133,11 @@ public class MonumentalNetworkMenu : MonoBehaviour
         joinButton.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
         hostButton.gameObject.SetActive(true);
+        quitButton1.gameObject.SetActive(true);
+        bottomBar.SetActive(false);
+        titleCard.SetActive(true);
+        nameField.gameObject.SetActive(false);
+        quitButton2.gameObject.SetActive(false);
     }
 
     private void OnJoined()
@@ -123,5 +149,10 @@ public class MonumentalNetworkMenu : MonoBehaviour
         joinButton.gameObject.SetActive(false);
         text.gameObject.SetActive(false);
         hostButton.gameObject.SetActive(false);
+        quitButton1.gameObject.SetActive(false);
+        bottomBar.SetActive(true);
+        titleCard.SetActive(false);
+        nameField.gameObject.SetActive(true);
+        quitButton2.gameObject.SetActive(true);
     }
 }

@@ -8,6 +8,13 @@ public class Monuments : NetworkBehaviour
 {
     public MonumentalNetworkManager mnm;
 
+    public static string[] MonumentNames =
+    {
+        "Bonfire", "Sundial",
+        "Statue", "Throne",
+        "Crown", "Mirror"
+    };
+
     [SyncVar]
     int monument1;
     [SyncVar]

@@ -15,6 +15,7 @@ public class Base : NetworkBehaviour
     public AudioSource enterSound;
     public AudioSource resourceSound;
     public UI_UpgradeMenu upgradeMenu;
+    private UI_Control uiControl;
     private float lastPurchase;
     private float cooldown = 1;
     const int smallCost = 10;
@@ -52,6 +53,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        uiControl = GameObject.FindObjectOfType<UI_Control>();
         lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
@@ -221,11 +223,6 @@ public class Base : NetworkBehaviour
                 p.isInBase = true;
                 //Heal player to full
                 p.currentHealth = p.stats.getHealth();
-                /* CHEAT */
-                for (int i = 1; i <= 6; i++)
-                {
-                    resPool.addAmount(i, 10000);
-                }
 
                 //dump player resources into pool
                 if (!p.resources.isEmpty())
@@ -253,7 +250,17 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcTransferResources(int[] res)
     {
-        if(resPool != null) resPool.addBagAsInt(res);
+        if (resPool != null)
+        {
+            resPool.addBagAsInt(res);
+            for (int i = 0; i < 6; i++)
+            {
+                if (res[i] > 0)
+                {
+                    uiControl.pulseResource((ResourceName)(i + 1));
+                }
+            }
+        }
     }
 
     [ClientRpc]

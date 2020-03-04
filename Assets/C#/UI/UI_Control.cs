@@ -19,6 +19,7 @@ public class UI_Control : NetworkBehaviour
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
+    private UI_ResourceCounter[] resource_counters;
     private List<Text> resource_team_texts = new List<Text>();
 
     private GameObject currentMenu = null;
@@ -46,6 +47,8 @@ public class UI_Control : NetworkBehaviour
             team_text.color = new Color(0,1,0);
 
         }
+
+        resource_counters = GetComponentsInChildren<UI_ResourceCounter>();
 
         for (int i = 1; i <= monumentIcons.Count; i++)
         {
@@ -205,6 +208,10 @@ public class UI_Control : NetworkBehaviour
 
     void onSwapButton()
     {
+        if (!player.isInBase)
+        {
+            return;
+        }
         currentMenu.SetActive(false);
         swapButton.transform.parent.gameObject.SetActive(false);
         if (currentMenu == upgradeMenu)
@@ -222,6 +229,11 @@ public class UI_Control : NetworkBehaviour
             currentMenu.GetComponent<UI_UpgradeMenu>().reset(player.teamIndex);
         }
         swapButton.transform.parent.gameObject.SetActive(true);
+    }
+
+    public void pulseResource(ResourceName res)
+    {
+        resource_counters[(int)res - 1].pulseAnimation();
     }
 
 }

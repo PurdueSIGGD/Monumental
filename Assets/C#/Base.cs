@@ -10,11 +10,11 @@ public class Base : NetworkBehaviour
     private Player localPlayer;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
-    public MonumentalGameManager mgm;
     public Monuments monuments;
     public AudioSource enterSound;
     public AudioSource resourceSound;
     public UI_UpgradeMenu upgradeMenu;
+    private UI_Control uiControl;
     private float lastPurchase;
     private float cooldown = 1;
     const int smallCost = 10;
@@ -52,7 +52,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
-        mgm = GameObject.Find("NetworkManager").GetComponent<MonumentalGameManager>();
+        uiControl = GameObject.FindObjectOfType<UI_Control>();
         lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
         {
@@ -195,7 +195,7 @@ public class Base : NetworkBehaviour
             if (score >= 3)
             {
                 //WIN GAME
-                mgm.winGame(teamIndex);
+                localPlayer.CmdEndGame(teamIndex);
             }
 
             GameObject.FindObjectOfType<UI_Control>().updateMonument(mon, teamIndex);
@@ -249,7 +249,17 @@ public class Base : NetworkBehaviour
     [ClientRpc]
     public void RpcTransferResources(int[] res)
     {
-        if(resPool != null) resPool.addBagAsInt(res);
+        if (resPool != null)
+        {
+            resPool.addBagAsInt(res);
+            for (int i = 0; i < 6; i++)
+            {
+                if (res[i] > 0)
+                {
+                    uiControl.pulseResource((ResourceName)(i + 1));
+                }
+            }
+        }
     }
 
     [ClientRpc]
@@ -326,5 +336,7 @@ public class Base : NetworkBehaviour
     {
         return getUpgradeLevel(up) - 1;
     }
+
+    
 
 }

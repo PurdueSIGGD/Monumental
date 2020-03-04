@@ -9,11 +9,6 @@ public class UI_Camera : NetworkBehaviour
     public GameObject followTarget = null;
     public Vector2 offset = new Vector2(0, 1);
     public float FOVDistance = -12;
-
-    void Start()
-    {
-        
-    }
     
     void FixedUpdate()
     {

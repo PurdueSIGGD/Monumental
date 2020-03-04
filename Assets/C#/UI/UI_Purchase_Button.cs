@@ -74,7 +74,7 @@ public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPoint
         else
         {
             title.text = "";//"Tier " + myBase.getUpgradeLevel(up);
-            //text.text = getType(up);
+            text.text = getType(up);
         }
         
         if (button)

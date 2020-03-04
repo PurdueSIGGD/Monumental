@@ -1589,21 +1589,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3808945165881245517, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3808945165881245517, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -107
-      objectReference: {fileID: 0}
-    - target: {fileID: 3808945165881245517, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -162
-      objectReference: {fileID: 0}
     - target: {fileID: 4688443755821949288, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1709,78 +1694,12 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949288, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949288, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949288, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: upgradeMenu
-      value: 
-      objectReference: {fileID: 809046550}
-    - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: monumentMenu
-      value: 
-      objectReference: {fileID: 1316718833615320280}
-    - target: {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: swapButton
-      value: 
-      objectReference: {fileID: 4082190683314720458}
-    - target: {fileID: 4688443755821949291, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4688443755821949292, guid: e351e99e2f568e04183eecd20dacf18a,
         type: 3}
       propertyPath: m_Name
       value: SwapButton
       objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949292, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4688443755821949292, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6179957660140265293, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6963498064826633459, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7798966726587048068, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7798966726587048068, guid: e351e99e2f568e04183eecd20dacf18a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4688443755821949289, guid: e351e99e2f568e04183eecd20dacf18a, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e351e99e2f568e04183eecd20dacf18a, type: 3}
 --- !u!1001 &8816165420637505630
 PrefabInstance:

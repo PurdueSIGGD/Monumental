@@ -111,12 +111,18 @@ public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        menu.preview(up);
+        if (!isMonument)
+        {
+            menu.preview(up);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        menu.unPreview();
+        if (!isMonument)
+        {
+            menu.unPreview();
+        }
     }
 
     public void makePurchase()

@@ -789,12 +789,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 80
+    m_Font: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e, type: 3}
+    m_FontSize: 60
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 80
+    m_MaxSize: 100
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -809,6 +809,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -919,6 +930,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button5
       objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &8706918674856462627 stripped
@@ -940,6 +978,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1050,6 +1099,48 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button1
       objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &6958168382342673047 stripped
@@ -1071,6 +1162,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1181,6 +1283,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button6
       objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &1949143639520613476 stripped
@@ -1202,6 +1331,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1327,6 +1467,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button2
       objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &615519310364477100 stripped
@@ -1348,6 +1515,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1458,6 +1636,33 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button4
       objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}
 --- !u!224 &2415982246971589644 stripped
@@ -1479,6 +1684,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7288972651503372517}
     m_Modifications:
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 305722078122784157, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4530964348400683073, guid: e46312530ac803748b846fecf10d168e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1588,6 +1804,33 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Button3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f775ad66c4b681743abc1792bac4a0ce,
+        type: 3}
+    - target: {fileID: 6745952381598654490, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: b5431c908fff45d4bb2cfcc10f585b2e,
+        type: 3}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7228330818969410363, guid: e46312530ac803748b846fecf10d168e,
+        type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46312530ac803748b846fecf10d168e, type: 3}

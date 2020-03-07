@@ -46,7 +46,36 @@ public class Resource
         return "";
 
     }
-    
+
+    public static Sprite getSpriteRefined(int r)
+    {
+        string path = "Sprites/Resources/" + getNameRefined(r);
+        //Debug.Log(path);
+        return Resources.Load(path, typeof(Sprite)) as Sprite;
+    }
+
+    public static string getNameRefined(int r)
+    {
+        switch (r)
+        {
+            case 1:
+                return "Wood";
+            case 2:
+                return "Stone";
+            case 3:
+                return "CopperBar";
+            case 4:
+                return "IronBar";
+            case 5:
+                return "Gold";
+            case 6:
+                return "Diamond";
+        }
+
+        return "";
+
+    }
+
     public Resource()
   	{
   		type = 0;

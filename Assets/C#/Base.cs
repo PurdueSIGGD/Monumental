@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Mirror;
 
@@ -296,33 +297,24 @@ public class Base : NetworkBehaviour
         {
             case 1: // Melee
                 baseStats.baseMeleeDamage += (MeleeUpgrade);
-                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1/2));
-                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1/2));
                 speGatUpdate(0);
                 return;
             case 2: // Health
                 baseStats.baseHealth += (HealthUpgrade);
-                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1/2));
                 speGatUpdate(1);
                 return;
             case 3: // Ranged
                 baseStats.baseRangedDamage += (RangedUpgrade);
-                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 1));
-                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 1));
                 speGatUpdate(0);
                 return;
             case 4: // Carry
                 baseStats.baseCarryCapacity += (CarryUpgrade);
-                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 1));
                 speGatUpdate(1);
                 return;
             case 5: // Speed
-                //baseStats.baseMovementSpeed *= (Mathf.Pow(MovementUpgrade, 2));
-                //baseStats.baseInteractionSpeed *= (Mathf.Pow(InteractionUpgrade, 2));
                 speGatUpdate(0);
                 return;
             case 6: // Gather
-                //baseStats.baseGatherAmount *= (Mathf.Pow(GatherUpgrade, 2));
                 speGatUpdate(1);
                 return;
         }
@@ -351,6 +343,36 @@ public class Base : NetworkBehaviour
             upgradeMenu.reset(teamIndex);
         }
     }
+
+    public float[] previewUpgrade(int upgrade)
+    {
+        float[] display = new float[8];
+        display[upgrade-1] = getUpgradeLevel(upgrade) + 1;
+
+        if (upgrade % 2 == 1)//speed
+        {
+            int lev5 = getUpgradeLevel0(5) + Math.Sign(display[4]);
+            int lev3 = getUpgradeLevel0(3) + Math.Sign(display[2]);
+            int lev1 = getUpgradeLevel0(1) + Math.Sign(display[0]);
+            //Debug.Log("5,3,1: " + lev5 + ","+lev3+","+lev1);
+            display[6] = Mathf.Pow(MovementUpgrade, lev5)
+                * (100 + lev1 + lev3 * 2 + lev5 * 4) / 10;
+        }
+        else//gather
+        {
+            int lev6 = getUpgradeLevel0(6) + Math.Sign(display[5]);
+            int lev4 = getUpgradeLevel0(4) + Math.Sign(display[3]);
+            int lev2 = getUpgradeLevel0(2) + Math.Sign(display[1]);
+
+            //Debug.Log("6,4,2: " + lev6 + "," + lev4 + "," + lev2);
+            display[7] = Mathf.Pow(GatherUpgrade, lev6)
+                * (100 + lev2 + lev4 * 2 + lev6 * 4) / 100;
+        }
+
+        return display;
+    }
+    
+
     public int getUpgradeLevel0(int up)
     {
         return getUpgradeLevel(up) - 1;

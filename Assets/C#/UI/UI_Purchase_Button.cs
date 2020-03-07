@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
+using UnityEngine.EventSystems;
 
-public class UI_Purchase_Button : NetworkBehaviour
+public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
     public GameObject resourceLocation = null;
@@ -15,7 +16,15 @@ public class UI_Purchase_Button : NetworkBehaviour
     public int up;
     public Base myBase;
     public Monuments myMon;
+    private UI_UpgradeMenu menu;
     public bool isMonument = false;
+
+    public void setPrice(int upgrade, UI_UpgradeMenu men)
+    {
+        menu = men;
+        setPrice(upgrade, false);
+        
+    }
 
     public void setPrice(int upgrade, bool isMon)
     {
@@ -50,7 +59,7 @@ public class UI_Purchase_Button : NetworkBehaviour
             /* Important to instantiate with parent transform parameter */
             GameObject obj = Instantiate(Resources.Load("UI/ResourceCounter", typeof(GameObject)) as GameObject, resourceLocation.transform);
             obj.GetComponentInChildren<Text>().text = "" + rsc[i];
-            obj.GetComponent<Image>().sprite = Resource.getSprite(i+1);
+            obj.GetComponent<Image>().sprite = Resource.getSpriteRefined(i+1);
             float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
             obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
             resourceSprites.Add(obj);
@@ -64,7 +73,7 @@ public class UI_Purchase_Button : NetworkBehaviour
         }
         else
         {
-            title.text = "Tier " + myBase.getUpgradeLevel(up);
+            title.text = "";//"Tier " + myBase.getUpgradeLevel(up);
             text.text = getType(up);
         }
         
@@ -98,6 +107,16 @@ public class UI_Purchase_Button : NetworkBehaviour
                 return "Gather";
         }
         return "";
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        menu.preview(up);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        menu.unPreview();
     }
 
     public void makePurchase()

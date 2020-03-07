@@ -39,6 +39,11 @@ public class Monuments : NetworkBehaviour
     void Start()
     {
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        clear();
+    }
+
+    public void clear()
+    {
         if (isServer)
         {
             monument1 = -1;
@@ -48,16 +53,6 @@ public class Monuments : NetworkBehaviour
             monument5 = -1;
             monument6 = -1;
         }
-    }
-
-    public void clear()
-    {
-        monument1 = -1;
-        monument2 = -1;
-        monument3 = -1;
-        monument4 = -1;
-        monument5 = -1;
-        monument6 = -1;
     }
 
     public int[] GetCost(int mon)

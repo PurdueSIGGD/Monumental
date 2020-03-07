@@ -124,12 +124,22 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     public void restart()
     {
-        GameObject.FindObjectOfType<UI_Control>().clear();
-        GameObject.FindObjectOfType<Monuments>().clear();
-        Base[] bases = GameObject.FindObjectsOfType<Base>();
-        for (int i = 0; i < bases.Length; i++)
+        if (NetworkServer.active)
         {
-            bases[i].clear();
+            GameObject.FindObjectOfType<Monuments>().clear();
+            Base[] bases = GameObject.FindObjectsOfType<Base>();
+            for (int i = 0; i < bases.Length; i++)
+            {
+                bases[i].clear();
+                bases[i].RpcDumpResources();
+            }
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].RpcDumpResources();
+                players[i].CmdRespawn();
+                players[i].RpcClearUI();
+            }
         }
     }
 
@@ -167,6 +177,6 @@ public class MonumentalNetworkMenu : MonoBehaviour
         titleCard.SetActive(false);
         nameField.gameObject.SetActive(true);
         quitButton2.gameObject.SetActive(true);
-        restartButton.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(NetworkServer.active);
     }
 }

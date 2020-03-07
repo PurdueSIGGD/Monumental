@@ -179,7 +179,7 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
-    private void CmdRespawn()
+    public void CmdRespawn()
     {
         RpcRespawn();
     }
@@ -210,6 +210,18 @@ public class Player : NetworkBehaviour
     public void RpcTransferResources(int[] res)
     {
         resources.addBagAsInt(res);
+    }
+
+    [ClientRpc]
+    public void RpcDumpResources()
+    {
+        resources.dumpResources();
+    }
+
+    [ClientRpc]
+    public void RpcClearUI()
+    {
+        uiControl.clear();
     }
 
     void LateUpdate()

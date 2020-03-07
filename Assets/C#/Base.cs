@@ -72,7 +72,6 @@ public class Base : NetworkBehaviour
 
     public void clear()
     {
-        resPool.dumpResources();
         upgrade1level = 1;
         upgrade2level = 1;
         upgrade3level = 1;
@@ -263,7 +262,7 @@ public class Base : NetworkBehaviour
         if (resPool != null)
         {
             resPool.addBagAsInt(res);
-            if (localPlayer.teamIndex == teamIndex)
+            if (localPlayer && localPlayer.teamIndex == teamIndex)
             {
                 for (int i = 0; i < 6; i++)
                 {
@@ -280,6 +279,12 @@ public class Base : NetworkBehaviour
     public void RpcRemoveResources(int[] res)
     {
         resPool.removeBagAsInt(res);
+    }
+
+    [ClientRpc]
+    public void RpcDumpResources()
+    {
+        resPool.dumpResources();
     }
 
     [ClientRpc]

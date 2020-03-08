@@ -11,10 +11,10 @@ using UnityEditor;
 [RequireComponent(typeof(NetworkManager))]
 public class MonumentalNetworkMenu : MonoBehaviour
 {
-    bool escapeIsPressed = false;
     public bool menuIsShowing = true;
     bool joining = false;
     NetworkManager manager;
+    UI_Control uiControl;
 
     public GameObject lobbyCamera;
     private Vector3 lobbyCameraPosition;
@@ -38,24 +38,23 @@ public class MonumentalNetworkMenu : MonoBehaviour
     void Awake()
     {
         manager = GetComponent<NetworkManager>();
+        uiControl = GameObject.FindObjectOfType<UI_Control>();
     }
 
     void LateUpdate()
     {
-        float esc = Input.GetAxis("Cancel");
-        if (!escapeIsPressed && esc > 0.5f && (NetworkClient.isConnected || NetworkServer.active))
+        if (Input.GetKeyDown(KeyCode.Escape) && (NetworkClient.isConnected || NetworkServer.active))
         {
-            escapeIsPressed = true;
-            menuIsShowing = !menuIsShowing;
-            menu.SetActive(menuIsShowing);
-            if (!menuIsShowing)
+            if (settingsMenu.activeInHierarchy)
             {
                 settingsMenu.SetActive(false);
             }
-        }
-        else if(escapeIsPressed && esc == 0)
-        {
-            escapeIsPressed = false;
+            else
+            {
+                menuIsShowing = !menuIsShowing;
+                menu.SetActive(menuIsShowing);
+            }
+            uiControl.closeShop();
         }
 
         // Successfully joined a game!  Now clean up the menu
@@ -64,6 +63,11 @@ public class MonumentalNetworkMenu : MonoBehaviour
             joining = false;
             OnJoined();
         }
+    }
+
+    public void closeSettings()
+    {
+        settingsMenu.SetActive(false);
     }
 
     public void ConnectLAN()
@@ -129,7 +133,11 @@ public class MonumentalNetworkMenu : MonoBehaviour
 
     public void settings()
     {
-        settingsMenu.SetActive(true);
+        if (NetworkServer.active)
+        {
+            settingsMenu.GetComponent<SettingsMenu>().resetSettings();
+            settingsMenu.SetActive(true);
+        }
     }
 
     public void restart()
@@ -156,6 +164,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
     public void HostGame()
     {
         manager.StartHost();
+        GameObject.FindObjectOfType<GameSettings>().resetSettings();
         OnJoined();
     }
 
@@ -191,5 +200,6 @@ public class MonumentalNetworkMenu : MonoBehaviour
         quitButton2.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(NetworkServer.active);
         settingsButton.gameObject.SetActive(NetworkServer.active);
+        settingsMenu.SetActive(false);
     }
 }

@@ -9,6 +9,7 @@ public class Base : NetworkBehaviour
     private Collider2D myCol;
     public int teamIndex;
     private Player localPlayer;
+    private GameSettings gameSettings;
     public PlayerStats baseStats;
     public MonumentalNetworkManager mnm;
     public Monuments monuments;
@@ -20,14 +21,6 @@ public class Base : NetworkBehaviour
     private float cooldown = 1;
     const int smallCost = 10;
     const int bigCost = 100;
-
-    const int HealthUpgrade = 35;
-    const float MovementUpgrade = 1.02f;
-    const float InteractionUpgrade = .98f;
-    const float GatherUpgrade = 1.05f;
-    const int MeleeUpgrade = 18;
-    const int RangedUpgrade = 9;
-    const int CarryUpgrade = 20;
 
     [HideInInspector]
     public ResourceBag resPool;
@@ -53,6 +46,7 @@ public class Base : NetworkBehaviour
         baseStats = GetComponent<PlayerStats>();
         TeleportTile[] tels = GetComponentsInChildren<TeleportTile>();
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        gameSettings = GameObject.FindObjectOfType<GameSettings>();
         uiControl = GameObject.FindObjectOfType<UI_Control>();
         lastPurchase = Time.time;
         for (int i = 0; i < tels.Length; i++)
@@ -296,19 +290,19 @@ public class Base : NetworkBehaviour
         switch (upgrade)
         {
             case 1: // Melee
-                baseStats.baseMeleeDamage += (MeleeUpgrade);
+                baseStats.baseMeleeDamage += (gameSettings.Melee);
                 speGatUpdate(0);
                 return;
             case 2: // Health
-                baseStats.baseHealth += (HealthUpgrade);
+                baseStats.baseHealth += (gameSettings.Health);
                 speGatUpdate(1);
                 return;
             case 3: // Ranged
-                baseStats.baseRangedDamage += (RangedUpgrade);
+                baseStats.baseRangedDamage += (gameSettings.Ranged);
                 speGatUpdate(0);
                 return;
             case 4: // Carry
-                baseStats.baseCarryCapacity += (CarryUpgrade);
+                baseStats.baseCarryCapacity += (gameSettings.Carry);
                 speGatUpdate(1);
                 return;
             case 5: // Speed
@@ -328,14 +322,14 @@ public class Base : NetworkBehaviour
     {
         if (type == 0)
         {
-            baseStats.baseMovementSpeed = Mathf.Pow(MovementUpgrade,getUpgradeLevel0(5))
+            baseStats.baseMovementSpeed = Mathf.Pow(gameSettings.Movement, getUpgradeLevel0(5))
                 * (100 + getUpgradeLevel0(1) + getUpgradeLevel0(3) * 2 + getUpgradeLevel0(5) * 4)/10;
-            baseStats.baseInteractionSpeed = Mathf.Pow(InteractionUpgrade, getUpgradeLevel0(5))
+            baseStats.baseInteractionSpeed = Mathf.Pow(gameSettings.Interaction, getUpgradeLevel0(5))
                 * (100 - getUpgradeLevel0(1) - getUpgradeLevel0(3) * 2 - getUpgradeLevel0(5) * 4)/100;
         }
         else
         {
-            baseStats.baseGatherAmount =  Mathf.Pow(GatherUpgrade, getUpgradeLevel0(6))
+            baseStats.baseGatherAmount =  Mathf.Pow(gameSettings.Gather, getUpgradeLevel0(6))
                 * (100 + getUpgradeLevel0(2) + getUpgradeLevel0(4) * 2 + getUpgradeLevel0(6) * 4)/100;
         }
         if (upgradeMenu)
@@ -355,7 +349,7 @@ public class Base : NetworkBehaviour
             int lev3 = getUpgradeLevel0(3) + Math.Sign(display[2]);
             int lev1 = getUpgradeLevel0(1) + Math.Sign(display[0]);
             //Debug.Log("5,3,1: " + lev5 + ","+lev3+","+lev1);
-            display[6] = Mathf.Pow(MovementUpgrade, lev5)
+            display[6] = Mathf.Pow(gameSettings.Movement, lev5)
                 * (100 + lev1 + lev3 * 2 + lev5 * 4) / 10;
         }
         else//gather
@@ -365,7 +359,7 @@ public class Base : NetworkBehaviour
             int lev2 = getUpgradeLevel0(2) + Math.Sign(display[1]);
 
             //Debug.Log("6,4,2: " + lev6 + "," + lev4 + "," + lev2);
-            display[7] = Mathf.Pow(GatherUpgrade, lev6)
+            display[7] = Mathf.Pow(gameSettings.Gather, lev6)
                 * (100 + lev2 + lev4 * 2 + lev6 * 4) / 100;
         }
 

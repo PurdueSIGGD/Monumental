@@ -25,6 +25,7 @@ public class UI_Control : NetworkBehaviour
     private GameObject currentMenu = null;
     private float[] cooldownTimes = new float[2];// {Start, End}
     private Monuments monuments = null;
+    private MonumentalNetworkMenu mnmenu = null;
 
     public Player player = null;
     public Base myBase = null;
@@ -69,6 +70,7 @@ public class UI_Control : NetworkBehaviour
         }
 
         monuments = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().monuments;
+        mnmenu = GameObject.FindObjectOfType<MonumentalNetworkMenu>();
 
     }
 
@@ -101,6 +103,7 @@ public class UI_Control : NetworkBehaviour
             }
 
         }
+
         /* Keyboard shortcuts */
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -159,6 +162,12 @@ public class UI_Control : NetworkBehaviour
 
     }
 
+    public void closeShop()
+    {
+        currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
+    }
+
     public void updateMonument(int monument, int owner)
     {
         monument--; //To array index
@@ -171,7 +180,7 @@ public class UI_Control : NetworkBehaviour
 
     void onClassButton()
     {
-        if (player.isInBase)
+        if (player.isInBase && !mnmenu.menuIsShowing)
         {
             player.changeClass();
             classImageFront.sprite = classIcons[player.stats.Class];
@@ -181,12 +190,11 @@ public class UI_Control : NetworkBehaviour
 
     void onShopButton()
     {
-        if (player.isInBase)
+        if (player.isInBase && !mnmenu.menuIsShowing)
         {
             if (currentMenu.activeInHierarchy)
             {
-                currentMenu.SetActive(false);
-                swapButton.transform.parent.gameObject.SetActive(false);
+                closeShop();
             }
             else
             {
@@ -206,7 +214,7 @@ public class UI_Control : NetworkBehaviour
 
     void onSwapButton()
     {
-        if (!player.isInBase)
+        if (!player.isInBase || mnmenu.menuIsShowing)
         {
             return;
         }

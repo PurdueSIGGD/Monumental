@@ -29,20 +29,14 @@ public class Upgrade
     public int tier;
     public int level;
     public int[] cost = new int[6];
-
-    //Value sliders that can be changed for balance
-    static int Health = 30;
-    static float Movement = 1;
-    static float Interaction = 0.1f;
-    static float Gather = 1;
-    static int Melee = 20;
-    static int Ranged = 10;
+    private GameSettings gameSettings;
 
     public Upgrade()
     {
         type = UpgradeType.Health;
         tier = 0;
         level = 1;
+        gameSettings = GameObject.FindObjectOfType<GameSettings>();
     }
 
     public Upgrade(UpgradeType t, int r)
@@ -70,13 +64,13 @@ public class Upgrade
     public void UpdateStats(PlayerStats ps)
     {
        level++;
-
-        if (type == UpgradeType.Health) { ps.baseHealth += Health; }
-        if (type == UpgradeType.Movement) { ps.baseMovementSpeed += Movement; }
-        if (type == UpgradeType.Interaction) { ps.baseInteractionSpeed += Interaction; }
-        if (type == UpgradeType.Gather) { ps.baseGatherAmount += Gather; }
-        if (type == UpgradeType.Melee) { ps.baseMeleeDamage += Melee; }
-        if (type == UpgradeType.Range) { ps.baseRangedDamage += Ranged; }
+        Debug.Log("Movement: " + gameSettings.Movement);
+        if (type == UpgradeType.Health) { ps.baseHealth += gameSettings.Health; }
+        if (type == UpgradeType.Movement) { ps.baseMovementSpeed += gameSettings.Movement; }
+        if (type == UpgradeType.Interaction) { ps.baseInteractionSpeed += gameSettings.Interaction; }
+        if (type == UpgradeType.Gather) { ps.baseGatherAmount += gameSettings.Gather; }
+        if (type == UpgradeType.Melee) { ps.baseMeleeDamage += gameSettings.Melee; }
+        if (type == UpgradeType.Range) { ps.baseRangedDamage += gameSettings.Ranged; }
     }
 }
 

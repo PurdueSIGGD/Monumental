@@ -18,6 +18,7 @@ public class Player : NetworkBehaviour
     public Sprite[] classSprites;
     private SpriteRenderer spriteRender;
     public MonumentalNetworkManager mnm;
+    private MonumentalNetworkMenu mnmenu;
     [HideInInspector]
     public PlayerStats stats;
     [HideInInspector]
@@ -71,6 +72,7 @@ public class Player : NetworkBehaviour
             uiControl = GameObject.FindObjectOfType<UI_Control>();
             uiControl.player = this;
             UI_Camera uiCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<UI_Camera>();
+            mnmenu = GameObject.FindObjectOfType<MonumentalNetworkMenu>();
             uiCamera.followTarget = this.gameObject;
             currentHealth = stats.getHealth();
             spriteRender = this.GetComponent<SpriteRenderer>();
@@ -88,22 +90,29 @@ public class Player : NetworkBehaviour
         checkForStatsUpdate();
         if (!isLocalPlayer) return;
 
-		float dx = Input.GetAxis("Horizontal");
-		float dy = Input.GetAxis("Vertical");
-        float divisor = 1;
-        if(dx != 0 && dy != 0) { divisor = Mathf.Sqrt(2); }
-		body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
-		if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
-		{
-            attackAnimator.SetBool("isAttacking", true);
-            timeOfLastClick = Time.time;
-			hitDetect.clicked = true;
-			shootingProjectile.clicked = true;
-            uiControl.setCooldown(stats.getInteractionSpeed());
+        if (!mnmenu.menuIsShowing)
+        {
+            float dx = Input.GetAxis("Horizontal");
+            float dy = Input.GetAxis("Vertical");
+            float divisor = 1;
+            if (dx != 0 && dy != 0) { divisor = Mathf.Sqrt(2); }
+            body.velocity = new Vector2(dx, dy) * stats.getMovementSpeed() / divisor;
+            if (Input.GetMouseButton(0) && !isInBase && timeOfLastClick + stats.getInteractionSpeed() < Time.time)
+            {
+                attackAnimator.SetBool("isAttacking", true);
+                timeOfLastClick = Time.time;
+                hitDetect.clicked = true;
+                shootingProjectile.clicked = true;
+                uiControl.setCooldown(stats.getInteractionSpeed());
+            }
+            else
+            {
+                attackAnimator.SetBool("isAttacking", false);
+            }
         }
         else
         {
-            attackAnimator.SetBool("isAttacking", false);
+            body.velocity = new Vector2();
         }
         if (spriteNum == -1)
         {

@@ -12,7 +12,7 @@ using UnityEditor;
 public class MonumentalNetworkMenu : MonoBehaviour
 {
     bool escapeIsPressed = false;
-    bool menuIsShowing = true;
+    public bool menuIsShowing = true;
     bool joining = false;
     NetworkManager manager;
 
@@ -23,7 +23,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
     public GameObject menu;
     public InputField text;
     public InputField nameField;
-    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton, restartButton;
+    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton, restartButton, settingsButton;
+    public GameObject settingsMenu;
 
     private void Start()
     {
@@ -39,7 +40,7 @@ public class MonumentalNetworkMenu : MonoBehaviour
         manager = GetComponent<NetworkManager>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         float esc = Input.GetAxis("Cancel");
         if (!escapeIsPressed && esc > 0.5f && (NetworkClient.isConnected || NetworkServer.active))
@@ -47,6 +48,10 @@ public class MonumentalNetworkMenu : MonoBehaviour
             escapeIsPressed = true;
             menuIsShowing = !menuIsShowing;
             menu.SetActive(menuIsShowing);
+            if (!menuIsShowing)
+            {
+                settingsMenu.SetActive(false);
+            }
         }
         else if(escapeIsPressed && esc == 0)
         {
@@ -122,6 +127,11 @@ public class MonumentalNetworkMenu : MonoBehaviour
         }
     }
 
+    public void settings()
+    {
+        settingsMenu.SetActive(true);
+    }
+
     public void restart()
     {
         if (NetworkServer.active)
@@ -161,6 +171,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
         nameField.gameObject.SetActive(false);
         quitButton2.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+        settingsButton.gameObject.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     private void OnJoined()
@@ -178,5 +190,6 @@ public class MonumentalNetworkMenu : MonoBehaviour
         nameField.gameObject.SetActive(true);
         quitButton2.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(NetworkServer.active);
+        settingsButton.gameObject.SetActive(NetworkServer.active);
     }
 }

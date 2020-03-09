@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
 #if UNITY_EDITOR
@@ -10,10 +11,10 @@ using UnityEditor;
 [RequireComponent(typeof(NetworkManager))]
 public class MonumentalNetworkMenu : MonoBehaviour
 {
-    bool escapeIsPressed = false;
-    bool menuIsShowing = true;
+    public bool menuIsShowing = true;
     bool joining = false;
     NetworkManager manager;
+    UI_Control uiControl;
 
     public GameObject lobbyCamera;
     private Vector3 lobbyCameraPosition;
@@ -22,7 +23,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
     public GameObject menu;
     public InputField text;
     public InputField nameField;
-    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton;
+    public Button joinButton, hostButton, quitButton1, quitButton2, cancelConnectButton, restartButton, settingsButton;
+    public GameObject settingsMenu;
 
     private void Start()
     {
@@ -36,20 +38,23 @@ public class MonumentalNetworkMenu : MonoBehaviour
     void Awake()
     {
         manager = GetComponent<NetworkManager>();
+        uiControl = GameObject.FindObjectOfType<UI_Control>();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        float esc = Input.GetAxis("Cancel");
-        if (!escapeIsPressed && esc > 0.5f && (NetworkClient.isConnected || NetworkServer.active))
+        if (Input.GetKeyDown(KeyCode.Escape) && (NetworkClient.isConnected || NetworkServer.active))
         {
-            escapeIsPressed = true;
-            menuIsShowing = !menuIsShowing;
-            menu.SetActive(menuIsShowing);
-        }
-        else if(escapeIsPressed && esc == 0)
-        {
-            escapeIsPressed = false;
+            if (settingsMenu.activeInHierarchy)
+            {
+                settingsMenu.SetActive(false);
+            }
+            else
+            {
+                menuIsShowing = !menuIsShowing;
+                menu.SetActive(menuIsShowing);
+            }
+            uiControl.closeShop();
         }
 
         // Successfully joined a game!  Now clean up the menu
@@ -58,6 +63,11 @@ public class MonumentalNetworkMenu : MonoBehaviour
             joining = false;
             OnJoined();
         }
+    }
+
+    public void closeSettings()
+    {
+        settingsMenu.SetActive(false);
     }
 
     public void ConnectLAN()
@@ -121,9 +131,40 @@ public class MonumentalNetworkMenu : MonoBehaviour
         }
     }
 
+    public void settings()
+    {
+        if (NetworkServer.active)
+        {
+            settingsMenu.GetComponent<SettingsMenu>().resetSettings();
+            settingsMenu.SetActive(true);
+        }
+    }
+
+    public void restart()
+    {
+        if (NetworkServer.active)
+        {
+            GameObject.FindObjectOfType<Monuments>().clear();
+            Base[] bases = GameObject.FindObjectsOfType<Base>();
+            for (int i = 0; i < bases.Length; i++)
+            {
+                bases[i].clear();
+                bases[i].RpcDumpResources();
+            }
+            Player[] players = GameObject.FindObjectsOfType<Player>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                players[i].RpcDumpResources();
+                players[i].CmdRespawn();
+                players[i].RpcClearUI();
+            }
+        }
+    }
+
     public void HostGame()
     {
         manager.StartHost();
+        GameObject.FindObjectOfType<GameSettings>().resetSettings();
         OnJoined();
     }
 
@@ -138,6 +179,9 @@ public class MonumentalNetworkMenu : MonoBehaviour
         titleCard.SetActive(true);
         nameField.gameObject.SetActive(false);
         quitButton2.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
+        settingsButton.gameObject.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     private void OnJoined()
@@ -154,5 +198,8 @@ public class MonumentalNetworkMenu : MonoBehaviour
         titleCard.SetActive(false);
         nameField.gameObject.SetActive(true);
         quitButton2.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(NetworkServer.active);
+        settingsButton.gameObject.SetActive(NetworkServer.active);
+        settingsMenu.SetActive(false);
     }
 }

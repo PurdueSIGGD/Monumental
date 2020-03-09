@@ -39,6 +39,11 @@ public class Monuments : NetworkBehaviour
     void Start()
     {
         mnm = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>();
+        clear();
+    }
+
+    public void clear()
+    {
         if (isServer)
         {
             monument1 = -1;

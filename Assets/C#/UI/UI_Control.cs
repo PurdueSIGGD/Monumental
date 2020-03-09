@@ -19,12 +19,13 @@ public class UI_Control : NetworkBehaviour
 
     /* THE SACRED TEXTS! */
     public List<Text> resource_texts = new List<Text>();
-    private UI_ResourceCounter[] resource_counters;
+    private UI_ResourceCounter[] resource_counters = null;
     private List<Text> resource_team_texts = new List<Text>();
 
     private GameObject currentMenu = null;
     private float[] cooldownTimes = new float[2];// {Start, End}
     private Monuments monuments = null;
+    private MonumentalNetworkMenu mnmenu = null;
 
     public Player player = null;
     public Base myBase = null;
@@ -48,8 +49,6 @@ public class UI_Control : NetworkBehaviour
 
         }
 
-        resource_counters = GetComponentsInChildren<UI_ResourceCounter>();
-
         for (int i = 1; i <= monumentIcons.Count; i++)
         {
             updateMonument(i, -1);
@@ -71,6 +70,7 @@ public class UI_Control : NetworkBehaviour
         }
 
         monuments = GameObject.Find("NetworkManager").GetComponent<MonumentalNetworkManager>().monuments;
+        mnmenu = GameObject.FindObjectOfType<MonumentalNetworkMenu>();
 
     }
 
@@ -103,6 +103,7 @@ public class UI_Control : NetworkBehaviour
             }
 
         }
+
         /* Keyboard shortcuts */
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -161,6 +162,12 @@ public class UI_Control : NetworkBehaviour
 
     }
 
+    public void closeShop()
+    {
+        currentMenu.SetActive(false);
+        swapButton.transform.parent.gameObject.SetActive(false);
+    }
+
     public void updateMonument(int monument, int owner)
     {
         monument--; //To array index
@@ -173,7 +180,7 @@ public class UI_Control : NetworkBehaviour
 
     void onClassButton()
     {
-        if (player.isInBase)
+        if (player.isInBase && !mnmenu.menuIsShowing)
         {
             player.changeClass();
             classImageFront.sprite = classIcons[player.stats.Class];
@@ -183,12 +190,11 @@ public class UI_Control : NetworkBehaviour
 
     void onShopButton()
     {
-        if (player.isInBase)
+        if (player.isInBase && !mnmenu.menuIsShowing)
         {
             if (currentMenu.activeInHierarchy)
             {
-                currentMenu.SetActive(false);
-                swapButton.transform.parent.gameObject.SetActive(false);
+                closeShop();
             }
             else
             {
@@ -208,7 +214,7 @@ public class UI_Control : NetworkBehaviour
 
     void onSwapButton()
     {
-        if (!player.isInBase)
+        if (!player.isInBase || mnmenu.menuIsShowing)
         {
             return;
         }
@@ -233,6 +239,10 @@ public class UI_Control : NetworkBehaviour
 
     public void pulseResource(ResourceName res)
     {
+        if (resource_counters == null)
+        {
+            resource_counters = GetComponentsInChildren<UI_ResourceCounter>();
+        }
         resource_counters[(int)res - 1].pulseAnimation();
     }
 

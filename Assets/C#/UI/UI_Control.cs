@@ -109,7 +109,7 @@ public class UI_Control : NetworkBehaviour
         {
             onShopButton();
         }
-        else if (Input.GetKeyDown(KeyCode.Space))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             onClassButton();
         }

@@ -77,6 +77,7 @@ public class Player : NetworkBehaviour
             currentHealth = stats.getHealth();
             spriteRender = this.GetComponent<SpriteRenderer>();
             spriteRender.sprite = classSprites[stats.Class];
+            chooseName("Player");
         }
     }
 

@@ -195,9 +195,9 @@ public class Base : NetworkBehaviour
         {
             lastPurchase = Time.time;
             localPlayer.CmdRemoveBaseResources(mnm.monuments.GetCost(mon));
-            int score = monuments.GetScore(teamIndex) + 1; //Dont wait for command
+            int score = monuments.GetScore(teamIndex) + monuments.GetValue(mon); //Dont wait for command
             localPlayer.CmdPurchaseMonument(mon, teamIndex);
-            if (score >= 3)
+            if (score >= 4)
             {
                 //WIN GAME
                 localPlayer.CmdEndGame(teamIndex);

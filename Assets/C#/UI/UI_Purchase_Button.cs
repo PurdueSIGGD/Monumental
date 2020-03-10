@@ -53,6 +53,7 @@ public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPoint
             rsc = myMon.GetCost(up);
         }
         int objectOffset = 0;
+        float wrapOffset = 0;
         for (int i = 0; i < rsc.Length; i++)
         {
             if (rsc[i] == 0) continue;
@@ -61,9 +62,14 @@ public class UI_Purchase_Button : NetworkBehaviour, IPointerEnterHandler, IPoint
             obj.GetComponentInChildren<Text>().text = "" + rsc[i];
             obj.GetComponent<Image>().sprite = Resource.getSpriteRefined(i+1);
             float offset = obj.GetComponent<RectTransform>().rect.width * obj.transform.lossyScale.x * 1.5f;
-            obj.transform.position += new Vector3(offset * objectOffset, 0, 0);
+            obj.transform.position += new Vector3(offset * objectOffset, wrapOffset, 0);
             resourceSprites.Add(obj);
             objectOffset++;
+            if (objectOffset >= 3)
+            {
+                objectOffset %= 3;
+                wrapOffset -= obj.GetComponent<RectTransform>().rect.height * obj.transform.lossyScale.x;
+            }
         }
         
         if (isMon)

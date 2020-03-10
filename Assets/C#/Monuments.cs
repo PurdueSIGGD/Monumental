@@ -12,7 +12,7 @@ public class Monuments : NetworkBehaviour
     {
         "Bonfire", "Sundial",
         "Statue", "Throne",
-        "Crown", "Mirror"
+        "Crown", "Mirror", "Shrine"
     };
 
     [SyncVar]
@@ -27,6 +27,8 @@ public class Monuments : NetworkBehaviour
     int monument5;
     [SyncVar]
     int monument6;
+    [SyncVar]
+    int monument7;
 
     public readonly int[] cost1 = { 1000, 100, 0, 0, 0, 0 };
     public readonly int[] cost2 = { 100, 1000, 0, 0, 0, 0 };
@@ -34,6 +36,7 @@ public class Monuments : NetworkBehaviour
     public readonly int[] cost4 = { 0, 0, 100, 1000, 0, 0 };
     public readonly int[] cost5 = { 0, 0, 0, 0, 1000, 100 };
     public readonly int[] cost6 = { 0, 0, 0, 0, 100, 1000 };
+    public readonly int[] cost7 = { 1000, 1000, 1000, 1000, 1000, 1000 };
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +55,7 @@ public class Monuments : NetworkBehaviour
             monument4 = -1;
             monument5 = -1;
             monument6 = -1;
+            monument7 = -1;
         }
     }
 
@@ -71,6 +75,8 @@ public class Monuments : NetworkBehaviour
                 return cost5;
             case 6:
                 return cost6;
+            case 7:
+                return cost7;
         }
         return null;
     }
@@ -92,6 +98,8 @@ public class Monuments : NetworkBehaviour
                 return monument5;
             case 6:
                 return monument6;
+            case 7:
+                return monument7;
         }
         return -2;
     }
@@ -104,7 +112,16 @@ public class Monuments : NetworkBehaviour
         {
             if (GetOwner(i + 1) == team) score++;
         }
+        if (GetOwner(6 + 1) == team) score += 4;
+        //Debug.Log(score);
         return score;
+    }
+
+    public int GetValue(int mon)
+    {
+        if (mon == 7) return 4;
+
+        return 1;
     }
 
     [ClientRpc]
@@ -129,6 +146,9 @@ public class Monuments : NetworkBehaviour
                 return;
             case 6:
                 monument6 = team;
+                return;
+            case 7:
+                monument7 = team;
                 return;
         }
     }

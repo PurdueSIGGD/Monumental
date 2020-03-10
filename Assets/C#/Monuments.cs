@@ -99,7 +99,7 @@ public class Monuments : NetworkBehaviour
             case 6:
                 return monument6;
             case 7:
-                return monument6;
+                return monument7;
         }
         return -2;
     }
@@ -108,10 +108,11 @@ public class Monuments : NetworkBehaviour
     public int GetScore(int team)
     {
         int score = 0;
-        for(int i=0; i<7; i++)
+        for(int i=0; i<6; i++)
         {
             if (GetOwner(i + 1) == team) score++;
         }
+        if (GetOwner(7 + 1) == team) score += 4;
         return score;
     }
 

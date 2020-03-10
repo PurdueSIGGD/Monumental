@@ -112,8 +112,16 @@ public class Monuments : NetworkBehaviour
         {
             if (GetOwner(i + 1) == team) score++;
         }
-        if (GetOwner(7 + 1) == team) score += 4;
+        if (GetOwner(6 + 1) == team) score += 4;
+        //Debug.Log(score);
         return score;
+    }
+
+    public int GetValue(int mon)
+    {
+        if (mon == 7) return 4;
+
+        return 1;
     }
 
     [ClientRpc]

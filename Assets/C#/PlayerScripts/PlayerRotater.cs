@@ -5,9 +5,17 @@ using Mirror;
 
 public class PlayerRotater : NetworkBehaviour
 {
-     void FixedUpdate()
+
+    MonumentalNetworkMenu mnmenu;
+
+    private void Start()
     {
-		if (!isLocalPlayer) return;
+        mnmenu = GameObject.FindObjectOfType<MonumentalNetworkMenu>();
+    }
+
+    void FixedUpdate()
+    {
+		if (!isLocalPlayer || mnmenu.menuIsShowing) return;
 		//rotate the hitbox to point in the direction of the mouse
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = 0f;
